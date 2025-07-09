@@ -389,11 +389,14 @@ export const BusinessInfoForm = ({ onSubmit }: BusinessInfoFormProps) => {
                       }
                     }}
                   />
-                  <Label htmlFor="imageUpload" className="cursor-pointer">
-                    <Button type="button" variant="outline" className="mt-2">
-                      Choose Files
-                    </Button>
-                  </Label>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="mt-2"
+                    onClick={() => document.getElementById('imageUpload')?.click()}
+                  >
+                    Choose Files
+                  </Button>
                 </div>
                 
                 {formData.images.length > 0 && (
