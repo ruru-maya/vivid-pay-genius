@@ -69,16 +69,38 @@ export const AIProcessing = ({ businessData, onComplete }: AIProcessingProps) =>
 
       if (currentTime >= totalDuration) {
         clearInterval(interval);
-        // Simulate AI generation with realistic data
-        setTimeout(() => {
-          const generatedPage = generatePageContent(businessData);
-          onComplete(generatedPage);
-        }, 500);
+        // Call real AI API to generate content
+        generatePageWithAI(businessData);
       }
     }, 100);
 
     return () => clearInterval(interval);
   }, [businessData, onComplete]);
+
+  const generatePageWithAI = async (businessData: BusinessData) => {
+    try {
+      const { supabase } = await import("@/integrations/supabase/client");
+      
+      const { data, error } = await supabase.functions.invoke('generate-page-content', {
+        body: { businessData }
+      });
+
+      if (error) {
+        console.error('Error generating page:', error);
+        // Fallback to mock generation if API fails
+        const generatedPage = generatePageContent(businessData);
+        onComplete(generatedPage);
+        return;
+      }
+
+      onComplete(data);
+    } catch (error) {
+      console.error('Error calling generation API:', error);
+      // Fallback to mock generation if API fails
+      const generatedPage = generatePageContent(businessData);
+      onComplete(generatedPage);
+    }
+  };
 
   const generatePageContent = (data: BusinessData): GeneratedPage => {
     // Simulate AI-generated content based on business data
