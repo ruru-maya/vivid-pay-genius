@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Monitor, 
@@ -19,7 +21,15 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
-  Palette
+  Palette,
+  Maximize,
+  Minimize,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Youtube,
+  ExternalLink
 } from 'lucide-react';
 import { BusinessData, GeneratedPage } from '../PageGenerator';
 import { InlineEditor } from './InlineEditor';
@@ -39,6 +49,8 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
   const [showInlineEditor, setShowInlineEditor] = useState(false);
   const [showColorCustomizer, setShowColorCustomizer] = useState(false);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showSocialEditor, setShowSocialEditor] = useState(false);
   const [currentContent, setCurrentContent] = useState({
     headline: generatedPage.headline,
     description: generatedPage.description,
@@ -48,6 +60,13 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
     faq: generatedPage.faq,
   });
   const [currentColors, setCurrentColors] = useState(generatedPage.colors);
+  const [socialLinks, setSocialLinks] = useState({
+    facebook: '',
+    twitter: '',
+    instagram: '',
+    linkedin: '',
+    youtube: ''
+  });
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const { toast } = useToast();
 
@@ -93,6 +112,33 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
     });
   };
 
+  const handleSocialLinksUpdate = (newSocialLinks: typeof socialLinks) => {
+    setSocialLinks(newSocialLinks);
+    setShowSocialEditor(false);
+    toast({
+      title: "Social Links Updated",
+      description: "Your social media links have been updated successfully.",
+    });
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const getSocialIcon = (platform: string) => {
+    switch (platform) {
+      case 'facebook': return Facebook;
+      case 'twitter': return Twitter;
+      case 'instagram': return Instagram;
+      case 'linkedin': return Linkedin;
+      case 'youtube': return Youtube;
+      default: return ExternalLink;
+    }
+  };
+
   const displayedContent = {
     ...generatedPage,
     ...currentContent,
@@ -136,6 +182,14 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
               </div>
 
               {/* Action Buttons */}
+              <Button 
+                variant="outline" 
+                onClick={() => setIsFullscreen(!isFullscreen)}
+                size="sm"
+              >
+                {isFullscreen ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
+                {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+              </Button>
               <Button variant="outline" onClick={() => setShowInlineEditor(true)}>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Content
@@ -186,13 +240,60 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                 } shadow-medium`}>
                   {/* Generated Payment Page */}
                   <div 
-                    className="min-h-screen"
+                    className={`min-h-screen ${isFullscreen ? 'fixed inset-0 z-50 bg-white overflow-auto' : ''}`}
                     style={{ 
                       background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)` 
                     }}
                   >
+                    {/* Header Navigation */}
+                    <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
+                      <div className="max-w-6xl mx-auto px-6 py-4">
+                        <div className="flex items-center justify-between">
+                          <div className="font-bold text-xl" style={{ color: displayedContent.colors.primary }}>
+                            {businessData.businessName}
+                          </div>
+                          <nav className="hidden md:flex items-center space-x-8">
+                            <button 
+                              onClick={() => scrollToSection('home')} 
+                              className="text-sm font-medium hover:opacity-75 transition-opacity"
+                            >
+                              Home
+                            </button>
+                            <button 
+                              onClick={() => scrollToSection('features')} 
+                              className="text-sm font-medium hover:opacity-75 transition-opacity"
+                            >
+                              What's Included
+                            </button>
+                            <button 
+                              onClick={() => scrollToSection('faq')} 
+                              className="text-sm font-medium hover:opacity-75 transition-opacity"
+                            >
+                              FAQ
+                            </button>
+                            <button 
+                              onClick={() => scrollToSection('cta')} 
+                              className="text-sm font-medium hover:opacity-75 transition-opacity"
+                            >
+                              Get Started
+                            </button>
+                          </nav>
+                          {isFullscreen && (
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => setIsFullscreen(false)}
+                            >
+                              <Minimize className="h-4 w-4 mr-1" />
+                              Exit
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </header>
+
                     {/* Hero Section */}
-                    <div className="relative overflow-hidden">
+                    <section id="home" className="relative overflow-hidden">
                       <div 
                         className="absolute inset-0 opacity-20"
                         style={{ 
@@ -259,10 +360,10 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           ))}
                         </div>
                       </div>
-                    </div>
+                    </section>
 
                     {/* Features Section */}
-                    <div className="px-6 py-12 bg-white/50">
+                    <section id="features" className="px-6 py-12 bg-white/50">
                       <h2 className="text-2xl font-bold text-center mb-8">What's Included</h2>
                       <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
                         {displayedContent.features.map((feature, index) => (
@@ -277,10 +378,10 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </section>
 
                     {/* Social Proof */}
-                    <div className="px-6 py-12">
+                    <section className="px-6 py-12">
                       <div className="text-center mb-8">
                         <div className="flex justify-center items-center space-x-1 mb-2">
                           {[...Array(5)].map((_, i) => (
@@ -293,10 +394,10 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                         </p>
                         <p className="text-sm text-muted-foreground mt-2">— Sarah M., Verified Customer</p>
                       </div>
-                    </div>
+                    </section>
 
                     {/* FAQ Section */}
-                    <div className="px-6 py-12 bg-white/30">
+                    <section id="faq" className="px-6 py-12 bg-white/30">
                       <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
                       <div className="max-w-2xl mx-auto space-y-4">
                         {displayedContent.faq.map((item, index) => (
@@ -320,10 +421,10 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </section>
 
                     {/* Final CTA */}
-                    <div className="px-6 py-12 text-center">
+                    <section id="cta" className="px-6 py-12 text-center">
                       <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
                       <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                         <DialogTrigger asChild>
@@ -358,7 +459,50 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           24/7 Support
                         </div>
                       </div>
-                    </div>
+                    </section>
+
+                    {/* Footer with Social Media */}
+                    <footer className="bg-gray-900 text-white px-6 py-8">
+                      <div className="max-w-6xl mx-auto">
+                        <div className="flex flex-col md:flex-row justify-between items-center">
+                          <div className="mb-4 md:mb-0">
+                            <h3 className="font-bold text-lg mb-2" style={{ color: displayedContent.colors.primary }}>
+                              {businessData.businessName}
+                            </h3>
+                            <p className="text-gray-400 text-sm">
+                              © 2024 {businessData.businessName}. All rights reserved.
+                            </p>
+                          </div>
+                          
+                          <div className="flex items-center space-x-4">
+                            <span className="text-sm text-gray-400 mr-2">Follow us:</span>
+                            {Object.entries(socialLinks).map(([platform, url]) => {
+                              const IconComponent = getSocialIcon(platform);
+                              return url ? (
+                                <a 
+                                  key={platform} 
+                                  href={url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-gray-400 hover:text-white transition-colors"
+                                >
+                                  <IconComponent className="h-5 w-5" />
+                                </a>
+                              ) : null;
+                            })}
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => setShowSocialEditor(true)}
+                              className="ml-4 text-xs"
+                            >
+                              <Edit className="h-3 w-3 mr-1" />
+                              Edit Social Links
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </footer>
                   </div>
                 </div>
               </div>
@@ -471,6 +615,51 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
           onExit={() => setShowInlineEditor(false)}
         />
       )}
+
+      {/* Social Media Editor Modal */}
+      <Dialog open={showSocialEditor} onOpenChange={setShowSocialEditor}>
+        <DialogContent className="max-w-md">
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Edit Social Media Links</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Add your social media URLs to display icons in the footer
+              </p>
+            </div>
+            
+            <div className="space-y-4">
+              {Object.entries(socialLinks).map(([platform, url]) => {
+                const IconComponent = getSocialIcon(platform);
+                return (
+                  <div key={platform} className="space-y-2">
+                    <Label className="flex items-center capitalize">
+                      <IconComponent className="h-4 w-4 mr-2" />
+                      {platform}
+                    </Label>
+                    <Input
+                      placeholder={`Enter your ${platform} URL`}
+                      value={url}
+                      onChange={(e) => setSocialLinks({
+                        ...socialLinks,
+                        [platform]: e.target.value
+                      })}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex justify-end space-x-2 pt-4">
+              <Button variant="outline" onClick={() => setShowSocialEditor(false)}>
+                Cancel
+              </Button>
+              <Button onClick={() => handleSocialLinksUpdate(socialLinks)}>
+                Save Changes
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
