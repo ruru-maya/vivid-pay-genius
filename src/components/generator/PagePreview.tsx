@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Monitor, 
   Smartphone, 
   Edit, 
   RefreshCw, 
-  Share, 
-  Download,
   Eye,
   Star,
   Shield,
@@ -18,9 +18,13 @@ import {
   CreditCard,
   Check,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Palette
 } from 'lucide-react';
 import { BusinessData, GeneratedPage } from '../PageGenerator';
+import { InlineEditor } from './InlineEditor';
+import { ColorCustomizer } from './ColorCustomizer';
+import { CreditCardForm, CreditCardData } from './CreditCardForm';
 
 interface PagePreviewProps {
   generatedPage: GeneratedPage;
@@ -32,6 +36,20 @@ interface PagePreviewProps {
 export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate }: PagePreviewProps) => {
   const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  const [showInlineEditor, setShowInlineEditor] = useState(false);
+  const [showColorCustomizer, setShowColorCustomizer] = useState(false);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [currentContent, setCurrentContent] = useState({
+    headline: generatedPage.headline,
+    description: generatedPage.description,
+    features: generatedPage.features,
+    callToAction: generatedPage.callToAction,
+    trustSignals: generatedPage.trustSignals,
+    faq: generatedPage.faq,
+  });
+  const [currentColors, setCurrentColors] = useState(generatedPage.colors);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const { toast } = useToast();
 
   const getCurrencySymbol = (currency: string) => {
     const symbols: Record<string, string> = {
@@ -42,6 +60,43 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
 
   const toggleFAQ = (index: number) => {
     setExpandedFAQ(expandedFAQ === index ? null : index);
+  };
+
+  const handleContentChange = (newContent: any) => {
+    setCurrentContent(newContent);
+    toast({
+      title: "Content Updated",
+      description: "Your page content has been updated successfully.",
+    });
+  };
+
+  const handleColorsChange = (newColors: { primary: string; secondary: string; accent: string }) => {
+    setCurrentColors(newColors);
+    toast({
+      title: "Colors Updated",
+      description: "Your page colors have been updated successfully.",
+    });
+  };
+
+  const handlePaymentSubmit = async (paymentData: CreditCardData) => {
+    setIsProcessingPayment(true);
+    
+    // Simulate payment processing
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    setIsProcessingPayment(false);
+    setShowPaymentDialog(false);
+    
+    toast({
+      title: "Payment Successful!",
+      description: "Your payment page has been published successfully.",
+    });
+  };
+
+  const displayedContent = {
+    ...generatedPage,
+    ...currentContent,
+    colors: currentColors,
   };
 
   return (
@@ -81,7 +136,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
               </div>
 
               {/* Action Buttons */}
-              <Button variant="outline" onClick={onEdit}>
+              <Button variant="outline" onClick={() => setShowInlineEditor(true)}>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Content
               </Button>
@@ -89,10 +144,20 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Regenerate
               </Button>
-              <Button variant="premium">
-                <CreditCard className="h-4 w-4 mr-2" />
-                Publish & Go Live
-              </Button>
+              <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                <DialogTrigger asChild>
+                  <Button variant="premium">
+                    <CreditCard className="h-4 w-4 mr-2" />
+                    Publish Now
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <CreditCardForm 
+                    onSubmit={handlePaymentSubmit} 
+                    isLoading={isProcessingPayment}
+                  />
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>
@@ -107,16 +172,6 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                 <Eye className="mr-2 h-5 w-5" />
                 Live Preview
               </CardTitle>
-              <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="sm">
-                  <Share className="h-4 w-4 mr-1" />
-                  Share
-                </Button>
-                <Button variant="ghost" size="sm">
-                  <Download className="h-4 w-4 mr-1" />
-                  Export
-                </Button>
-              </div>
             </CardHeader>
             <CardContent className="p-0">
               <div className={`transition-all duration-300 ${
@@ -133,7 +188,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                   <div 
                     className="min-h-screen"
                     style={{ 
-                      background: `linear-gradient(135deg, ${generatedPage.colors.primary}15, ${generatedPage.colors.secondary}10)` 
+                      background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)` 
                     }}
                   >
                     {/* Hero Section */}
@@ -141,24 +196,24 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                       <div 
                         className="absolute inset-0 opacity-20"
                         style={{ 
-                          background: `linear-gradient(135deg, ${generatedPage.colors.primary}, ${generatedPage.colors.secondary})` 
+                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})` 
                         }}
                       />
                       <div className="relative px-6 py-12 text-center">
                         <Badge 
                           className="mb-4"
                           style={{ 
-                            backgroundColor: generatedPage.colors.primary,
+                            backgroundColor: displayedContent.colors.primary,
                             color: 'white' 
                           }}
                         >
                           {businessData.industry}
                         </Badge>
                         <h1 className="text-4xl font-bold mb-4">
-                          {generatedPage.headline}
+                          {displayedContent.headline}
                         </h1>
                         <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                          {generatedPage.description}
+                          {displayedContent.description}
                         </p>
                         
                         {/* Pricing */}
@@ -174,20 +229,30 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                         </div>
 
                         {/* CTA Button */}
-                        <Button 
-                          size="xl"
-                          className="mb-8"
-                          style={{ 
-                            backgroundColor: generatedPage.colors.primary,
-                            color: 'white'
-                          }}
-                        >
-                          {generatedPage.callToAction}
-                        </Button>
+                        <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                          <DialogTrigger asChild>
+                            <Button 
+                              size="xl"
+                              className="mb-8"
+                              style={{ 
+                                backgroundColor: displayedContent.colors.primary,
+                                color: 'white'
+                              }}
+                            >
+                              {displayedContent.callToAction}
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-md">
+                            <CreditCardForm 
+                              onSubmit={handlePaymentSubmit} 
+                              isLoading={isProcessingPayment}
+                            />
+                          </DialogContent>
+                        </Dialog>
 
                         {/* Trust Signals */}
                         <div className="flex flex-wrap justify-center gap-4">
-                          {generatedPage.trustSignals.map((signal, index) => (
+                          {displayedContent.trustSignals.map((signal, index) => (
                             <Badge key={index} variant="secondary" className="text-xs">
                               {signal}
                             </Badge>
@@ -200,11 +265,11 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                     <div className="px-6 py-12 bg-white/50">
                       <h2 className="text-2xl font-bold text-center mb-8">What's Included</h2>
                       <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-                        {generatedPage.features.map((feature, index) => (
+                        {displayedContent.features.map((feature, index) => (
                           <div key={index} className="flex items-center space-x-3">
                             <div 
                               className="w-6 h-6 rounded-full flex items-center justify-center"
-                              style={{ backgroundColor: generatedPage.colors.primary }}
+                              style={{ backgroundColor: displayedContent.colors.primary }}
                             >
                               <Check className="h-4 w-4 text-white" />
                             </div>
@@ -234,7 +299,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                     <div className="px-6 py-12 bg-white/30">
                       <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
                       <div className="max-w-2xl mx-auto space-y-4">
-                        {generatedPage.faq.map((item, index) => (
+                        {displayedContent.faq.map((item, index) => (
                           <div key={index} className="border border-gray-200 rounded-lg bg-white">
                             <button
                               onClick={() => toggleFAQ(index)}
@@ -260,15 +325,25 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                     {/* Final CTA */}
                     <div className="px-6 py-12 text-center">
                       <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
-                      <Button 
-                        size="xl"
-                        style={{ 
-                          backgroundColor: generatedPage.colors.primary,
-                          color: 'white'
-                        }}
-                      >
-                        {generatedPage.callToAction}
-                      </Button>
+                      <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                        <DialogTrigger asChild>
+                          <Button 
+                            size="xl"
+                            style={{ 
+                              backgroundColor: displayedContent.colors.primary,
+                              color: 'white'
+                            }}
+                          >
+                            {displayedContent.callToAction}
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-md">
+                          <CreditCardForm 
+                            onSubmit={handlePaymentSubmit} 
+                            isLoading={isProcessingPayment}
+                          />
+                        </DialogContent>
+                      </Dialog>
                       <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-muted-foreground">
                         <div className="flex items-center">
                           <Shield className="h-4 w-4 mr-1" />
@@ -339,6 +414,12 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
             </CardContent>
           </Card>
 
+          {/* Color Customization */}
+          <ColorCustomizer 
+            colors={currentColors}
+            onColorsChange={handleColorsChange}
+          />
+
           {/* Page Configuration */}
           <Card>
             <CardHeader>
@@ -355,9 +436,9 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                   <div className="flex items-center space-x-2">
                     <div 
                       className="w-4 h-4 rounded border"
-                      style={{ backgroundColor: generatedPage.colors.primary }}
+                      style={{ backgroundColor: currentColors.primary }}
                     />
-                    <span className="font-mono text-xs">{generatedPage.colors.primary}</span>
+                    <span className="font-mono text-xs">{currentColors.primary}</span>
                   </div>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -365,48 +446,31 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                   <div className="flex items-center space-x-2">
                     <div 
                       className="w-4 h-4 rounded border"
-                      style={{ backgroundColor: generatedPage.colors.secondary }}
+                      style={{ backgroundColor: currentColors.secondary }}
                     />
-                    <span className="font-mono text-xs">{generatedPage.colors.secondary}</span>
+                    <span className="font-mono text-xs">{currentColors.secondary}</span>
                   </div>
                 </div>
               </div>
               <Separator />
               <div className="space-y-2 text-sm">
-                <div><strong>Features:</strong> {generatedPage.features.length} items</div>
-                <div><strong>FAQ Items:</strong> {generatedPage.faq.length}</div>
-                <div><strong>Trust Signals:</strong> {generatedPage.trustSignals.length}</div>
+                <div><strong>Features:</strong> {currentContent.features.length} items</div>
+                <div><strong>FAQ Items:</strong> {currentContent.faq.length}</div>
+                <div><strong>Trust Signals:</strong> {currentContent.trustSignals.length}</div>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
-                <Edit className="h-4 w-4 mr-2" />
-                Customize Colors
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Try Different Template
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Download className="h-4 w-4 mr-2" />
-                Download Assets
-              </Button>
-              <Separator />
-              <Button variant="premium" className="w-full">
-                <CreditCard className="h-4 w-4 mr-2" />
-                Publish Now
-              </Button>
             </CardContent>
           </Card>
         </div>
       </div>
+
+      {/* Inline Editor Modal */}
+      {showInlineEditor && (
+        <InlineEditor
+          content={currentContent}
+          onContentChange={handleContentChange}
+          onExit={() => setShowInlineEditor(false)}
+        />
+      )}
     </div>
   );
 };
