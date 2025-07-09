@@ -153,9 +153,6 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <h2 className="text-xl font-semibold">Preview Your Payment Page</h2>
-              <Badge variant="success" className="bg-accent text-white">
-                Generated Successfully
-              </Badge>
             </div>
             
             <div className="flex items-center space-x-3">
@@ -185,7 +182,6 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
               <Button 
                 variant="outline" 
                 onClick={() => setIsFullscreen(!isFullscreen)}
-                size="sm"
               >
                 {isFullscreen ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
                 {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
