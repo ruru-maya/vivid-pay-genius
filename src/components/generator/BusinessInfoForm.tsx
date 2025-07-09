@@ -340,25 +340,51 @@ export const BusinessInfoForm = ({ onSubmit }: BusinessInfoFormProps) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="border-2 border-dashed border-muted rounded-lg p-6 text-center">
+                <div 
+                  className="border-2 border-dashed border-muted rounded-lg p-6 text-center hover:border-primary/50 transition-colors"
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.currentTarget.classList.add('border-primary', 'bg-primary/5');
+                  }}
+                  onDragLeave={(e) => {
+                    e.preventDefault();
+                    e.currentTarget.classList.remove('border-primary', 'bg-primary/5');
+                  }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    e.currentTarget.classList.remove('border-primary', 'bg-primary/5');
+                    const files = Array.from(e.dataTransfer.files).filter(file => 
+                      file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024
+                    );
+                    if (files.length > 0) {
+                      setFormData(prev => ({ 
+                        ...prev, 
+                        images: [...prev.images, ...files].slice(0, 5)
+                      }));
+                    }
+                  }}
+                >
                   <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
                   <p className="text-sm text-muted-foreground mb-2">
-                    Upload product images, logos, or brand photos
+                    Drag & drop images here, or click to browse
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    Don't have images? Our AI will suggest perfect stock photos
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Supports JPG, PNG, WebP • Max 5MB per file • Up to 5 files
                   </p>
                   <input
                     type="file"
                     multiple
-                    accept="image/*"
+                    accept="image/jpeg,image/png,image/webp"
                     className="hidden"
                     id="imageUpload"
                     onChange={(e) => {
                       if (e.target.files) {
+                        const files = Array.from(e.target.files).filter(file => 
+                          file.size <= 5 * 1024 * 1024
+                        );
                         setFormData(prev => ({ 
                           ...prev, 
-                          images: Array.from(e.target.files!) 
+                          images: [...prev.images, ...files].slice(0, 5)
                         }));
                       }
                     }}
@@ -369,18 +395,61 @@ export const BusinessInfoForm = ({ onSubmit }: BusinessInfoFormProps) => {
                     </Button>
                   </Label>
                 </div>
+                
                 {formData.images.length > 0 && (
-                  <div className="mt-3">
-                    <p className="text-sm font-medium mb-2">
-                      {formData.images.length} file(s) selected
-                    </p>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="mt-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium">
+                        {formData.images.length} file(s) selected
+                      </p>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setFormData(prev => ({ ...prev, images: [] }))}
+                        className="text-xs"
+                      >
+                        Clear all
+                      </Button>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
                       {formData.images.map((file, index) => (
-                        <Badge key={index} variant="secondary">
-                          {file.name}
-                        </Badge>
+                        <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded-lg">
+                          <div className="flex items-center space-x-2 min-w-0 flex-1">
+                            <div className="w-8 h-8 bg-primary/10 rounded flex items-center justify-center flex-shrink-0">
+                              <Upload className="h-4 w-4 text-primary" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs font-medium truncate">{file.name}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {(file.size / 1024 / 1024).toFixed(1)} MB
+                              </p>
+                            </div>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setFormData(prev => ({
+                                ...prev,
+                                images: prev.images.filter((_, i) => i !== index)
+                              }));
+                            }}
+                            className="h-6 w-6 p-0 flex-shrink-0"
+                          >
+                            ×
+                          </Button>
+                        </div>
                       ))}
                     </div>
+                    
+                    {formData.images.length >= 5 && (
+                      <p className="text-xs text-muted-foreground">
+                        Maximum of 5 files reached
+                      </p>
+                    )}
                   </div>
                 )}
               </CardContent>
