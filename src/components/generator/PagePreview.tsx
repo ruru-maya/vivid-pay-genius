@@ -207,19 +207,19 @@ export const PagePreview = ({
                         {/* Generated Payment Page Content in Fullscreen */}
                         {/* Header Navigation */}
                         <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
-                          <div className="max-w-6xl mx-auto px-6 py-4">
+                          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
                             <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-3">
+                              <div className="flex items-center space-x-2 sm:space-x-3">
                                 {/* Logo */}
                                 {businessData.images.find(img => img.type === 'logo') && (
                                   <img 
                                     src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
                                     alt="Company logo" 
-                                    className="h-16 w-16 object-contain rounded"
+                                    className="h-10 w-10 sm:h-16 sm:w-16 object-contain rounded"
                                   />
                                 )}
                                 {/* Business Name */}
-                                <div className="font-bold text-xl" style={{
+                                <div className="font-bold text-lg sm:text-xl" style={{
                                   color: displayedContent.colors.primary
                                 }}>
                                   {businessData.companyName}
@@ -227,8 +227,8 @@ export const PagePreview = ({
                               </div>
                               
                               {/* Move navigation to the right */}
-                              <div className="flex items-center space-x-4">
-                                <nav className="hidden md:flex items-center space-x-8">
+                              <div className="flex items-center space-x-2 sm:space-x-4">
+                                <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
                                   <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                     Home
                                   </button>
@@ -251,11 +251,11 @@ export const PagePreview = ({
                                   style={{
                                     borderColor: displayedContent.colors.primary,
                                     color: displayedContent.colors.primary,
-                                    width: '40px',
-                                    height: '40px',
+                                    width: '36px',
+                                    height: '36px',
                                     padding: '0'
                                   }}
-                                  className="hover:bg-opacity-0"
+                                  className="hover:bg-opacity-0 flex-shrink-0"
                                   onMouseEnter={(e) => {
                                     e.currentTarget.style.backgroundColor = 'transparent';
                                   }}
@@ -287,21 +287,21 @@ export const PagePreview = ({
                           )}
                           {/* Dark overlay for text readability */}
                           <div className="absolute inset-0 bg-black/40" />
-                          <div className="relative px-6 py-12 text-center text-white">{/* Make text white over image */}
+                          <div className="relative px-4 sm:px-6 py-8 sm:py-12 text-center text-white">
                             
-                            <h1 className="text-4xl font-bold mb-4">
+                            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">
                               {displayedContent.headline}
                             </h1>
-                            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                            <p className="text-base sm:text-lg text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
                               {displayedContent.description}
                             </p>
                             
                             {/* Pricing */}
-                            <div className="mb-8">
-                              <div className="text-4xl font-bold mb-2">
+                            <div className="mb-6 sm:mb-8">
+                              <div className="text-3xl sm:text-4xl font-bold mb-2">
                                 {getCurrencySymbol(businessData.currency)}{businessData.price}
                               </div>
-                              {businessData.availability && <div className="text-sm text-orange-600 font-medium">
+                              {businessData.availability && <div className="text-sm text-orange-400 font-medium">
                                   🔥 {businessData.availability}
                                 </div>}
                             </div>
@@ -310,7 +310,7 @@ export const PagePreview = ({
                             <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                               <DialogTrigger asChild>
                                 <button 
-                                  className="mb-8 px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
+                                  className="mb-6 sm:mb-8 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full sm:w-auto max-w-sm mx-auto"
                                   style={{
                                     background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
                                     color: 'white',
@@ -322,13 +322,13 @@ export const PagePreview = ({
                                   {displayedContent.callToAction}
                                 </button>
                               </DialogTrigger>
-                              <DialogContent className="max-w-md">
+                              <DialogContent className="max-w-md mx-4">
                                 <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                               </DialogContent>
                             </Dialog>
 
                             {/* Trust Signals */}
-                            <div className="flex flex-wrap justify-center gap-4">
+                            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 px-2">
                               {displayedContent.trustSignals.map((signal, index) => <Badge key={index} variant="secondary" className="text-xs">
                                   {signal}
                                 </Badge>)}
@@ -337,28 +337,30 @@ export const PagePreview = ({
                         </section>
 
                         {/* Features Section */}
-                        <section id="features" className="px-6 py-12 bg-white/50">
-                          <h2 className="text-2xl font-bold text-center mb-8">What's Included</h2>
-                          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-                            {displayedContent.features.map((feature, index) => <div key={index} className="flex items-center space-x-3">
-                                <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{
+                        <section id="features" className="px-4 sm:px-6 py-8 sm:py-12 bg-white/50">
+                          <h2 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8">What's Included</h2>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-4xl mx-auto">
+                            {displayedContent.features.map((feature, index) => <div key={index} className="flex items-start space-x-3">
+                                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{
                           backgroundColor: displayedContent.colors.primary
                         }}>
-                                  <Check className="h-4 w-4 text-white" />
+                                  <Check className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
                                 </div>
-                                <span className="text-sm">{feature}</span>
+                                <span className="text-sm sm:text-base leading-relaxed">{feature}</span>
                               </div>)}
                           </div>
                         </section>
 
                         {/* Social Proof */}
-                        <section className="px-6 py-12">
-                          <div className="text-center mb-8">
-                            <div className="flex justify-center items-center space-x-1 mb-2">
-                              {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />)}
-                              <span className="ml-2 text-sm text-muted-foreground">4.9/5 from 200+ customers</span>
+                        <section className="px-4 sm:px-6 py-8 sm:py-12">
+                          <div className="text-center mb-6 sm:mb-8">
+                            <div className="flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-1 mb-2">
+                              <div className="flex items-center">
+                                {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5 fill-yellow-400 text-yellow-400" />)}
+                              </div>
+                              <span className="text-sm text-muted-foreground">4.9/5 from 200+ customers</span>
                             </div>
-                            <p className="text-muted-foreground italic">
+                            <p className="text-muted-foreground italic text-sm sm:text-base px-4">
                               "Absolutely exceeded my expectations. Professional, reliable, and outstanding results!"
                             </p>
                             <p className="text-sm text-muted-foreground mt-2">— Sarah M., Verified Customer</p>
@@ -366,15 +368,15 @@ export const PagePreview = ({
                         </section>
 
                         {/* FAQ Section */}
-                        <section id="faq" className="px-6 py-12 bg-white/30">
-                          <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
-                          <div className="max-w-2xl mx-auto space-y-4">
+                        <section id="faq" className="px-4 sm:px-6 py-8 sm:py-12 bg-white/30">
+                          <h2 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8">Frequently Asked Questions</h2>
+                          <div className="max-w-2xl mx-auto space-y-3 sm:space-y-4">
                             {displayedContent.faq.map((item, index) => <div key={index} className="border border-gray-200 rounded-lg bg-white">
-                                <button onClick={() => toggleFAQ(index)} className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50">
-                                  <span className="font-medium">{item.question}</span>
-                                  {expandedFAQ === index ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                                <button onClick={() => toggleFAQ(index)} className="w-full px-3 sm:px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50">
+                                  <span className="font-medium text-sm sm:text-base pr-2">{item.question}</span>
+                                  {expandedFAQ === index ? <ChevronUp className="h-4 w-4 flex-shrink-0" /> : <ChevronDown className="h-4 w-4 flex-shrink-0" />}
                                 </button>
-                                {expandedFAQ === index && <div className="px-4 pb-3 text-sm text-muted-foreground">
+                                {expandedFAQ === index && <div className="px-3 sm:px-4 pb-3 text-sm text-muted-foreground">
                                     {item.answer}
                                   </div>}
                               </div>)}
@@ -382,12 +384,12 @@ export const PagePreview = ({
                         </section>
 
                         {/* Final CTA */}
-                        <section id="cta" className="px-6 py-12 text-center">
-                          <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
+                        <section id="cta" className="px-4 sm:px-6 py-8 sm:py-12 text-center">
+                          <h3 className="text-lg sm:text-xl font-bold mb-4">Ready to Get Started?</h3>
                           <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                             <DialogTrigger asChild>
                               <button 
-                                className="px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
+                                className="px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full sm:w-auto max-w-sm mx-auto"
                                 style={{
                                   background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
                                   color: 'white',
@@ -399,11 +401,11 @@ export const PagePreview = ({
                                 {displayedContent.callToAction}
                               </button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-md">
+                            <DialogContent className="max-w-md mx-4">
                               <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                             </DialogContent>
                           </Dialog>
-                          <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-muted-foreground">
+                          <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 mt-6 text-sm text-muted-foreground">
                             <div className="flex items-center">
                               <Shield className="h-4 w-4 mr-1" />
                               Secure Payment
