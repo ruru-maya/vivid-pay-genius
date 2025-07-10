@@ -238,26 +238,22 @@ export const PagePreview = ({
 
                         {/* Hero Section */}
                         <section id="home" className="relative overflow-hidden">
-                          <div className="absolute inset-0 opacity-20" style={{
-                      background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
-                    }} />
-                          <div className="relative px-6 py-12 text-center">
-                            {/* User Images Display */}
-                            {businessData.images.length > 0 && (
-                              <div className="mb-8">
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                                  {businessData.images.slice(0, 3).map((image, index) => (
-                                    <div key={index} className="relative aspect-video rounded-lg overflow-hidden border-2 border-white/20 shadow-lg">
-                                      <img
-                                        src={URL.createObjectURL(image)}
-                                        alt={`Business image ${index + 1}`}
-                                        className="w-full h-full object-cover"
-                                      />
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
+                          {/* Background Image or Gradient */}
+                          {businessData.images.length > 0 ? (
+                            <div 
+                              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                              style={{
+                                backgroundImage: `url(${URL.createObjectURL(businessData.images[0])})`
+                              }}
+                            />
+                          ) : (
+                            <div className="absolute inset-0 opacity-20" style={{
+                              background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
+                            }} />
+                          )}
+                          {/* Dark overlay for text readability */}
+                          <div className="absolute inset-0 bg-black/40" />
+                          <div className="relative px-6 py-12 text-center text-white">{/* Make text white over image */}
                             
                             <Badge className="mb-4" style={{
                         backgroundColor: displayedContent.colors.primary,
@@ -461,26 +457,22 @@ export const PagePreview = ({
 
                     {/* Hero Section */}
                     <section id="home" className="relative overflow-hidden">
-                      <div className="absolute inset-0 opacity-20" style={{
-                      background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
-                    }} />
-                      <div className="relative px-6 py-12 text-center">
-                        {/* User Images Display */}
-                        {businessData.images.length > 0 && (
-                          <div className="mb-8">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                              {businessData.images.slice(0, 3).map((image, index) => (
-                                <div key={index} className="relative aspect-video rounded-lg overflow-hidden border-2 border-white/20 shadow-lg">
-                                  <img
-                                    src={URL.createObjectURL(image)}
-                                    alt={`Business image ${index + 1}`}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                      {/* Background Image or Gradient */}
+                      {businessData.images.length > 0 ? (
+                        <div 
+                          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                          style={{
+                            backgroundImage: `url(${URL.createObjectURL(businessData.images[0])})`
+                          }}
+                        />
+                      ) : (
+                        <div className="absolute inset-0 opacity-20" style={{
+                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
+                        }} />
+                      )}
+                      {/* Dark overlay for text readability */}
+                      <div className="absolute inset-0 bg-black/40" />
+                      <div className="relative px-6 py-12 text-center text-white">{/* Make text white over image */}
                         
                         <Badge className="mb-4" style={{
                         backgroundColor: displayedContent.colors.primary,
