@@ -467,6 +467,9 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                                 <p className="text-gray-400 text-sm">
                                   © 2024 {businessData.businessName}. All rights reserved.
                                 </p>
+                                <p className="text-gray-500 text-xs mt-1">
+                                  Powered by <span className="text-primary font-medium">Vivid Money</span>
+                                </p>
                               </div>
                               
                               <div className="flex items-center space-x-4">
@@ -749,6 +752,9 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                             </h3>
                             <p className="text-gray-400 text-sm">
                               © 2024 {businessData.businessName}. All rights reserved.
+                            </p>
+                            <p className="text-gray-500 text-xs mt-1">
+                              Powered by <span className="text-primary font-medium">Vivid Money</span>
                             </p>
                           </div>
                           
