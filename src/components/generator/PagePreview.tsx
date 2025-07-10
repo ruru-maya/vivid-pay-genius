@@ -510,9 +510,9 @@ export const PagePreview = ({
                   </div>}
                 {/* Mobile Fullscreen Overlay */}
                 {isMobileFullscreen && <div className="fixed inset-0 z-50 bg-gray-100 flex items-center justify-center">
-                    <div className="w-full max-w-sm h-full max-h-screen overflow-hidden bg-white rounded-3xl shadow-2xl border-8 border-gray-200" style={{ aspectRatio: '9/16' }}>
+                    <div className="w-full max-w-sm h-full max-h-screen bg-white rounded-3xl shadow-2xl border-8 border-gray-200 overflow-hidden" style={{ aspectRatio: '9/16' }}>
                       {/* Pink Header Section */}
-                      <div className="relative h-1/3 bg-gradient-to-br from-pink-400 to-pink-500 overflow-hidden">
+                      <div className="relative h-20 bg-gradient-to-br from-pink-400 to-pink-500">
                         {/* Hamburger Menu */}
                         <div className="absolute top-4 left-4 z-20">
                           <Button
@@ -537,59 +537,169 @@ export const PagePreview = ({
                           </Button>
                         </div>
 
-                        {/* Business Info */}
-                        <div className="absolute bottom-6 left-6 right-6 text-white">
-                          <h1 className="text-lg font-bold mb-1">{businessData.companyName}</h1>
-                          <p className="text-sm text-white/90">{displayedContent.headline}</p>
-                        </div>
-
                         {/* Curved transition to yellow */}
-                        <div className="absolute bottom-0 left-0 right-0 h-12">
-                          <svg className="w-full h-full" viewBox="0 0 400 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 48V24C133.333 8 266.667 8 400 24V48H0Z" fill="#FEF08A"/>
+                        <div className="absolute bottom-0 left-0 right-0 h-8">
+                          <svg className="w-full h-full" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 32V16C133.333 5 266.667 5 400 16V32H0Z" fill="#FEF08A"/>
                           </svg>
                         </div>
                       </div>
 
                       {/* Yellow Middle Section */}
-                      <div className="relative h-1/3 bg-gradient-to-br from-yellow-200 to-yellow-300 overflow-hidden">
-                        {/* Content */}
-                        <div className="p-6 pt-2">
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-gray-800 mb-2">
-                              {getCurrencySymbol(businessData.currency)}{businessData.price}
-                            </div>
-                            <p className="text-sm text-gray-700">{displayedContent.description}</p>
-                          </div>
-                        </div>
-
+                      <div className="relative h-16 bg-gradient-to-br from-yellow-200 to-yellow-300">
                         {/* Curved transition to green */}
-                        <div className="absolute bottom-0 left-0 right-0 h-12">
-                          <svg className="w-full h-full" viewBox="0 0 400 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 48V24C133.333 8 266.667 8 400 24V48H0Z" fill="#6EE7B7"/>
+                        <div className="absolute bottom-0 left-0 right-0 h-8">
+                          <svg className="w-full h-full" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 32V16C133.333 5 266.667 5 400 16V32H0Z" fill="#6EE7B7"/>
                           </svg>
                         </div>
                       </div>
 
-                      {/* Green Bottom Section */}
-                      <div className="relative h-1/3 bg-gradient-to-br from-emerald-300 to-emerald-400 overflow-hidden">
-                        {/* Content */}
-                        <div className="p-6 pt-2 text-center">
-                          <Button
-                            className="w-full bg-white text-emerald-600 hover:bg-gray-50 font-semibold py-3 rounded-lg mb-4"
-                            onClick={() => setShowPaymentDialog(true)}
-                          >
-                            {displayedContent.callToAction}
-                          </Button>
+                      {/* Green Bottom Section with landing page content */}
+                      <div className="relative flex-1 bg-gradient-to-br from-emerald-300 to-emerald-400 overflow-hidden">
+                        {/* White page indicators */}
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
+                          {[0, 1, 2, 3, 4].map((dot, index) => (
+                            <div 
+                              key={index} 
+                              className={`w-2 h-2 rounded-full ${index === 0 ? 'bg-white' : 'bg-white/50'}`}
+                            />
+                          ))}
+                        </div>
 
-                          {/* White page indicators */}
-                          <div className="flex justify-center space-x-2 mt-6">
-                            {[0, 1, 2, 3, 4].map((dot, index) => (
-                              <div 
-                                key={index} 
-                                className={`w-2 h-2 rounded-full ${index === 0 ? 'bg-white' : 'bg-white/50'}`}
-                              />
-                            ))}
+                        {/* Scrollable landing page content */}
+                        <div className="absolute inset-0 bg-white rounded-t-3xl mt-4 overflow-y-auto">
+                          <div className="min-h-full" style={{
+                            background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)`
+                          }}>
+                            {/* Mobile Header Navigation */}
+                            <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
+                              <div className="w-full px-3 py-2">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center space-x-2">
+                                    {/* Logo */}
+                                    {businessData.images.find(img => img.type === 'logo') && (
+                                      <img 
+                                        src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
+                                        alt="Company logo" 
+                                        className="h-8 w-8 object-contain rounded"
+                                      />
+                                    )}
+                                    {/* Business Name */}
+                                    <div className="font-bold text-sm" style={{
+                                      color: displayedContent.colors.primary
+                                    }}>
+                                      {businessData.companyName}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </header>
+
+                            {/* Mobile Hero Section */}
+                            <section id="home" className="relative overflow-hidden">
+                              {/* Background Image or Gradient */}
+                              {businessData.images.length > 0 ? (
+                                <div 
+                                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                                  style={{
+                                    backgroundImage: `url(${URL.createObjectURL(businessData.images.find(img => img.type === 'home-bg')?.file || businessData.images[0].file)})`
+                                  }}
+                                />
+                              ) : (
+                                <div className="absolute inset-0 opacity-20" style={{
+                                  background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
+                                }} />
+                              )}
+                              {/* Dark overlay for text readability */}
+                              <div className="absolute inset-0 bg-black/40" />
+                              <div className="relative px-4 py-8 text-center text-white">
+                                
+                                <h1 className="text-xl font-bold mb-3">
+                                  {displayedContent.headline}
+                                </h1>
+                                <p className="text-sm text-white/90 mb-6 max-w-2xl mx-auto px-2">
+                                  {displayedContent.description}
+                                </p>
+                                
+                                {/* Pricing */}
+                                <div className="mb-6">
+                                  <div className="text-2xl font-bold mb-2">{getCurrencySymbol(businessData.currency)}{businessData.price}</div>
+                                  {businessData.availability && (
+                                    <p className="text-sm text-white/80 mb-4">{businessData.availability}</p>
+                                  )}
+                                  <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                                    <DialogTrigger asChild>
+                                      <button
+                                        className="mb-6 font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto px-4 py-3 text-sm"
+                                        style={{
+                                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                                          color: 'white',
+                                          border: 'none',
+                                          cursor: 'pointer',
+                                          boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                                        }}
+                                      >
+                                        {displayedContent.callToAction}
+                                      </button>
+                                    </DialogTrigger>
+                                    <DialogContent className="max-w-md mx-4">
+                                      <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                                    </DialogContent>
+                                  </Dialog>
+                                </div>
+                              </div>
+                            </section>
+
+                            {/* Mobile Features Section */}
+                            <section id="features" className="bg-white/50 px-4 py-6">
+                              <h2 className="text-lg font-bold text-center mb-6">What's Included</h2>
+                              <div className="space-y-3 max-w-md mx-auto">
+                                {displayedContent.features.map((feature, index) => (
+                                  <div key={index} className="flex items-start space-x-3">
+                                    <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: displayedContent.colors.primary }}>
+                                      <Check className="h-2 w-2 text-white" />
+                                    </div>
+                                    <span className="text-xs leading-relaxed">{feature}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </section>
+
+                            {/* Mobile FAQ Section */}
+                            <section id="faq" className="bg-white/30 px-4 py-6">
+                              <h2 className="text-lg font-bold text-center mb-6">Frequently Asked Questions</h2>
+                              <div className="space-y-2 max-w-md mx-auto">
+                                {displayedContent.faq.map((item, index) => (
+                                  <div key={index} className="bg-white rounded-lg border border-gray-200">
+                                    <button onClick={() => toggleFAQ(index)} className="w-full text-left flex items-center justify-between hover:bg-gray-50 px-3 py-2">
+                                      <span className="font-medium pr-2 text-xs">{item.question}</span>
+                                      {expandedFAQ === index ? <ChevronUp className="h-3 w-3 text-gray-500 flex-shrink-0" /> : <ChevronDown className="h-3 w-3 text-gray-500 flex-shrink-0" />}
+                                    </button>
+                                    {expandedFAQ === index && <div className="text-muted-foreground px-3 pb-2 text-xs">
+                                        {item.answer}
+                                      </div>}
+                                  </div>
+                                ))}
+                              </div>
+                            </section>
+
+                            {/* Mobile Footer */}
+                            <footer className="bg-gray-900 text-white px-4 py-6">
+                              <div className="text-center">
+                                <h3 className="font-bold text-base mb-2" style={{
+                                  color: displayedContent.colors.primary
+                                }}>
+                                  {businessData.companyName}
+                                </h3>
+                                <p className="text-gray-500 text-xs mb-1">
+                                  Powered by <span className="font-medium" style={{ color: displayedContent.colors.primary }}>Vivid Money</span>
+                                </p>
+                                <p className="text-gray-400 text-xs">
+                                  © 2025 {businessData.companyName}. All rights reserved.
+                                </p>
+                              </div>
+                            </footer>
                           </div>
                         </div>
                       </div>
