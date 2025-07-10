@@ -194,22 +194,25 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
                   Add Feature
                 </Button>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {editedContent.features.map((feature, index) => (
-                  <div key={index} className="flex items-center gap-2">
+                  <div key={index} className="border rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Feature {index + 1}</span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => removeFeature(index)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                     <EditableText
                       fieldId={`feature-${index}`}
                       value={feature}
                       onChange={(value) => updateFeature(index, value)}
                       placeholder="Enter feature"
                     />
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => removeFeature(index)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
                   </div>
                 ))}
               </div>
@@ -224,37 +227,25 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
                   Add Signal
                 </Button>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="space-y-3">
                 {editedContent.trustSignals.map((signal, index) => (
-                  <div key={index} className="flex items-center gap-1">
-                    <Badge variant="secondary" className="flex items-center gap-1">
-                      {editingField === `trust-${index}` ? (
-                        <Input
-                          value={signal}
-                          onChange={(e) => updateTrustSignal(index, e.target.value)}
-                          onBlur={() => setEditingField(null)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') setEditingField(null);
-                            if (e.key === 'Escape') setEditingField(null);
-                          }}
-                          autoFocus
-                          className="h-6 text-xs"
-                        />
-                      ) : (
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => setEditingField(`trust-${index}`)}
-                        >
-                          {signal}
-                        </span>
-                      )}
-                      <button
+                  <div key={index} className="border rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Trust Signal {index + 1}</span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
                         onClick={() => removeTrustSignal(index)}
-                        className="ml-1 hover:text-destructive"
                       >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </Badge>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <EditableText
+                      fieldId={`trust-${index}`}
+                      value={signal}
+                      onChange={(value) => updateTrustSignal(index, value)}
+                      placeholder="Enter trust signal"
+                    />
                   </div>
                 ))}
               </div>
