@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles, Save, User, Menu, X } from 'lucide-react';
+import { ArrowLeft, Sparkles, Save, User } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { BusinessInfoForm } from './generator/BusinessInfoForm';
 import { AIProcessing } from './generator/AIProcessing';
 import { PagePreview } from './generator/PagePreview';
@@ -51,8 +50,6 @@ export const PageGenerator = ({
   const [businessData, setBusinessData] = useState<BusinessData | null>(null);
   const [generatedPage, setGeneratedPage] = useState<GeneratedPage | null>(null);
   const [saving, setSaving] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const isMobile = useIsMobile();
   const {
     user,
     signOut
@@ -141,75 +138,24 @@ export const PageGenerator = ({
               <div className="h-6 w-px bg-border" />
               <div className="flex items-center space-x-2">
                 <Sparkles className="h-5 w-5 text-purple" />
-                <h1 className={`font-semibold ${isMobile ? 'text-lg' : 'text-xl'}`}>
-                  {isMobile ? 'AI Generator' : 'AI Landing Page Generator'}
-                </h1>
+                <h1 className="text-xl font-semibold">AI Landing Page Generator</h1>
               </div>
             </div>
             
             <div className="flex items-center space-x-3">
-              {/* Mobile Menu Button */}
-              {isMobile ? (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="p-2"
-                >
-                  {mobileMenuOpen ? (
-                    <X className="h-5 w-5" />
-                  ) : (
-                    <Menu className="h-5 w-5" />
-                  )}
-                </Button>
-              ) : (
-                <>
-                  {/* User Info */}
-                  
-                  
-                  {/* Progress Indicator */}
-                  <div className="flex items-center space-x-2">
-                    <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'input' ? 'bg-purple' : 'bg-muted'}`} />
-                    <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'processing' ? 'bg-purple' : 'bg-muted'}`} />
-                    <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'preview' ? 'bg-purple' : 'bg-muted'}`} />
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu Dropdown */}
-        {isMobile && mobileMenuOpen && (
-          <div className="border-t bg-card">
-            <div className="max-w-7xl mx-auto px-4 py-3">
-              {/* Progress Indicator */}
-              <div className="flex items-center justify-center space-x-3 mb-3">
-                <div className="flex items-center space-x-1">
-                  <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'input' ? 'bg-purple' : 'bg-muted'}`} />
-                  <span className={`text-sm ${currentStep === 'input' ? 'text-purple font-medium' : 'text-muted-foreground'}`}>
-                    Setup
-                  </span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'processing' ? 'bg-purple' : 'bg-muted'}`} />
-                  <span className={`text-sm ${currentStep === 'processing' ? 'text-purple font-medium' : 'text-muted-foreground'}`}>
-                    Generating
-                  </span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'preview' ? 'bg-purple' : 'bg-muted'}`} />
-                  <span className={`text-sm ${currentStep === 'preview' ? 'text-purple font-medium' : 'text-muted-foreground'}`}>
-                    Preview
-                  </span>
-                </div>
-              </div>
               
               {/* User Info */}
               
+              
+              {/* Progress Indicator */}
+              <div className="flex items-center space-x-2">
+                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'input' ? 'bg-purple' : 'bg-muted'}`} />
+                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'processing' ? 'bg-purple' : 'bg-muted'}`} />
+                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'preview' ? 'bg-purple' : 'bg-muted'}`} />
+              </div>
             </div>
           </div>
-        )}
+        </div>
       </header>
 
       {/* Main Content */}
