@@ -25,6 +25,7 @@ interface InlineEditorProps {
 export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorProps) => {
   const [editedContent, setEditedContent] = useState(content);
   const [editingField, setEditingField] = useState<string | null>(null);
+  const [descriptionColor, setDescriptionColor] = useState("#000000");
 
   const handleSave = () => {
     onContentChange(editedContent);
@@ -84,50 +85,71 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
     value, 
     onChange, 
     multiline = false, 
-    placeholder = "Click to edit" 
+    placeholder = "Click to edit",
+    showColorPicker = false,
+    textColor = "#000000",
+    onColorChange
   }: {
     fieldId: string;
     value: string;
     onChange: (value: string) => void;
     multiline?: boolean;
     placeholder?: string;
+    showColorPicker?: boolean;
+    textColor?: string;
+    onColorChange?: (color: string) => void;
   }) => {
     const isEditing = editingField === fieldId;
 
     if (isEditing) {
       const Component = multiline ? Textarea : Input;
       return (
-        <div className="flex items-center gap-2">
-          <Component
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            onBlur={() => setEditingField(null)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !multiline) {
-                setEditingField(null);
-              }
-              if (e.key === 'Escape') {
-                setEditingField(null);
-              }
-            }}
-            autoFocus
-            className="flex-1"
-          />
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setEditingField(null)}
-          >
-            <Check className="h-4 w-4" />
-          </Button>
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <Component
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              onBlur={() => setEditingField(null)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !multiline) {
+                  setEditingField(null);
+                }
+                if (e.key === 'Escape') {
+                  setEditingField(null);
+                }
+              }}
+              autoFocus
+              className="flex-1 border-2 border-accent/30"
+              style={showColorPicker ? { color: textColor } : undefined}
+            />
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setEditingField(null)}
+            >
+              <Check className="h-4 w-4" />
+            </Button>
+          </div>
+          {showColorPicker && onColorChange && (
+            <div className="flex items-center gap-2">
+              <label className="text-sm">Text Color:</label>
+              <input
+                type="color"
+                value={textColor}
+                onChange={(e) => onColorChange(e.target.value)}
+                className="w-8 h-8 border rounded cursor-pointer"
+              />
+            </div>
+          )}
         </div>
       );
     }
 
     return (
       <div
-        className="flex items-center gap-2 cursor-pointer hover:bg-accent/10 p-2 rounded border-2 border-dashed border-transparent hover:border-accent/30 transition-colors group"
+        className="flex items-center gap-2 cursor-pointer hover:bg-accent/10 p-3 rounded border-2 border-accent/20 hover:border-accent/50 transition-colors group"
         onClick={() => setEditingField(fieldId)}
+        style={showColorPicker ? { color: textColor } : undefined}
       >
         <span className="flex-1">{value || placeholder}</span>
         <Edit3 className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -171,6 +193,9 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
                 onChange={(value) => updateField('description', value)}
                 multiline
                 placeholder="Enter description"
+                showColorPicker={true}
+                textColor={descriptionColor}
+                onColorChange={setDescriptionColor}
               />
             </div>
 
