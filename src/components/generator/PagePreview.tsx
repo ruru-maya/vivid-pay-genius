@@ -474,12 +474,7 @@ export const PagePreview = ({
                       <div className="absolute inset-0 bg-black/40" />
                       <div className="relative px-6 py-12 text-center text-white">{/* Make text white over image */}
                         
-                        <Badge className="mb-4" style={{
-                        backgroundColor: displayedContent.colors.primary,
-                        color: 'white'
-                      }}>
-                          {businessData.industry}
-                        </Badge>
+                        
                         <h1 className="text-4xl font-bold mb-4">
                           {displayedContent.headline}
                         </h1>
