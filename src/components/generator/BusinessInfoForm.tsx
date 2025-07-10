@@ -350,7 +350,7 @@ export const BusinessInfoForm = ({
                     }));
                   }
                 }} />
-                  <Button type="button" variant="outline" className="mt-2" onClick={() => document.getElementById('imageUpload')?.click()}>
+                  <Button type="button" variant="outline" className="mt-2 text-purple border-purple hover:bg-purple/10" onClick={() => document.getElementById('imageUpload')?.click()}>
                     Choose Files
                   </Button>
                 </div>
