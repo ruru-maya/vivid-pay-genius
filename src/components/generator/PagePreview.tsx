@@ -500,11 +500,14 @@ export const PagePreview = ({
                         {/* CTA Button */}
                         <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                           <DialogTrigger asChild>
-                            <Button size="xl" className="mb-8 !border-none" style={{
-                            backgroundColor: displayedContent.colors.primary + ' !important',
-                            color: 'white !important',
-                            borderColor: displayedContent.colors.primary + ' !important'
-                          }}>
+                             <Button 
+                              size="xl" 
+                              className="mb-8 border-none text-white hover:opacity-90 transition-opacity" 
+                              style={{
+                                backgroundColor: displayedContent.colors.primary,
+                                color: 'white'
+                              }}
+                            >
                               {displayedContent.callToAction}
                             </Button>
                           </DialogTrigger>
