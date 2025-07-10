@@ -18,11 +18,11 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 239 84% 8%;
 
-    /* Primary - Vivid Purple/Blue */
-    --primary: 252 92% 60%;
+    /* Primary - Teal/Turquoise */
+    --primary: 174 72% 56%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 252 95% 75%;
-    --primary-dark: 252 95% 45%;
+    --primary-glow: 174 72% 70%;
+    --primary-dark: 174 72% 45%;
 
     /* Secondary - Modern Gray */
     --secondary: 250 10% 96%;

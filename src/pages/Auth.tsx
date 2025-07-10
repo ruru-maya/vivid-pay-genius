@@ -3,18 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { signIn, signUp } from "@/lib/auth";
 import { useAuth } from "@/contexts/AuthContext";
-import { Eye, EyeOff, LogIn, UserPlus } from 'lucide-react';
+import { Eye, EyeOff, Home, Facebook } from 'lucide-react';
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [currentView, setCurrentView] = useState<'signin' | 'signup'>('signin');
   const [signInData, setSignInData] = useState({ email: '', password: '' });
-  const [signUpData, setSignUpData] = useState({ email: '', password: '', fullName: '' });
+  const [signUpData, setSignUpData] = useState({ 
+    firstName: '', 
+    lastName: '', 
+    email: '', 
+    phone: '',
+    password: '' 
+  });
   const { toast } = useToast();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -34,21 +42,21 @@ export const Auth = () => {
       
       if (error) {
         toast({
-          title: "Sign In Failed",
+          title: "Prijava neuspješna",
           description: error.message,
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Welcome back!",
-          description: "You have been signed in successfully.",
+          title: "Dobrodošli!",
+          description: "Uspješno ste se prijavili.",
         });
         navigate('/dashboard');
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An unexpected error occurred.",
+        title: "Greška",
+        description: "Dogodila se neočekivana greška.",
         variant: "destructive",
       });
     } finally {
@@ -58,27 +66,37 @@ export const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreeTerms) {
+      toast({
+        title: "Greška",
+        description: "Morate se složiti s odredbama i uvjetima.",
+        variant: "destructive",
+      });
+      return;
+    }
     setIsLoading(true);
 
     try {
-      const { error } = await signUp(signUpData.email, signUpData.password, signUpData.fullName);
+      const fullName = `${signUpData.firstName} ${signUpData.lastName}`;
+      const { error } = await signUp(signUpData.email, signUpData.password, fullName);
       
       if (error) {
         toast({
-          title: "Sign Up Failed",
+          title: "Registracija neuspješna",
           description: error.message,
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Account Created!",
-          description: "Please check your email to verify your account.",
+          title: "Račun kreiran!",
+          description: "Molimo provjerite svoj email da biste verificirali račun.",
         });
+        setCurrentView('signin');
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An unexpected error occurred.",
+        title: "Greška",
+        description: "Dogodila se neočekivana greška.",
         variant: "destructive",
       });
     } finally {
@@ -88,139 +106,250 @@ export const Auth = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-secondary/10 p-4">
-      <Card className="w-full max-w-md shadow-elegant">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            PaymentPage Generator
-          </CardTitle>
-          <CardDescription>
-            Create stunning payment pages in minutes
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="signin">Sign In</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="signin" className="space-y-4">
-              <form onSubmit={handleSignIn} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signin-email">Email</Label>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-2xl">P</span>
+          </div>
+          <h1 className="text-2xl font-medium text-gray-700 mb-2">
+            {currentView === 'signin' ? 'Prijava za klijente' : 'Napravite profil'}
+          </h1>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-sm p-8">
+          {/* Social Login Buttons */}
+          <div className="space-y-3 mb-6">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white border-blue-600 py-3"
+              disabled={isLoading}
+            >
+              <Facebook className="w-5 h-5 mr-2" />
+              {currentView === 'signin' ? 'Prijavite se koristeći Facebook' : 'Registrirajte se koristeći Facebook'}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full bg-red-500 hover:bg-red-600 text-white border-red-500 py-3"
+              disabled={isLoading}
+            >
+              <span className="w-5 h-5 mr-2 font-bold">G</span>
+              {currentView === 'signin' ? 'Prijavite se koristeći Google' : 'Registrirajte se koristeći Google'}
+            </Button>
+          </div>
+
+          {/* Divider */}
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-white text-gray-400">--- ili koristite email ---</span>
+            </div>
+          </div>
+
+          {currentView === 'signin' ? (
+            /* Sign In Form */
+            <form onSubmit={handleSignIn} className="space-y-4">
+              <div>
+                <Input
+                  type="email"
+                  placeholder="Korisničko ime ( email )"
+                  value={signInData.email}
+                  onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
+                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <div className="relative">
                   <Input
-                    id="signin-email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={signInData.email}
-                    onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Lozinka"
+                    value={signInData.password}
+                    onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
+                    className="w-full h-12 bg-gray-100 border-0 rounded-md pr-10"
                     required
                   />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signin-password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="signin-password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      value={signInData.password}
-                      onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
-                      required
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                  </div>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="remember" 
+                    checked={rememberMe}
+                    onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                  />
+                  <Label htmlFor="remember" className="text-gray-600 cursor-pointer">
+                    Zapamti me
+                  </Label>
                 </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  ) : (
-                    <>
-                      <LogIn className="mr-2 h-4 w-4" />
-                      Sign In
-                    </>
-                  )}
-                </Button>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="signup" className="space-y-4">
-              <form onSubmit={handleSignUp} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signup-name">Full Name</Label>
+                <button type="button" className="text-blue-500 hover:underline">
+                  Zaboravljena lozinka?
+                </button>
+              </div>
+              <Button 
+                type="submit" 
+                className="w-full h-12 bg-primary hover:bg-primary-dark text-white font-medium rounded-md mt-6"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                ) : (
+                  'Prijava'
+                )}
+              </Button>
+            </form>
+          ) : (
+            /* Sign Up Form */
+            <form onSubmit={handleSignUp} className="space-y-4">
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Ime"
+                  value={signUpData.firstName}
+                  onChange={(e) => setSignUpData({ ...signUpData, firstName: e.target.value })}
+                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Prezime"
+                  value={signUpData.lastName}
+                  onChange={(e) => setSignUpData({ ...signUpData, lastName: e.target.value })}
+                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={signUpData.email}
+                  onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <Input
+                  type="tel"
+                  placeholder="Telefon"
+                  value={signUpData.phone}
+                  onChange={(e) => setSignUpData({ ...signUpData, phone: e.target.value })}
+                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                />
+              </div>
+              <div>
+                <div className="relative">
                   <Input
-                    id="signup-name"
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={signUpData.fullName}
-                    onChange={(e) => setSignUpData({ ...signUpData, fullName: e.target.value })}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Lozinka"
+                    value={signUpData.password}
+                    onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+                    className="w-full h-12 bg-gray-100 border-0 rounded-md pr-10"
                     required
                   />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
-                  <Input
-                    id="signup-email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={signUpData.email}
-                    onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="signup-password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Create a password"
-                      value={signUpData.password}
-                      onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
-                      required
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                  </div>
-                </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  ) : (
-                    <>
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      Create Account
-                    </>
-                  )}
-                </Button>
-              </form>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+              </div>
+              <div className="flex items-center space-x-2 pt-2">
+                <Checkbox 
+                  id="terms" 
+                  checked={agreeTerms}
+                  onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
+                />
+                <Label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer">
+                  Slažem se s{' '}
+                  <button type="button" className="text-blue-500 hover:underline">
+                    odredbama i uvjetima
+                  </button>
+                  .
+                </Label>
+              </div>
+              <Button 
+                type="submit" 
+                className="w-full h-12 bg-primary hover:bg-primary-dark text-white font-medium rounded-md mt-6"
+                disabled={isLoading || !agreeTerms}
+              >
+                {isLoading ? (
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                ) : (
+                  'registriraj me!'
+                )}
+              </Button>
+            </form>
+          )}
+
+          {/* Toggle between sign in/up */}
+          <div className="text-center mt-6 pt-6 border-t border-gray-100">
+            {currentView === 'signin' ? (
+              <p className="text-gray-600">
+                Prvi put ste ovdje i nemate račun?{' '}
+                <button 
+                  type="button"
+                  onClick={() => setCurrentView('signup')}
+                  className="text-blue-500 hover:underline font-medium"
+                >
+                  Registriraj me!
+                </button>
+              </p>
+            ) : (
+              <p className="text-gray-600">
+                Već imate račun?{' '}
+                <button 
+                  type="button"
+                  onClick={() => setCurrentView('signin')}
+                  className="text-blue-500 hover:underline font-medium"
+                >
+                  Prijavite se!
+                </button>
+              </p>
+            )}
+          </div>
+
+          {/* Home link */}
+          <div className="text-center mt-4">
+            <button 
+              type="button"
+              onClick={() => navigate('/')}
+              className="text-gray-500 hover:text-gray-700 text-sm flex items-center justify-center space-x-1"
+            >
+              <Home className="w-4 h-4" />
+              <span>Naslovnica</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
