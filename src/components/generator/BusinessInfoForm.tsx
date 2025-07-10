@@ -136,7 +136,7 @@ export const BusinessInfoForm = ({
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <Lightbulb className="mr-2 h-5 w-5 text-primary" />
+                  <Lightbulb className="mr-2 h-5 w-5 text-purple" />
                   Basic Information
                 </CardTitle>
               </CardHeader>
