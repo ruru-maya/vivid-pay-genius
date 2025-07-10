@@ -157,7 +157,7 @@ export const BusinessInfoForm = ({
                         </SelectItem>)}
                     </SelectContent>
                   </Select>
-                  {formData.industry && examples[formData.industry as keyof typeof examples] && <Button type="button" variant="ghost" size="sm" className="mt-2 text-xs border border-purple/50 text-purple/70 hover:bg-purple/10 hover:border-purple" onClick={() => handleExampleFill(formData.industry)}>
+                  {formData.industry && examples[formData.industry as keyof typeof examples] && <Button type="button" variant="ghost" size="sm" className="mt-2 text-xs border border-purple/50 text-purple/70 hover:bg-purple/40 hover:border-purple" onClick={() => handleExampleFill(formData.industry)}>
                       Fill with {formData.industry} example
                     </Button>}
                 </div>
