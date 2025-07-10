@@ -12,6 +12,7 @@ interface PageGeneratorProps {
   onBack: () => void;
 }
 export type BusinessData = {
+  companyName: string;
   businessName: string;
   description: string;
   price: string;

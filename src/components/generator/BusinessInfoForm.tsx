@@ -15,6 +15,7 @@ export const BusinessInfoForm = ({
   onSubmit
 }: BusinessInfoFormProps) => {
   const [formData, setFormData] = useState<BusinessData>({
+    companyName: '',
     businessName: '',
     description: '',
     price: '',
@@ -84,7 +85,7 @@ export const BusinessInfoForm = ({
   }];
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.businessName && formData.description && formData.price) {
+    if (formData.companyName && formData.businessName && formData.description && formData.price) {
       onSubmit(formData);
     }
   };
@@ -159,6 +160,20 @@ export const BusinessInfoForm = ({
                   {formData.industry && examples[formData.industry as keyof typeof examples] && <Button type="button" variant="ghost" size="sm" className="mt-2 text-xs" onClick={() => handleExampleFill(formData.industry)}>
                       Fill with {formData.industry} example
                     </Button>}
+                </div>
+
+                <div>
+                  <Label htmlFor="companyName">Business Name *</Label>
+                  <Input 
+                    id="companyName" 
+                    value={formData.companyName} 
+                    onChange={e => setFormData(prev => ({
+                      ...prev,
+                      companyName: e.target.value
+                    }))} 
+                    placeholder="e.g., Your Company Name" 
+                    required 
+                  />
                 </div>
 
                 <div>
@@ -400,7 +415,7 @@ export const BusinessInfoForm = ({
         </div>
 
         <div className="flex justify-center pt-8">
-          <Button type="submit" size="xl" variant="premium" disabled={!formData.businessName || !formData.description || !formData.price} className="group" style={{
+          <Button type="submit" size="xl" variant="premium" disabled={!formData.companyName || !formData.businessName || !formData.description || !formData.price} className="group" style={{
           backgroundColor: formData.colors.primary,
           color: 'white'
         }}>
