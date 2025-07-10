@@ -910,36 +910,6 @@ export const PagePreview = ({
               {/* Trust Signals */}
               <div className="space-y-3">
                 <h4 className="text-sm font-semibold">Trust Signals</h4>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span>Excellent</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span>Call-to-Action</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <span>Optimized</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                    <span>Content Quality</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
-                    <span>High</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
-                    <span>Visual Appeal</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                    <span>Strong</span>
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>
