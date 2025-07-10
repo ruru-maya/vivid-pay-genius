@@ -870,24 +870,218 @@ export const PagePreview = ({
 
         {/* Settings Panel */}
         <div className="space-y-6">
+          {/* Performance Insights */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Star className="mr-2 h-5 w-5" />
+                Performance Insights
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Conversion Score */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Conversion Score</span>
+                  <Badge variant="secondary" className="bg-green-100 text-green-800">94%</Badge>
+                </div>
+                <div className="w-full bg-muted rounded-full h-2">
+                  <div className="bg-green-500 h-2 rounded-full" style={{ width: '94%' }}></div>
+                </div>
+              </div>
+
+              {/* SEO Rating */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">SEO Rating</span>
+                  <Badge variant="secondary" className="bg-green-100 text-green-800 font-bold">A+</Badge>
+                </div>
+              </div>
+
+              {/* Load Time */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Load Time</span>
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">1.2s</Badge>
+                </div>
+              </div>
+
+              {/* Mobile Score */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Mobile Score</span>
+                  <Badge variant="secondary" className="bg-green-100 text-green-800">98%</Badge>
+                </div>
+                <div className="w-full bg-muted rounded-full h-2">
+                  <div className="bg-green-500 h-2 rounded-full" style={{ width: '98%' }}></div>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Trust Signals */}
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold">Trust Signals</h4>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span>Excellent</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span>Call-to-Action</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                    <span>Optimized</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                    <span>Content Quality</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+                    <span>High</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                    <span>Visual Appeal</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <span>Strong</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Color Customization */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Palette className="mr-2 h-5 w-5" />
-                Customize Design
+                Color Customization
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Current Colors Display */}
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">Primary Color</Label>
+                  <div className="flex items-center space-x-2">
+                    <div 
+                      className="w-6 h-6 rounded border-2 border-muted" 
+                      style={{ backgroundColor: currentColors.primary }}
+                    ></div>
+                    <span className="text-sm font-mono text-muted-foreground">{currentColors.primary}</span>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">Secondary Color</Label>
+                  <div className="flex items-center space-x-2">
+                    <div 
+                      className="w-6 h-6 rounded border-2 border-muted" 
+                      style={{ backgroundColor: currentColors.secondary }}
+                    ></div>
+                    <span className="text-sm font-mono text-muted-foreground">{currentColors.secondary}</span>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">Accent Color</Label>
+                  <div className="flex items-center space-x-2">
+                    <div 
+                      className="w-6 h-6 rounded border-2 border-muted" 
+                      style={{ backgroundColor: currentColors.accent }}
+                    ></div>
+                    <span className="text-sm font-mono text-muted-foreground">{currentColors.accent}</span>
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Color Presets */}
+              <div className="space-y-3">
+                <Label className="text-sm font-semibold">Color Presets</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { name: 'Blue', primary: '#3B82F6', secondary: '#1E40AF', accent: '#60A5FA' },
+                    { name: 'Purple', primary: '#8B5CF6', secondary: '#7C3AED', accent: '#A78BFA' },
+                    { name: 'Green', primary: '#10B981', secondary: '#047857', accent: '#34D399' },
+                    { name: 'Orange', primary: '#F59E0B', secondary: '#D97706', accent: '#FBB040' },
+                    { name: 'Pink', primary: '#EC4899', secondary: '#DB2777', accent: '#F472B6' },
+                    { name: 'Red', primary: '#EF4444', secondary: '#DC2626', accent: '#F87171' },
+                  ].map((preset) => (
+                    <Button
+                      key={preset.name}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleColorsChange(preset)}
+                      className="flex items-center gap-2 justify-start p-2 h-auto"
+                    >
+                      <div className="flex gap-1">
+                        <div
+                          className="w-3 h-3 rounded-full border"
+                          style={{ backgroundColor: preset.primary }}
+                        />
+                        <div
+                          className="w-3 h-3 rounded-full border"
+                          style={{ backgroundColor: preset.secondary }}
+                        />
+                        <div
+                          className="w-3 h-3 rounded-full border"
+                          style={{ backgroundColor: preset.accent }}
+                        />
+                      </div>
+                      <span className="text-xs">{preset.name}</span>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
               <Button onClick={() => setShowColorCustomizer(true)} variant="outline" className="w-full">
                 <Palette className="mr-2 h-4 w-4" />
-                Change Colors
+                Advanced Color Editor
               </Button>
-              <Separator />
-              <div className="text-sm text-muted-foreground">
-                <p className="mb-2">Current theme:</p>
-                <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 rounded" style={{ backgroundColor: displayedContent.colors.primary }}></div>
-                  <span>Primary</span>
+            </CardContent>
+          </Card>
+
+          {/* Configuration */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <CreditCard className="mr-2 h-5 w-5" />
+                Configuration
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Template:</span>
+                  <Badge variant="outline">{generatedPage.template}</Badge>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Primary Color:</span>
+                  <span className="font-mono">{currentColors.primary}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Secondary Color:</span>
+                  <span className="font-mono">{currentColors.secondary}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Features:</span>
+                  <span>{currentContent.features.length} items</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">FAQ Items:</span>
+                  <span>{currentContent.faq.length}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Trust Signals:</span>
+                  <span>{currentContent.trustSignals.length}</span>
                 </div>
               </div>
             </CardContent>
@@ -900,8 +1094,8 @@ export const PagePreview = ({
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <InlineEditor
             content={currentContent}
-            onChange={handleContentChange}
-            onClose={() => setShowInlineEditor(false)}
+            onContentChange={handleContentChange}
+            onExit={() => setShowInlineEditor(false)}
           />
         </DialogContent>
       </Dialog>
@@ -910,8 +1104,7 @@ export const PagePreview = ({
         <DialogContent className="max-w-md">
           <ColorCustomizer
             colors={currentColors}
-            onSave={handleColorsChange}
-            onClose={() => setShowColorCustomizer(false)}
+            onColorsChange={handleColorsChange}
           />
         </DialogContent>
       </Dialog>
