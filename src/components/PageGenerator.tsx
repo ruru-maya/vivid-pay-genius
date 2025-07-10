@@ -153,9 +153,9 @@ export const PageGenerator = ({
               
               {/* Progress Indicator */}
               <div className="flex items-center space-x-2">
-                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'input' ? 'bg-primary' : 'bg-muted'}`} />
-                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'processing' ? 'bg-primary' : 'bg-muted'}`} />
-                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'preview' ? 'bg-primary' : 'bg-muted'}`} />
+                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'input' ? 'bg-purple' : 'bg-muted'}`} />
+                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'processing' ? 'bg-purple' : 'bg-muted'}`} />
+                <div className={`h-2 w-2 rounded-full transition-colors ${currentStep === 'preview' ? 'bg-purple' : 'bg-muted'}`} />
               </div>
             </div>
           </div>
