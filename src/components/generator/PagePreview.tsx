@@ -157,24 +157,28 @@ export const PagePreview = ({
             <div className="flex items-center space-x-3">
               {/* View Mode Toggle */}
               <div className="flex items-center bg-muted rounded-lg p-1">
-                <Button variant={viewMode === 'desktop' && !isFullscreen ? 'default' : 'ghost'} size="sm" onClick={() => {setViewMode('desktop'); setIsFullscreen(false); setIsMobileFullscreen(false);}} className="h-8">
+                <Button variant={viewMode === 'desktop' ? 'default' : 'ghost'} size="sm" onClick={() => {setViewMode('desktop'); setIsFullscreen(false); setIsMobileFullscreen(false);}} className="h-8">
                   <Monitor className="h-4 w-4 mr-1" />
                   Desktop
                 </Button>
-                <Button variant={viewMode === 'mobile' && !isMobileFullscreen ? 'default' : 'ghost'} size="sm" onClick={() => {setViewMode('mobile'); setIsFullscreen(false); setIsMobileFullscreen(false);}} className="h-8">
+                <Button variant={viewMode === 'mobile' ? 'default' : 'ghost'} size="sm" onClick={() => {setViewMode('mobile'); setIsFullscreen(false); setIsMobileFullscreen(false);}} className="h-8">
                   <Smartphone className="h-4 w-4 mr-1" />
                   Mobile
-                </Button>
-                <Button variant={isMobileFullscreen ? 'default' : 'ghost'} size="sm" onClick={() => {setIsMobileFullscreen(!isMobileFullscreen); setViewMode('mobile'); setIsFullscreen(false);}} className="h-8">
-                  <Maximize className="h-4 w-4 mr-1" />
-                  Mobile Full
                 </Button>
               </div>
 
               {/* Action Buttons */}
-              <Button variant="outline" onClick={() => {setIsFullscreen(!isFullscreen); setIsMobileFullscreen(false);}} className="text-purple/60 border-purple/50 hover:bg-purple/60 hover:text-white">
-                {isFullscreen ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
-                {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+              <Button variant="outline" onClick={() => {
+                if (viewMode === 'mobile') {
+                  setIsMobileFullscreen(!isMobileFullscreen);
+                  setIsFullscreen(false);
+                } else {
+                  setIsFullscreen(!isFullscreen);
+                  setIsMobileFullscreen(false);
+                }
+              }} className="text-purple/60 border-purple/50 hover:bg-purple/60 hover:text-white">
+                {(isFullscreen || isMobileFullscreen) ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
+                {(isFullscreen || isMobileFullscreen) ? 'Exit Fullscreen' : 'Fullscreen'}
               </Button>
               <Button variant="outline" onClick={() => setShowInlineEditor(true)} className="text-purple/60 border-purple/50 hover:bg-purple/60 hover:text-white">
                 <Edit className="h-4 w-4 mr-2" />
@@ -505,8 +509,8 @@ export const PagePreview = ({
                     </div>
                   </div>}
                 {/* Mobile Fullscreen Overlay */}
-                {isMobileFullscreen && <div className="fixed inset-0 z-50 bg-black">
-                    <div className="w-full h-full overflow-auto bg-white">
+                {isMobileFullscreen && <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+                    <div className="w-full max-w-sm h-full overflow-auto bg-white">
                       <div className="min-h-screen" style={{
                   background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)`
                 }}>
