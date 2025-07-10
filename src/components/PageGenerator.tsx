@@ -23,7 +23,7 @@ export type BusinessData = {
     primary: string;
     secondary: string;
   };
-  images: File[];
+  images: Array<{ file: File; type: 'logo' | 'home-bg' | 'other' }>;
 };
 export type GeneratedPage = {
   title: string;

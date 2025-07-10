@@ -243,7 +243,7 @@ export const PagePreview = ({
                             <div 
                               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                               style={{
-                                backgroundImage: `url(${URL.createObjectURL(businessData.images[0])})`
+                                backgroundImage: `url(${URL.createObjectURL(businessData.images.find(img => img.type === 'home-bg')?.file || businessData.images[0].file)})`
                               }}
                             />
                           ) : (
@@ -462,7 +462,7 @@ export const PagePreview = ({
                         <div 
                           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                           style={{
-                            backgroundImage: `url(${URL.createObjectURL(businessData.images[0])})`
+                            backgroundImage: `url(${URL.createObjectURL(businessData.images.find(img => img.type === 'home-bg')?.file || businessData.images[0].file)})`
                           }}
                         />
                       ) : (

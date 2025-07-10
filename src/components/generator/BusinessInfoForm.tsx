@@ -343,9 +343,10 @@ export const BusinessInfoForm = ({
                 e.currentTarget.classList.remove('border-primary', 'bg-primary/5');
                 const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024);
                 if (files.length > 0) {
+                  const newImages = files.map(file => ({ file, type: 'other' as const }));
                   setFormData(prev => ({
                     ...prev,
-                    images: [...prev.images, ...files].slice(0, 5)
+                    images: [...prev.images, ...newImages].slice(0, 5)
                   }));
                 }
               }}>
@@ -359,9 +360,10 @@ export const BusinessInfoForm = ({
                   <input type="file" multiple accept="image/jpeg,image/png,image/webp" className="hidden" id="imageUpload" onChange={e => {
                   if (e.target.files) {
                     const files = Array.from(e.target.files).filter(file => file.size <= 5 * 1024 * 1024);
+                    const newImages = files.map(file => ({ file, type: 'other' as const }));
                     setFormData(prev => ({
                       ...prev,
-                      images: [...prev.images, ...files].slice(0, 5)
+                      images: [...prev.images, ...newImages].slice(0, 5)
                     }));
                   }
                 }} />
@@ -384,15 +386,32 @@ export const BusinessInfoForm = ({
                     </div>
                     
                     <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
-                      {formData.images.map((file, index) => <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded-lg">
+                      {formData.images.map((imageData, index) => <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded-lg">
                            <div className="flex items-center space-x-2 min-w-0 flex-1">
-                             <img src={URL.createObjectURL(file)} alt={`Upload preview ${index + 1}`} className="w-8 h-8 object-cover rounded border flex-shrink-0" />
+                             <img src={URL.createObjectURL(imageData.file)} alt={`Upload preview ${index + 1}`} className="w-8 h-8 object-cover rounded border flex-shrink-0" />
                              <div className="min-w-0 flex-1">
-                               <p className="text-xs font-medium truncate">{file.name}</p>
+                               <p className="text-xs font-medium truncate">{imageData.file.name}</p>
                                <p className="text-xs text-muted-foreground">
-                                 {(file.size / 1024 / 1024).toFixed(1)} MB
+                                 {(imageData.file.size / 1024 / 1024).toFixed(1)} MB
                                </p>
                              </div>
+                             <Select value={imageData.type} onValueChange={(value) => {
+                               setFormData(prev => ({
+                                 ...prev,
+                                 images: prev.images.map((img, i) => 
+                                   i === index ? { ...img, type: value as 'logo' | 'home-bg' | 'other' } : img
+                                 )
+                               }));
+                             }}>
+                               <SelectTrigger className="w-20 h-6 text-xs">
+                                 <SelectValue />
+                               </SelectTrigger>
+                               <SelectContent>
+                                 <SelectItem value="logo">Logo</SelectItem>
+                                 <SelectItem value="home-bg">Home BG</SelectItem>
+                                 <SelectItem value="other">Other</SelectItem>
+                               </SelectContent>
+                             </Select>
                            </div>
                           <Button type="button" variant="ghost" size="sm" onClick={() => {
                       setFormData(prev => ({
