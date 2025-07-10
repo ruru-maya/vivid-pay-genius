@@ -232,7 +232,7 @@ export const BusinessInfoForm = ({
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <Palette className="mr-2 h-5 w-5 text-primary" />
+                  <Palette className="mr-2 h-5 w-5 text-purple" />
                   Visual Branding
                 </CardTitle>
               </CardHeader>
