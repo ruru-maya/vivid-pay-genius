@@ -636,7 +636,7 @@ export const PagePreview = ({
                                   <IconComponent className="h-5 w-5" />
                                 </a> : null;
                           })}
-                            <Button variant="outline" size="sm" onClick={() => setShowSocialEditor(true)} className="ml-4 text-xs">
+                             <Button variant="outline" size="sm" onClick={() => setShowSocialEditor(true)} className="ml-4 text-xs" style={{ borderColor: displayedContent.colors.primary, color: displayedContent.colors.primary }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = displayedContent.colors.primary; e.currentTarget.style.color = 'white'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = displayedContent.colors.primary; }}>
                               <Edit className="h-3 w-3 mr-1" />
                               Edit Social Links
                             </Button>
