@@ -576,12 +576,17 @@ export const PagePreview = ({
                       <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
                       <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                         <DialogTrigger asChild>
-                          <Button size="xl" style={{
-                          backgroundColor: displayedContent.colors.primary,
-                          color: 'white'
-                        }}>
+                           <button 
+                            className="px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity"
+                            style={{
+                              backgroundColor: displayedContent.colors.primary,
+                              color: 'white',
+                              border: 'none',
+                              cursor: 'pointer'
+                            }}
+                          >
                             {displayedContent.callToAction}
-                          </Button>
+                          </button>
                         </DialogTrigger>
                         <DialogContent className="max-w-md">
                           <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
