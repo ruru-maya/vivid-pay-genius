@@ -23,7 +23,10 @@ export type BusinessData = {
     primary: string;
     secondary: string;
   };
-  images: Array<{ file: File; type: 'logo' | 'home-bg' | 'other' }>;
+  images: Array<{
+    file: File;
+    type: 'logo' | 'home-bg' | 'other';
+  }>;
 };
 export type GeneratedPage = {
   title: string;
@@ -132,7 +135,7 @@ export const PageGenerator = ({
       {/* Header */}
       <header className="border-b bg-card shadow-soft">
         <div className="w-full pl-1 pr-4">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16 mx-[10px] px-[10px]">
             <div className="flex items-center space-x-1">
               <Sparkles className="h-5 w-5 text-purple" />
               <h1 className="text-xl font-semibold">AI Landing Page Generator</h1>
