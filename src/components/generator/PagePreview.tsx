@@ -611,10 +611,11 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           <DialogTrigger asChild>
                             <Button 
                               size="xl"
-                              className="mb-8"
+                              className="mb-8 !border-none"
                               style={{ 
-                                backgroundColor: displayedContent.colors.primary,
-                                color: 'white'
+                                backgroundColor: displayedContent.colors.primary + ' !important',
+                                color: 'white !important',
+                                borderColor: displayedContent.colors.primary + ' !important'
                               }}
                             >
                               {displayedContent.callToAction}
