@@ -49,8 +49,13 @@ export const PageGenerator = ({
   const [businessData, setBusinessData] = useState<BusinessData | null>(null);
   const [generatedPage, setGeneratedPage] = useState<GeneratedPage | null>(null);
   const [saving, setSaving] = useState(false);
-  const { user, signOut } = useAuth();
-  const { toast } = useToast();
+  const {
+    user,
+    signOut
+  } = useAuth();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
 
   // Remove authentication redirect
@@ -59,64 +64,57 @@ export const PageGenerator = ({
     setBusinessData(data);
     setCurrentStep('processing');
   };
-
   const handleGenerationComplete = (page: GeneratedPage) => {
     setGeneratedPage(page);
     setCurrentStep('preview');
   };
-
   const handleSavePage = async () => {
     if (!businessData || !generatedPage || !user) return;
-    
     setSaving(true);
     try {
-      const { error } = await supabase
-        .from('payment_pages')
-        .insert({
-          user_id: user.id,
-          title: generatedPage.title,
-          business_name: businessData.businessName,
-          description: businessData.description,
-          price: businessData.price,
-          currency: businessData.currency,
-          availability: businessData.availability,
-          industry: businessData.industry,
-          headline: generatedPage.headline,
-          features: generatedPage.features,
-          call_to_action: generatedPage.callToAction,
-          trust_signals: generatedPage.trustSignals,
-          faq: generatedPage.faq,
-          colors: generatedPage.colors,
-          template: generatedPage.template
-        });
-
+      const {
+        error
+      } = await supabase.from('payment_pages').insert({
+        user_id: user.id,
+        title: generatedPage.title,
+        business_name: businessData.businessName,
+        description: businessData.description,
+        price: businessData.price,
+        currency: businessData.currency,
+        availability: businessData.availability,
+        industry: businessData.industry,
+        headline: generatedPage.headline,
+        features: generatedPage.features,
+        call_to_action: generatedPage.callToAction,
+        trust_signals: generatedPage.trustSignals,
+        faq: generatedPage.faq,
+        colors: generatedPage.colors,
+        template: generatedPage.template
+      });
       if (error) throw error;
-
       toast({
         title: "Page Saved!",
-        description: "Your landing page has been saved to your dashboard.",
+        description: "Your landing page has been saved to your dashboard."
       });
-      
       navigate('/dashboard');
     } catch (error: any) {
-        if (error.message.includes('Payment page limit exceeded')) {
+      if (error.message.includes('Payment page limit exceeded')) {
         toast({
           title: "Limit Reached",
           description: "You can only have 3 landing pages. Delete one to create a new page.",
-          variant: "destructive",
+          variant: "destructive"
         });
       } else {
         toast({
           title: "Error",
           description: "Failed to save landing page. Please try again.",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     } finally {
       setSaving(false);
     }
   };
-
   const renderStep = () => {
     switch (currentStep) {
       case 'input':
@@ -124,14 +122,7 @@ export const PageGenerator = ({
       case 'processing':
         return <AIProcessing businessData={businessData!} onComplete={handleGenerationComplete} />;
       case 'preview':
-        return (
-          <PagePreview 
-            generatedPage={generatedPage!} 
-            businessData={businessData!} 
-            onEdit={() => setCurrentStep('input')} 
-            onRegenerate={() => setCurrentStep('processing')}
-          />
-        );
+        return <PagePreview generatedPage={generatedPage!} businessData={businessData!} onEdit={() => setCurrentStep('input')} onRegenerate={() => setCurrentStep('processing')} />;
       default:
         return null;
     }
@@ -142,10 +133,7 @@ export const PageGenerator = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" onClick={() => navigate('/dashboard')}>
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Dashboard
-              </Button>
+              
               <div className="h-6 w-px bg-border" />
               <div className="flex items-center space-x-2">
                 <Sparkles className="h-5 w-5 text-primary" />
@@ -155,22 +143,13 @@ export const PageGenerator = ({
             
             <div className="flex items-center space-x-3">
               {/* Save Button for Preview Step */}
-              {currentStep === 'preview' && (
-                <Button onClick={handleSavePage} disabled={saving}>
-                  {saving ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  ) : (
-                    <Save className="h-4 w-4 mr-2" />
-                  )}
+              {currentStep === 'preview' && <Button onClick={handleSavePage} disabled={saving}>
+                  {saving ? <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div> : <Save className="h-4 w-4 mr-2" />}
                   Save Page
-                </Button>
-              )}
+                </Button>}
               
               {/* User Info */}
-              <Button variant="outline" size="sm">
-                <User className="h-4 w-4 mr-2" />
-                {user?.email}
-              </Button>
+              
               
               {/* Progress Indicator */}
               <div className="flex items-center space-x-2">
