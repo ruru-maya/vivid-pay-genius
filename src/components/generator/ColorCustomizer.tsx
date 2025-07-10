@@ -138,16 +138,6 @@ export const ColorCustomizer = ({ colors, onColorsChange }: ColorCustomizerProps
           </div>
         </div>
 
-        {/* Reset Button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={resetToDefault}
-          className="w-full"
-        >
-          <RotateCcw className="h-4 w-4 mr-2" />
-          Reset to Default
-        </Button>
       </CardContent>
     </Card>
   );
