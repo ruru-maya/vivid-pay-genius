@@ -210,8 +210,8 @@ export const PagePreview = ({
             </CardHeader>
             <CardContent className="p-0">
                 {/* Fullscreen Overlay */}
-                {isFullscreen && <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-                    <div className="w-full max-w-6xl max-h-full overflow-auto bg-white rounded-lg shadow-2xl">
+                {isFullscreen && <div className="fixed inset-0 z-50 bg-black">
+                    <div className="w-full h-full overflow-auto bg-white">
                       <div className="min-h-screen" style={{
                   background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)`
                 }}>
@@ -551,7 +551,7 @@ export const PagePreview = ({
                   </div>}
 
                 {/* Regular Preview (Non-fullscreen) */}
-                {!isFullscreen && <div className={`transition-all duration-300 ${viewMode === 'mobile' ? 'max-w-sm mx-auto border-8 border-gray-300 rounded-3xl bg-gray-300 p-2' : 'w-full'}`}>
+                {!isFullscreen && <div className={`transition-all duration-300 ${viewMode === 'mobile' ? 'max-w-md mx-auto border-8 border-gray-300 rounded-3xl bg-gray-300 p-2' : 'w-full'}`}>
                     <div className={`${viewMode === 'mobile' ? 'rounded-2xl overflow-hidden bg-white' : 'rounded-lg overflow-hidden border'} shadow-medium`}>
                       {/* Generated Payment Page */}
                       <div className="min-h-screen" style={{
