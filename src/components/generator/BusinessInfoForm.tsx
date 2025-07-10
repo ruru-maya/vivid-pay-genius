@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Upload, Palette, ArrowRight, Lightbulb } from 'lucide-react';
+import { Upload, Palette, ArrowRight, Lightbulb, DollarSign } from 'lucide-react';
 import { BusinessData } from '../PageGenerator';
 interface BusinessInfoFormProps {
   onSubmit: (data: BusinessData) => void;
@@ -184,7 +184,10 @@ export const BusinessInfoForm = ({
 
             <Card>
               <CardHeader>
-                <CardTitle>Pricing & Availability</CardTitle>
+                <CardTitle className="flex items-center">
+                  <DollarSign className="mr-2 h-5 w-5 text-purple" />
+                  Pricing & Availability
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
