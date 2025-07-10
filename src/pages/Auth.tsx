@@ -113,7 +113,10 @@ export const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4">
+    <div 
+      className="min-h-screen flex items-center justify-center py-12 px-4 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: 'url(/lovable-uploads/c62d60c2-e0c9-4847-9110-fd8d0777c050.png)' }}
+    >
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
