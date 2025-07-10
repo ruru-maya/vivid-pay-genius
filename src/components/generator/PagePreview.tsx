@@ -209,10 +209,21 @@ export const PagePreview = ({
                         <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
                           <div className="max-w-6xl mx-auto px-6 py-4">
                             <div className="flex items-center justify-between">
-                              <div className="font-bold text-xl" style={{
-                          color: displayedContent.colors.primary
-                        }}>
-                                {businessData.businessName}
+                              <div className="flex items-center space-x-3">
+                                {/* Logo */}
+                                {businessData.images.find(img => img.type === 'logo') && (
+                                  <img 
+                                    src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
+                                    alt="Company logo" 
+                                    className="h-8 w-8 object-contain rounded"
+                                  />
+                                )}
+                                {/* Business Name */}
+                                <div className="font-bold text-xl" style={{
+                                  color: displayedContent.colors.primary
+                                }}>
+                                  {businessData.companyName}
+                                </div>
                               </div>
                               <nav className="hidden md:flex items-center space-x-8">
                                 <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
@@ -427,12 +438,23 @@ export const PagePreview = ({
                     {/* Header Navigation */}
                     <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
                       <div className="max-w-6xl mx-auto px-6 py-4">
-                        <div className="flex items-center justify-between">
-                          <div className="font-bold text-xl" style={{
-                          color: displayedContent.colors.primary
-                        }}>
-                            {businessData.businessName}
-                          </div>
+                         <div className="flex items-center justify-between">
+                           <div className="flex items-center space-x-3">
+                             {/* Logo */}
+                             {businessData.images.find(img => img.type === 'logo') && (
+                               <img 
+                                 src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
+                                 alt="Company logo" 
+                                 className="h-8 w-8 object-contain rounded"
+                               />
+                             )}
+                             {/* Business Name */}
+                             <div className="font-bold text-xl" style={{
+                               color: displayedContent.colors.primary
+                             }}>
+                               {businessData.companyName}
+                             </div>
+                           </div>
                           <nav className="hidden md:flex items-center space-x-8">
                             <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                               Home
