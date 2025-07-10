@@ -247,7 +247,7 @@ export const BusinessInfoForm = ({
                       secondary: preset.secondary
                     }
                   }))} className={`p-3 rounded-lg border-2 transition-all ${formData.colors.primary === preset.primary ? 'border-primary ring-2 ring-primary/20' : 'border-muted hover:border-primary/50'}`}>
-                        <div className="flex justify-center space-x-3 mb-2">
+                        <div className="flex justify-center space-x-1 mb-2">
                           <div className="w-4 h-4 rounded" style={{
                         backgroundColor: preset.primary
                       }} />
