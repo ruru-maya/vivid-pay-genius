@@ -12,12 +12,14 @@ import { BusinessData, GeneratedPage } from '../PageGenerator';
 import { InlineEditor } from './InlineEditor';
 import { ColorCustomizer } from './ColorCustomizer';
 import { CreditCardForm, CreditCardData } from './CreditCardForm';
+
 interface PagePreviewProps {
   generatedPage: GeneratedPage;
   businessData: BusinessData;
   onEdit: () => void;
   onRegenerate: () => void;
 }
+
 export const PagePreview = ({
   generatedPage,
   businessData,
@@ -52,6 +54,7 @@ export const PagePreview = ({
   const {
     toast
   } = useToast();
+  
   const getCurrencySymbol = (currency: string) => {
     const symbols: Record<string, string> = {
       'USD': '$',
@@ -64,9 +67,11 @@ export const PagePreview = ({
     };
     return symbols[currency] || '$';
   };
+
   const toggleFAQ = (index: number) => {
     setExpandedFAQ(expandedFAQ === index ? null : index);
   };
+
   const handleContentChange = (newContent: any) => {
     setCurrentContent(newContent);
     toast({
@@ -74,6 +79,7 @@ export const PagePreview = ({
       description: "Your page content has been updated successfully."
     });
   };
+
   const handleColorsChange = (newColors: {
     primary: string;
     secondary: string;
@@ -85,10 +91,9 @@ export const PagePreview = ({
       description: "Your page colors have been updated successfully."
     });
   };
+
   const handlePaymentSubmit = async (paymentData: CreditCardData) => {
     setIsProcessingPayment(true);
-
-    // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsProcessingPayment(false);
     setShowPaymentDialog(false);
@@ -97,6 +102,7 @@ export const PagePreview = ({
       description: "Your landing page has been published successfully."
     });
   };
+
   const handleSocialLinksUpdate = (newSocialLinks: typeof socialLinks) => {
     setSocialLinks(newSocialLinks);
     setShowSocialEditor(false);
@@ -105,6 +111,7 @@ export const PagePreview = ({
       description: "Your social media links have been updated successfully."
     });
   };
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -113,6 +120,7 @@ export const PagePreview = ({
       });
     }
   };
+
   const getSocialIcon = (platform: string) => {
     switch (platform) {
       case 'facebook':
@@ -129,11 +137,13 @@ export const PagePreview = ({
         return ExternalLink;
     }
   };
+
   const displayedContent = {
     ...generatedPage,
     ...currentContent,
     colors: currentColors
   };
+
   return <div className="min-h-screen bg-background">
       {/* Control Panel */}
       <div className="border-b bg-card shadow-soft">
@@ -549,19 +559,19 @@ export const PagePreview = ({
                 }}>
                     {/* Header Navigation */}
                     <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
-                      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+                      <div className={`mx-auto ${viewMode === 'mobile' ? 'px-3 py-2' : 'max-w-6xl px-4 sm:px-6 py-3 sm:py-4'}`}>
                          <div className="flex items-center justify-between">
-                           <div className="flex items-center space-x-2 sm:space-x-3">
+                           <div className={`flex items-center ${viewMode === 'mobile' ? 'space-x-2' : 'space-x-2 sm:space-x-3'}`}>
                              {/* Logo */}
                              {businessData.images.find(img => img.type === 'logo') && (
                                <img 
                                  src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
                                  alt="Company logo" 
-                                 className="h-10 w-10 sm:h-16 sm:w-16 object-contain rounded"
+                                 className={viewMode === 'mobile' ? 'h-8 w-8 object-contain rounded' : 'h-10 w-10 sm:h-16 sm:w-16 object-contain rounded'}
                                />
                              )}
                              {/* Business Name */}
-                             <div className="font-bold text-lg sm:text-xl" style={{
+                             <div className={`font-bold ${viewMode === 'mobile' ? 'text-sm' : 'text-lg sm:text-xl'}`} style={{
                                color: displayedContent.colors.primary
                              }}>
                                {businessData.companyName}
@@ -569,43 +579,47 @@ export const PagePreview = ({
                            </div>
                            
                            {/* Navigation and mobile menu */}
-                           <div className="flex items-center space-x-2 sm:space-x-4">
-                             {/* Desktop Navigation */}
-                             <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
-                               <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                 Home
-                               </button>
-                               <button onClick={() => scrollToSection('features')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                 What's Included
-                               </button>
-                               <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                 FAQ
-                               </button>
-                               <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                 Get Started
-                               </button>
-                             </nav>
-                             
-                             {/* Mobile Menu Button */}
-                             <Button
-                               variant="outline"
-                               size="sm"
-                               onClick={() => setShowMobileMenu(!showMobileMenu)}
-                               className="md:hidden"
-                               style={{
-                                 borderColor: displayedContent.colors.primary,
-                                 color: displayedContent.colors.primary
-                               }}
-                             >
-                               {showMobileMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-                             </Button>
+                           <div className="flex items-center space-x-2">
+                             {/* Show hamburger menu only in mobile view mode */}
+                             {viewMode === 'mobile' ? (
+                               <Button
+                                 variant="outline"
+                                 size="sm"
+                                 onClick={() => setShowMobileMenu(!showMobileMenu)}
+                                 style={{
+                                   borderColor: displayedContent.colors.primary,
+                                   color: displayedContent.colors.primary,
+                                   width: '32px',
+                                   height: '32px',
+                                   padding: '0'
+                                 }}
+                               >
+                                 {showMobileMenu ? <X className="h-3 w-3" /> : <Menu className="h-3 w-3" />}
+                               </Button>
+                             ) : (
+                               /* Desktop Navigation */
+                               <nav className="flex items-center space-x-6 lg:space-x-8">
+                                 <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                   Home
+                                 </button>
+                                 <button onClick={() => scrollToSection('features')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                   What's Included
+                                 </button>
+                                 <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                   FAQ
+                                 </button>
+                                 <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                   Get Started
+                                 </button>
+                               </nav>
+                             )}
                            </div>
                          </div>
                          
-                         {/* Mobile Menu Dropdown */}
-                         {showMobileMenu && (
-                           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg z-50">
-                             <nav className="px-4 py-3 space-y-2">
+                         {/* Mobile Menu Dropdown - only show in mobile view mode */}
+                         {showMobileMenu && viewMode === 'mobile' && (
+                           <div className="bg-white border-t border-gray-200 shadow-lg z-50">
+                             <nav className="px-3 py-2 space-y-1">
                                <button
                                  onClick={() => {
                                    scrollToSection('home');
@@ -651,208 +665,202 @@ export const PagePreview = ({
                          )}
                        </div>
                      </header>
+                         
+                         {/* Hero Section */}
+                         <section id="home" className="relative overflow-hidden">
+                           {/* Background Image or Gradient */}
+                           {businessData.images.length > 0 ? (
+                             <div 
+                               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                               style={{
+                                 backgroundImage: `url(${URL.createObjectURL(businessData.images.find(img => img.type === 'home-bg')?.file || businessData.images[0].file)})`
+                               }}
+                             />
+                           ) : (
+                             <div className="absolute inset-0 opacity-20" style={{
+                               background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
+                             }} />
+                           )}
+                           {/* Dark overlay for text readability */}
+                           <div className="absolute inset-0 bg-black/40" />
+                           <div className={`relative text-center text-white ${viewMode === 'mobile' ? 'px-4 py-8' : 'px-4 sm:px-6 py-8 sm:py-12'}`}>
+                             
+                             
+                             <h1 className={`font-bold mb-3 sm:mb-4 ${viewMode === 'mobile' ? 'text-xl' : 'text-2xl sm:text-3xl lg:text-4xl'}`}>{displayedContent.headline}</h1>
+                             <p className={`text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto px-2 ${viewMode === 'mobile' ? 'text-sm' : 'text-base sm:text-lg'}`}>{displayedContent.description}</p>
+                             
+                             {/* Pricing */}
+                             <div className="mb-6 sm:mb-8">
+                               <div className={`font-bold mb-2 ${viewMode === 'mobile' ? 'text-2xl' : 'text-3xl sm:text-4xl'}`}>{getCurrencySymbol(businessData.currency)}{businessData.price}</div>
+                               {businessData.availability && <div className="text-sm text-orange-400 font-medium">
+                                   🔥 {businessData.availability}
+                                 </div>}
+                             </div>
 
-                    {/* Hero Section */}
-                    <section id="home" className="relative overflow-hidden">
-                      {/* Background Image or Gradient */}
-                      {businessData.images.length > 0 ? (
-                        <div 
-                          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                          style={{
-                            backgroundImage: `url(${URL.createObjectURL(businessData.images.find(img => img.type === 'home-bg')?.file || businessData.images[0].file)})`
-                          }}
-                        />
-                      ) : (
-                        <div className="absolute inset-0 opacity-20" style={{
-                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
-                        }} />
-                      )}
-                      {/* Dark overlay for text readability */}
-                      <div className="absolute inset-0 bg-black/40" />
-                      <div className="relative px-6 py-12 text-center text-white">{/* Make text white over image */}
-                        
-                        
-                        <h1 className="text-4xl font-bold mb-4">
-                          {displayedContent.headline}
-                        </h1>
-                        <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                          {displayedContent.description}
-                        </p>
-                        
-                        {/* Pricing */}
-                        <div className="mb-8">
-                          <div className="text-4xl font-bold mb-2">
-                            {getCurrencySymbol(businessData.currency)}{businessData.price}
-                          </div>
-                          {businessData.availability && <div className="text-sm text-orange-600 font-medium">
-                              🔥 {businessData.availability}
-                            </div>}
-                        </div>
+                             {/* CTA Button */}
+                             <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                               <DialogTrigger asChild>
+                                 <button 
+                                   className={`mb-6 sm:mb-8 font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto ${viewMode === 'mobile' ? 'px-4 py-3 text-sm' : 'px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg'}`}
+                                   style={{
+                                     background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                                     color: 'white',
+                                     border: 'none',
+                                     cursor: 'pointer',
+                                     boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                                   }}
+                                 >
+                                   {displayedContent.callToAction}
+                                 </button>
+                               </DialogTrigger>
+                               <DialogContent className="max-w-md mx-4">
+                                 <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                               </DialogContent>
+                             </Dialog>
 
-                        {/* CTA Button */}
-                        <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-                          <DialogTrigger asChild>
-                             <button 
-                              className="mb-8 px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
-                              style={{
-                                background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                                color: 'white',
-                                border: 'none',
-                                cursor: 'pointer',
-                                boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                              }}
-                            >
-                              {displayedContent.callToAction}
-                            </button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-md">
-                            <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                          </DialogContent>
-                        </Dialog>
+                             {/* Trust Signals */}
+                             <div className="flex flex-wrap justify-center gap-2 sm:gap-4 px-2">
+                               {displayedContent.trustSignals.map((signal, index) => <Badge key={index} variant="secondary" className="text-xs">
+                                   {signal}
+                                 </Badge>)}
+                             </div>
+                           </div>
+                         </section>
 
-                        {/* Trust Signals */}
-                        <div className="flex flex-wrap justify-center gap-4">
-                          {displayedContent.trustSignals.map((signal, index) => <Badge key={index} variant="secondary" className="text-xs">
-                              {signal}
-                            </Badge>)}
-                        </div>
-                      </div>
-                    </section>
+                         {/* Features Section */}
+                         <section id="features" className={`bg-white/50 ${viewMode === 'mobile' ? 'px-4 py-6' : 'px-4 sm:px-6 py-8 sm:py-12'}`}>
+                           <h2 className={`font-bold text-center mb-6 sm:mb-8 ${viewMode === 'mobile' ? 'text-lg' : 'text-xl sm:text-2xl'}`}>What's Included</h2>
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-4xl mx-auto">
+                             {displayedContent.features.map((feature, index) => <div key={index} className="flex items-start space-x-3">
+                                 <div className={`rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${viewMode === 'mobile' ? 'w-4 h-4' : 'w-5 h-5 sm:w-6 sm:h-6'}`} style={{ backgroundColor: displayedContent.colors.primary }}>
+                                   <Check className={`text-white ${viewMode === 'mobile' ? 'h-2 w-2' : 'h-3 w-3 sm:h-4 sm:w-4'}`} />
+                                 </div>
+                                 <span className={`leading-relaxed ${viewMode === 'mobile' ? 'text-xs' : 'text-sm sm:text-base'}`}>{feature}</span>
+                               </div>)}
+                           </div>
+                         </section>
 
-                    {/* Features Section */}
-                    <section id="features" className="px-6 py-12 bg-white/50">
-                      <h2 className="text-2xl font-bold text-center mb-8">What's Included</h2>
-                      <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-                        {displayedContent.features.map((feature, index) => <div key={index} className="flex items-center space-x-3">
-                            <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{
-                          backgroundColor: displayedContent.colors.primary
-                        }}>
-                              <Check className="h-4 w-4 text-white" />
-                            </div>
-                            <span className="text-sm">{feature}</span>
-                          </div>)}
-                      </div>
-                    </section>
+                         {/* Social Proof */}
+                         <section className={viewMode === 'mobile' ? 'px-4 py-6' : 'px-4 sm:px-6 py-8 sm:py-12'}>
+                           <div className="text-center mb-6 sm:mb-8">
+                             <div className="flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-1 mb-2">
+                               <div className="flex items-center">
+                                 {[...Array(5)].map((_, i) => <Star key={i} className={`fill-yellow-400 text-yellow-400 ${viewMode === 'mobile' ? 'h-3 w-3' : 'h-4 w-4 sm:h-5 sm:w-5'}`} />)}
+                               </div>
+                               <span className="text-sm text-muted-foreground">4.9/5 from 200+ customers</span>
+                             </div>
+                             <p className={`text-muted-foreground italic ${viewMode === 'mobile' ? 'text-xs' : 'text-sm sm:text-base'}`}>
+                               "Absolutely exceeded my expectations. Professional, reliable, and outstanding results!"
+                             </p>
+                             <p className="text-sm text-muted-foreground mt-2">— Sarah M., Verified Customer</p>
+                           </div>
+                         </section>
 
-                    {/* Social Proof */}
-                    <section className="px-6 py-12">
-                      <div className="text-center mb-8">
-                        <div className="flex justify-center items-center space-x-1 mb-2">
-                          {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />)}
-                          <span className="ml-2 text-sm text-muted-foreground">4.9/5 from 200+ customers</span>
-                        </div>
-                        <p className="text-muted-foreground italic">
-                          "Absolutely exceeded my expectations. Professional, reliable, and outstanding results!"
-                        </p>
-                        <p className="text-sm text-muted-foreground mt-2">— Sarah M., Verified Customer</p>
-                      </div>
-                    </section>
+                         {/* FAQ Section */}
+                         <section id="faq" className={`bg-white/30 ${viewMode === 'mobile' ? 'px-4 py-6' : 'px-4 sm:px-6 py-8 sm:py-12'}`}>
+                           <h2 className={`font-bold text-center mb-6 sm:mb-8 ${viewMode === 'mobile' ? 'text-lg' : 'text-xl sm:text-2xl'}`}>Frequently Asked Questions</h2>
+                           <div className="max-w-2xl mx-auto space-y-3 sm:space-y-4">
+                             {displayedContent.faq.map((item, index) => <div key={index} className="border border-gray-200 rounded-lg bg-white">
+                                 <button onClick={() => toggleFAQ(index)} className={`w-full text-left flex items-center justify-between hover:bg-gray-50 ${viewMode === 'mobile' ? 'px-3 py-2' : 'px-3 sm:px-4 py-3'}`}>
+                                   <span className={`font-medium pr-2 ${viewMode === 'mobile' ? 'text-xs' : 'text-sm sm:text-base'}`}>{item.question}</span>
+                                   {expandedFAQ === index ? <ChevronUp className="h-4 w-4 flex-shrink-0" /> : <ChevronDown className="h-4 w-4 flex-shrink-0" />}
+                                 </button>
+                                 {expandedFAQ === index && <div className={`text-muted-foreground ${viewMode === 'mobile' ? 'px-3 pb-2 text-xs' : 'px-3 sm:px-4 pb-3 text-sm'}`}>
+                                     {item.answer}
+                                   </div>}
+                               </div>)}
+                           </div>
+                         </section>
 
-                    {/* FAQ Section */}
-                    <section id="faq" className="px-6 py-12 bg-white/30">
-                      <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
-                      <div className="max-w-2xl mx-auto space-y-4">
-                        {displayedContent.faq.map((item, index) => <div key={index} className="border border-gray-200 rounded-lg bg-white">
-                            <button onClick={() => toggleFAQ(index)} className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50">
-                              <span className="font-medium">{item.question}</span>
-                              {expandedFAQ === index ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                            </button>
-                            {expandedFAQ === index && <div className="px-4 pb-3 text-sm text-muted-foreground">
-                                {item.answer}
-                              </div>}
-                          </div>)}
-                      </div>
-                    </section>
+                         {/* Final CTA */}
+                         <section id="cta" className={`text-center ${viewMode === 'mobile' ? 'px-4 py-6' : 'px-4 sm:px-6 py-8 sm:py-12'}`}>
+                           <h3 className={`font-bold mb-4 ${viewMode === 'mobile' ? 'text-base' : 'text-lg sm:text-xl'}`}>Ready to Get Started?</h3>
+                           <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                             <DialogTrigger asChild>
+                               <button 
+                                 className={`font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto ${viewMode === 'mobile' ? 'px-4 py-3 text-sm' : 'px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg'}`}
+                                 style={{
+                                   background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                                   color: 'white',
+                                   border: 'none',
+                                   cursor: 'pointer',
+                                   boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                                 }}
+                               >
+                                 {displayedContent.callToAction}
+                               </button>
+                             </DialogTrigger>
+                             <DialogContent className="max-w-md mx-4">
+                               <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                             </DialogContent>
+                           </Dialog>
+                           <div className={`flex flex-col sm:flex-row items-center justify-center mt-6 text-muted-foreground ${viewMode === 'mobile' ? 'space-y-1 text-xs' : 'space-y-2 sm:space-y-0 sm:space-x-6 text-sm'}`}>
+                             <div className="flex items-center">
+                               <Shield className="h-4 w-4 mr-1" />
+                               Secure Payment
+                             </div>
+                             <div className="flex items-center">
+                               <Clock className="h-4 w-4 mr-1" />
+                               Instant Confirmation
+                             </div>
+                             <div className="flex items-center">
+                               <Users className="h-4 w-4 mr-1" />
+                               24/7 Support
+                             </div>
+                           </div>
+                         </section>
 
-                    {/* Final CTA */}
-                    <section id="cta" className="px-6 py-12 text-center">
-                      <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
-                      <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-                        <DialogTrigger asChild>
-                           <button 
-                            className="px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
-                            style={{
-                              background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                              color: 'white',
-                              border: 'none',
-                              cursor: 'pointer',
-                              boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                            }}
-                          >
-                            {displayedContent.callToAction}
-                          </button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-md">
-                          <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                        </DialogContent>
-                      </Dialog>
-                      <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-muted-foreground">
-                        <div className="flex items-center">
-                          <Shield className="h-4 w-4 mr-1" />
-                          Secure Payment
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1" />
-                          Instant Confirmation
-                        </div>
-                        <div className="flex items-center">
-                          <Users className="h-4 w-4 mr-1" />
-                          24/7 Support
-                        </div>
-                      </div>
-                    </section>
-
-                    {/* Footer with Social Media */}
-                    <footer className="bg-gray-900 text-white px-6 py-8">
-                      <div className="max-w-6xl mx-auto">
-                        <div className="flex flex-col md:flex-row justify-between items-center">
-                          <div className="mb-4 md:mb-0">
-                             <h3 className="font-bold text-lg mb-2" style={{
-                             color: displayedContent.colors.primary
-                           }}>
-                               {businessData.companyName}
-                             </h3>
-                              <p className="text-gray-500 text-xs mb-1">
-                                Powered by <span className="font-medium" style={{ color: displayedContent.colors.primary }}>Vivid Money</span>
-                              </p>
-                              <p className="text-gray-400 text-sm">
-                                © 2025 {businessData.companyName}. All rights reserved.
-                              </p>
-                          </div>
-                          
-                          <div className="flex items-center space-x-4">
-                            <span className="text-sm text-gray-400 mr-2">Follow us:</span>
-                            {Object.entries(socialLinks).map(([platform, url]) => {
-                            const IconComponent = getSocialIcon(platform);
-                            return url ? <a key={platform} href={url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                                  <IconComponent className="h-5 w-5" />
-                                </a> : null;
-                          })}
-                             <Button 
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => setShowSocialEditor(true)} 
-                              className="ml-4 text-xs"
-                              style={{
-                                borderColor: displayedContent.colors.primary,
-                                color: displayedContent.colors.primary
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = displayedContent.colors.primary;
-                                e.currentTarget.style.color = 'white';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = 'transparent';
-                                e.currentTarget.style.color = displayedContent.colors.primary;
-                              }}
-                            >
-                              <Edit className="h-3 w-3 mr-1" />
-                              Edit Social Links
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                     </footer>
+                         {/* Footer with Social Media */}
+                         <footer className="bg-gray-900 text-white px-6 py-8">
+                           <div className="max-w-6xl mx-auto">
+                             <div className="flex flex-col md:flex-row justify-between items-center">
+                               <div className="mb-4 md:mb-0">
+                                 <h3 className="font-bold text-lg mb-2" style={{
+                                 color: displayedContent.colors.primary
+                               }}>
+                                   {businessData.companyName}
+                                 </h3>
+                                 <p className="text-gray-500 text-xs mb-1">
+                                   Powered by <span className="font-medium" style={{ color: displayedContent.colors.primary }}>Vivid Money</span>
+                                 </p>
+                                 <p className="text-gray-400 text-sm">
+                                   © 2025 {businessData.companyName}. All rights reserved.
+                                 </p>
+                               </div>
+                               
+                               <div className="flex items-center space-x-4">
+                                 <span className="text-sm text-gray-400 mr-2">Follow us:</span>
+                                 {Object.entries(socialLinks).map(([platform, url]) => {
+                                   const IconComponent = getSocialIcon(platform);
+                                   return url ? <a key={platform} href={url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                                     <IconComponent className="h-5 w-5" />
+                                   </a> : null;
+                                 })}
+                                 <Button 
+                                   variant="outline" 
+                                   size="sm" 
+                                   onClick={() => setShowSocialEditor(true)} 
+                                   className="ml-4 text-xs"
+                                   style={{
+                                     borderColor: displayedContent.colors.primary,
+                                     color: displayedContent.colors.primary
+                                   }}
+                                   onMouseEnter={(e) => {
+                                     e.currentTarget.style.backgroundColor = displayedContent.colors.primary;
+                                     e.currentTarget.style.color = 'white';
+                                   }}
+                                   onMouseLeave={(e) => {
+                                     e.currentTarget.style.backgroundColor = 'transparent';
+                                     e.currentTarget.style.color = displayedContent.colors.primary;
+                                   }}
+                                 >
+                                   <Edit className="h-3 w-3 mr-1" />
+                                   Edit Social Links
+                                 </Button>
+                               </div>
+                             </div>
+                           </div>
+                         </footer>
                        </div>
                      </div>
                    </div>}
@@ -860,141 +868,75 @@ export const PagePreview = ({
           </Card>
         </div>
 
-        {/* Analytics & Settings Panel */}
+        {/* Settings Panel */}
         <div className="space-y-6">
-          {/* Performance Insights */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Performance Insights</CardTitle>
+              <CardTitle className="flex items-center">
+                <Palette className="mr-2 h-5 w-5" />
+                Customize Design
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">94%</div>
-                  <div className="text-xs text-muted-foreground">Conversion Score</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">A+</div>
-                  <div className="text-xs text-muted-foreground">SEO Rating</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">1.2s</div>
-                  <div className="text-xs text-muted-foreground">Load Time</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-600">98%</div>
-                  <div className="text-xs text-muted-foreground">Mobile Score</div>
-                </div>
-              </div>
+              <Button onClick={() => setShowColorCustomizer(true)} variant="outline" className="w-full">
+                <Palette className="mr-2 h-4 w-4" />
+                Change Colors
+              </Button>
               <Separator />
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Trust Signals</span>
-                  <Badge variant="success">Excellent</Badge>
+              <div className="text-sm text-muted-foreground">
+                <p className="mb-2">Current theme:</p>
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 rounded" style={{ backgroundColor: displayedContent.colors.primary }}></div>
+                  <span>Primary</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span>Call-to-Action</span>
-                  <Badge variant="success">Optimized</Badge>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Content Quality</span>
-                  <Badge variant="success">High</Badge>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Visual Appeal</span>
-                  <Badge variant="success">Strong</Badge>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Color Customization */}
-          <ColorCustomizer colors={currentColors} onColorsChange={handleColorsChange} />
-
-          {/* Page Configuration */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Configuration</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Template:</span>
-                  <span className="font-medium capitalize">{generatedPage.template}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Primary Color:</span>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 rounded border" style={{
-                    backgroundColor: currentColors.primary
-                  }} />
-                    <span className="font-mono text-xs">{currentColors.primary}</span>
-                  </div>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Secondary Color:</span>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 rounded border" style={{
-                    backgroundColor: currentColors.secondary
-                  }} />
-                    <span className="font-mono text-xs">{currentColors.secondary}</span>
-                  </div>
-                </div>
-              </div>
-              <Separator />
-              <div className="space-y-2 text-sm">
-                <div><strong>Features:</strong> {currentContent.features.length} items</div>
-                <div><strong>FAQ Items:</strong> {currentContent.faq.length}</div>
-                <div><strong>Trust Signals:</strong> {currentContent.trustSignals.length}</div>
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
 
-      {/* Inline Editor Modal */}
-      {showInlineEditor && <InlineEditor content={currentContent} onContentChange={handleContentChange} onExit={() => setShowInlineEditor(false)} />}
+      {/* Dialogs */}
+      <Dialog open={showInlineEditor} onOpenChange={setShowInlineEditor}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <InlineEditor
+            content={currentContent}
+            onChange={handleContentChange}
+            onClose={() => setShowInlineEditor(false)}
+          />
+        </DialogContent>
+      </Dialog>
 
-      {/* Social Media Editor Modal */}
+      <Dialog open={showColorCustomizer} onOpenChange={setShowColorCustomizer}>
+        <DialogContent className="max-w-md">
+          <ColorCustomizer
+            colors={currentColors}
+            onSave={handleColorsChange}
+            onClose={() => setShowColorCustomizer(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={showSocialEditor} onOpenChange={setShowSocialEditor}>
         <DialogContent className="max-w-md">
           <div className="space-y-4">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Edit Social Media Links</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Add your social media URLs to display icons in the footer
-              </p>
-            </div>
-            
-            <div className="space-y-4">
-              {Object.entries(socialLinks).map(([platform, url]) => {
-              const IconComponent = getSocialIcon(platform);
-              return <div key={platform} className="space-y-2">
-                    <Label className="flex items-center capitalize">
-                      <IconComponent className="h-4 w-4 mr-2" />
-                      {platform}
-                    </Label>
-                    <Input placeholder={`Enter your ${platform} URL`} value={url} onChange={e => setSocialLinks({
-                  ...socialLinks,
-                  [platform]: e.target.value
-                })} />
-                  </div>;
-            })}
-            </div>
-
-            <div className="flex justify-end space-x-2 pt-4">
-              <Button variant="outline" onClick={() => setShowSocialEditor(false)}>
-                Cancel
-              </Button>
-              <Button onClick={() => handleSocialLinksUpdate(socialLinks)}>
-                Save Changes
-              </Button>
+            <h3 className="text-lg font-semibold">Edit Social Media Links</h3>
+            {Object.entries(socialLinks).map(([platform, url]) => (
+              <div key={platform} className="space-y-2">
+                <Label htmlFor={platform} className="capitalize">{platform}</Label>
+                <Input
+                  id={platform}
+                  value={url}
+                  onChange={(e) => setSocialLinks(prev => ({ ...prev, [platform]: e.target.value }))}
+                  placeholder={`Enter your ${platform} URL`}
+                />
+              </div>
+            ))}
+            <div className="flex justify-end space-x-2">
+              <Button variant="outline" onClick={() => setShowSocialEditor(false)}>Cancel</Button>
+              <Button onClick={() => handleSocialLinksUpdate(socialLinks)}>Save Changes</Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
-      
-      {/* Powered by footer */}
-      
     </div>;
 };
