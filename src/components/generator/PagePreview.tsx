@@ -680,22 +680,19 @@ export const PagePreview = ({
                 </Button>
               </div>
 
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  if (viewMode === 'mobile') {
-                    setIsMobileFullscreen(!isMobileFullscreen);
-                    setIsFullscreen(false);
-                  } else {
+              {viewMode === 'desktop' && (
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
                     setIsFullscreen(!isFullscreen);
                     setIsMobileFullscreen(false);
-                  }
-                }} 
-                className="text-purple/60 border-purple/50 hover:bg-purple/60 hover:text-white"
-              >
-                {(isFullscreen || isMobileFullscreen) ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
-                {(isFullscreen || isMobileFullscreen) ? 'Exit Fullscreen' : 'Fullscreen'}
-              </Button>
+                  }} 
+                  className="text-purple/60 border-purple/50 hover:bg-purple/60 hover:text-white"
+                >
+                  {isFullscreen ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
+                  {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+                </Button>
+              )}
               <Button 
                 variant="outline" 
                 onClick={() => setShowInlineEditor(true)} 
