@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -286,6 +286,10 @@ export const PagePreview = ({
                     </button>
                   </DialogTrigger>
                   <DialogContent className="max-w-md mx-4">
+                    <DialogTitle>Complete Your Purchase</DialogTitle>
+                    <DialogDescription>
+                      Enter your payment details to publish your landing page.
+                    </DialogDescription>
                     <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                   </DialogContent>
                 </Dialog>
@@ -524,6 +528,10 @@ export const PagePreview = ({
                   </button>
                 </DialogTrigger>
                 <DialogContent className="max-w-md mx-4">
+                  <DialogTitle>Complete Your Purchase</DialogTitle>
+                  <DialogDescription>
+                    Enter your payment details to publish your landing page.
+                  </DialogDescription>
                   <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                 </DialogContent>
               </Dialog>
@@ -723,6 +731,10 @@ export const PagePreview = ({
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-md">
+                  <DialogTitle>Complete Your Purchase</DialogTitle>
+                  <DialogDescription>
+                    Enter your payment details to publish your landing page.
+                  </DialogDescription>
                   <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                 </DialogContent>
               </Dialog>
@@ -895,9 +907,13 @@ export const PagePreview = ({
                                      {displayedContent.callToAction}
                                    </button>
                                  </DialogTrigger>
-                                 <DialogContent className="max-w-md mx-4">
-                                   <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                                 </DialogContent>
+                                  <DialogContent className="max-w-md mx-4">
+                                    <DialogTitle>Complete Your Purchase</DialogTitle>
+                                    <DialogDescription>
+                                      Enter your payment details to publish your landing page.
+                                    </DialogDescription>
+                                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                                  </DialogContent>
                                </Dialog>
 
                                {/* Trust Signals */}
@@ -1208,6 +1224,10 @@ export const PagePreview = ({
       {/* Dialogs */}
       <Dialog open={showInlineEditor} onOpenChange={setShowInlineEditor}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogTitle>Edit Page Content</DialogTitle>
+          <DialogDescription>
+            Modify the content of your landing page including headlines, descriptions, features, and FAQ.
+          </DialogDescription>
           <InlineEditor
             content={currentContent}
             onContentChange={handleContentChange}
@@ -1218,8 +1238,11 @@ export const PagePreview = ({
 
       <Dialog open={showSocialEditor} onOpenChange={setShowSocialEditor}>
         <DialogContent className="max-w-md">
+          <DialogTitle>Edit Social Media Links</DialogTitle>
+          <DialogDescription>
+            Add or update your social media links that will appear in the footer.
+          </DialogDescription>
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Edit Social Media Links</h3>
             {Object.entries(socialLinks).map(([platform, url]) => (
               <div key={platform} className="space-y-2">
                 <Label htmlFor={platform} className="capitalize">{platform}</Label>
