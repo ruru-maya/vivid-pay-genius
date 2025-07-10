@@ -225,6 +225,14 @@ export const PagePreview = ({
                                   {businessData.companyName}
                                 </div>
                               </div>
+                              
+                              {/* Center the exit fullscreen button */}
+                              <Button variant="outline" size="sm" onClick={() => setIsFullscreen(false)}>
+                                <Minimize className="h-4 w-4 mr-1" />
+                                Exit Fullscreen
+                              </Button>
+                              
+                              {/* Move navigation to the right */}
                               <nav className="hidden md:flex items-center space-x-8">
                                 <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                   Home
@@ -239,10 +247,6 @@ export const PagePreview = ({
                                   Get Started
                                 </button>
                               </nav>
-                              <Button variant="outline" size="sm" onClick={() => setIsFullscreen(false)}>
-                                <Minimize className="h-4 w-4 mr-1" />
-                                Exit Fullscreen
-                              </Button>
                             </div>
                           </div>
                         </header>
@@ -401,17 +405,17 @@ export const PagePreview = ({
                           <div className="max-w-6xl mx-auto">
                             <div className="flex flex-col md:flex-row justify-between items-center">
                               <div className="mb-4 md:mb-0">
-                                <h3 className="font-bold text-lg mb-2" style={{
-                            color: displayedContent.colors.primary
-                          }}>
-                                  {businessData.companyName}
-                                </h3>
-                                <p className="text-gray-400 text-sm">
-                                  © 2024 {businessData.companyName}. All rights reserved.
-                                </p>
-                                <p className="text-gray-500 text-xs mt-1">
-                                  Powered by <span className="text-primary font-medium">Vivid Money</span>
-                                </p>
+                                 <h3 className="font-bold text-lg mb-2" style={{
+                                 color: displayedContent.colors.primary
+                               }}>
+                                   {businessData.companyName}
+                                 </h3>
+                                  <p className="text-gray-500 text-xs mb-1">
+                                    Powered by <span className="font-medium" style={{ color: displayedContent.colors.primary }}>Vivid Money</span>
+                                  </p>
+                                  <p className="text-gray-400 text-sm">
+                                    © 2025 {businessData.companyName}. All rights reserved.
+                                  </p>
                               </div>
                               
                               <div className="flex items-center space-x-4">
