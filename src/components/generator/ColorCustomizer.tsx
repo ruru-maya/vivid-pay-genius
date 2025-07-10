@@ -112,7 +112,11 @@ export const ColorCustomizer = ({ colors, onColorsChange }: ColorCustomizerProps
                 variant="outline"
                 size="sm"
                 onClick={() => applyPreset(preset)}
-                className="flex items-center gap-2 justify-start border-blue-500 text-blue-500 hover:bg-blue-50"
+                className="flex items-center gap-2 justify-start border-2 transition-all hover:opacity-75"
+                style={{
+                  borderColor: preset.primary,
+                  color: preset.primary
+                }}
               >
                 <div className="flex gap-1">
                   <div
