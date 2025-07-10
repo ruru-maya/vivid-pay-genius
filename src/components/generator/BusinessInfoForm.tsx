@@ -258,23 +258,30 @@ export const BusinessInfoForm = ({
                 <div>
                   <Label>Color Theme</Label>
                   <div className="grid grid-cols-3 gap-3 mt-2">
-                    {colorPresets.map((preset, index) => <button key={index} type="button" onClick={() => setFormData(prev => ({
-                    ...prev,
-                    colors: {
-                      primary: preset.primary,
-                      secondary: preset.secondary
-                    }
-                  }))} className={`p-3 rounded-lg border-2 transition-all ${formData.colors.primary === preset.primary ? 'border-primary ring-2 ring-primary/20' : 'border-muted hover:border-primary/50'}`}>
-                        <div className="flex justify-center space-x-1 mb-2">
-                          <div className="w-4 h-4 rounded" style={{
-                        backgroundColor: preset.primary
-                      }} />
-                          <div className="w-4 h-4 rounded" style={{
-                        backgroundColor: preset.secondary
-                      }} />
-                        </div>
-                        <p className="text-xs font-medium">{preset.name}</p>
-                      </button>)}
+                     {colorPresets.map((preset, index) => <button key={index} type="button" onClick={() => setFormData(prev => ({
+                     ...prev,
+                     colors: {
+                       primary: preset.primary,
+                       secondary: preset.secondary
+                     }
+                   }))} className={`p-3 rounded-lg border-2 transition-all ${formData.colors.primary === preset.primary ? 'ring-2 ring-opacity-30' : 'hover:opacity-75'}`} style={{
+                     borderColor: preset.primary,
+                     color: preset.primary,
+                     ...(formData.colors.primary === preset.primary && {
+                       backgroundColor: `${preset.primary}10`,
+                       ringColor: preset.primary
+                     })
+                   }}>
+                         <div className="flex justify-center space-x-1 mb-2">
+                           <div className="w-4 h-4 rounded" style={{
+                         backgroundColor: preset.primary
+                       }} />
+                           <div className="w-4 h-4 rounded" style={{
+                         backgroundColor: preset.secondary
+                       }} />
+                         </div>
+                         <p className="text-xs font-medium">{preset.name}</p>
+                       </button>)}
                   </div>
                 </div>
 
