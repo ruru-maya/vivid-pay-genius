@@ -226,27 +226,37 @@ export const PagePreview = ({
                                 </div>
                               </div>
                               
-                              {/* Center the exit fullscreen button */}
-                              <Button variant="outline" size="sm" onClick={() => setIsFullscreen(false)}>
-                                <Minimize className="h-4 w-4 mr-1" />
-                                Exit Fullscreen
-                              </Button>
-                              
                               {/* Move navigation to the right */}
-                              <nav className="hidden md:flex items-center space-x-8">
-                                <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                  Home
-                                </button>
-                                <button onClick={() => scrollToSection('features')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                  What's Included
-                                </button>
-                                <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                  FAQ
-                                </button>
-                                <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                  Get Started
-                                </button>
-                              </nav>
+                              <div className="flex items-center space-x-4">
+                                <nav className="hidden md:flex items-center space-x-8">
+                                  <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                    Home
+                                  </button>
+                                  <button onClick={() => scrollToSection('features')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                    What's Included
+                                  </button>
+                                  <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                    FAQ
+                                  </button>
+                                  <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                    Get Started
+                                  </button>
+                                </nav>
+                                
+                                {/* Exit fullscreen button - icon only with color theme */}
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => setIsFullscreen(false)}
+                                  style={{
+                                    borderColor: displayedContent.colors.primary,
+                                    color: displayedContent.colors.primary
+                                  }}
+                                  className="hover:bg-opacity-10"
+                                >
+                                  <Minimize className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </header>
@@ -426,7 +436,24 @@ export const PagePreview = ({
                                       <IconComponent className="h-5 w-5" />
                                     </a> : null;
                           })}
-                                <Button variant="outline" size="sm" onClick={() => setShowSocialEditor(true)} className="ml-4 text-xs">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => setShowSocialEditor(true)} 
+                                  className="ml-4 text-xs"
+                                  style={{
+                                    borderColor: displayedContent.colors.primary,
+                                    color: displayedContent.colors.primary
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = displayedContent.colors.primary;
+                                    e.currentTarget.style.color = 'white';
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = 'transparent';
+                                    e.currentTarget.style.color = displayedContent.colors.primary;
+                                  }}
+                                >
                                   <Edit className="h-3 w-3 mr-1" />
                                   Edit Social Links
                                 </Button>
@@ -663,7 +690,24 @@ export const PagePreview = ({
                                   <IconComponent className="h-5 w-5" />
                                 </a> : null;
                           })}
-                             <Button variant="outline" size="sm" onClick={() => setShowSocialEditor(true)} className="ml-4 text-xs" style={{ borderColor: displayedContent.colors.primary, color: displayedContent.colors.primary }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = displayedContent.colors.primary; e.currentTarget.style.color = 'white'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = displayedContent.colors.primary; }}>
+                             <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => setShowSocialEditor(true)} 
+                              className="ml-4 text-xs"
+                              style={{
+                                borderColor: displayedContent.colors.primary,
+                                color: displayedContent.colors.primary
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = displayedContent.colors.primary;
+                                e.currentTarget.style.color = 'white';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = 'transparent';
+                                e.currentTarget.style.color = displayedContent.colors.primary;
+                              }}
+                            >
                               <Edit className="h-3 w-3 mr-1" />
                               Edit Social Links
                             </Button>
