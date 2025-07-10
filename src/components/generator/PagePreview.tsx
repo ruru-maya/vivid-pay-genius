@@ -500,16 +500,17 @@ export const PagePreview = ({
                         {/* CTA Button */}
                         <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                           <DialogTrigger asChild>
-                             <Button 
-                              size="xl" 
-                              className="mb-8 border-none text-white hover:opacity-90 transition-opacity" 
+                             <button 
+                              className="mb-8 px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity"
                               style={{
                                 backgroundColor: displayedContent.colors.primary,
-                                color: 'white'
+                                color: 'white',
+                                border: 'none',
+                                cursor: 'pointer'
                               }}
                             >
                               {displayedContent.callToAction}
-                            </Button>
+                            </button>
                           </DialogTrigger>
                           <DialogContent className="max-w-md">
                             <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
