@@ -250,9 +250,6 @@ export const PagePreview = ({
                                   <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                     FAQ
                                   </button>
-                                  <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                    Get Started
-                                  </button>
                                 </nav>
                                 
                                 {/* Mobile Menu Button */}
@@ -327,16 +324,6 @@ export const PagePreview = ({
                                     style={{ color: displayedContent.colors.primary }}
                                   >
                                     FAQ
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      scrollToSection('cta');
-                                      setShowMobileMenu(false);
-                                    }}
-                                    className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
-                                    style={{ color: displayedContent.colors.primary }}
-                                  >
-                                    Get Started
                                   </button>
                                 </nav>
                               </div>
@@ -457,43 +444,6 @@ export const PagePreview = ({
                           </div>
                         </section>
 
-                        {/* Final CTA */}
-                        <section id="cta" className="px-4 sm:px-6 py-8 sm:py-12 text-center">
-                          <h3 className="text-lg sm:text-xl font-bold mb-4">Ready to Get Started?</h3>
-                          <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-                            <DialogTrigger asChild>
-                              <button 
-                                className="px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full sm:w-auto max-w-sm mx-auto"
-                                style={{
-                                  background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                                  color: 'white',
-                                  border: 'none',
-                                  cursor: 'pointer',
-                                  boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                                }}
-                              >
-                                {displayedContent.callToAction}
-                              </button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-md mx-4">
-                              <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                            </DialogContent>
-                          </Dialog>
-                          <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 mt-6 text-sm text-muted-foreground">
-                            <div className="flex items-center">
-                              <Shield className="h-4 w-4 mr-1" />
-                              Secure Payment
-                            </div>
-                            <div className="flex items-center">
-                              <Clock className="h-4 w-4 mr-1" />
-                              Instant Confirmation
-                            </div>
-                            <div className="flex items-center">
-                              <Users className="h-4 w-4 mr-1" />
-                              24/7 Support
-                            </div>
-                          </div>
-                        </section>
 
                         {/* Footer with Social Media */}
                         <footer className="bg-gray-900 text-white px-6 py-8">
@@ -608,9 +558,6 @@ export const PagePreview = ({
                                  <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                    FAQ
                                  </button>
-                                 <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                                   Get Started
-                                 </button>
                                </nav>
                              )}
                            </div>
@@ -649,16 +596,6 @@ export const PagePreview = ({
                                  style={{ color: displayedContent.colors.primary }}
                                >
                                  FAQ
-                               </button>
-                               <button
-                                 onClick={() => {
-                                   scrollToSection('cta');
-                                   setShowMobileMenu(false);
-                                 }}
-                                 className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
-                                 style={{ color: displayedContent.colors.primary }}
-                               >
-                                 Get Started
                                </button>
                              </nav>
                            </div>
@@ -772,43 +709,6 @@ export const PagePreview = ({
                            </div>
                          </section>
 
-                         {/* Final CTA */}
-                         <section id="cta" className={`text-center ${viewMode === 'mobile' ? 'px-4 py-6' : 'px-4 sm:px-6 py-8 sm:py-12'}`}>
-                           <h3 className={`font-bold mb-4 ${viewMode === 'mobile' ? 'text-base' : 'text-lg sm:text-xl'}`}>Ready to Get Started?</h3>
-                           <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-                             <DialogTrigger asChild>
-                               <button 
-                                 className={`font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto ${viewMode === 'mobile' ? 'px-4 py-3 text-sm' : 'px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg'}`}
-                                 style={{
-                                   background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                                   color: 'white',
-                                   border: 'none',
-                                   cursor: 'pointer',
-                                   boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                                 }}
-                               >
-                                 {displayedContent.callToAction}
-                               </button>
-                             </DialogTrigger>
-                             <DialogContent className="max-w-md mx-4">
-                               <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                             </DialogContent>
-                           </Dialog>
-                           <div className={`flex flex-col sm:flex-row items-center justify-center mt-6 text-muted-foreground ${viewMode === 'mobile' ? 'space-y-1 text-xs' : 'space-y-2 sm:space-y-0 sm:space-x-6 text-sm'}`}>
-                             <div className="flex items-center">
-                               <Shield className="h-4 w-4 mr-1" />
-                               Secure Payment
-                             </div>
-                             <div className="flex items-center">
-                               <Clock className="h-4 w-4 mr-1" />
-                               Instant Confirmation
-                             </div>
-                             <div className="flex items-center">
-                               <Users className="h-4 w-4 mr-1" />
-                               24/7 Support
-                             </div>
-                           </div>
-                         </section>
 
                          {/* Footer with Social Media */}
                          <footer className="bg-gray-900 text-white px-6 py-8">
