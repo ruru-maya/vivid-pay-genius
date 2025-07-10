@@ -53,11 +53,7 @@ export const PageGenerator = ({
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/auth');
-    }
-  }, [user, navigate]);
+  // Remove authentication redirect
 
   const handleBusinessInfoSubmit = (data: BusinessData) => {
     setBusinessData(data);

@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
-      window.location.href = '/auth';
+      window.location.href = '/dashboard';
     }
   };
 
