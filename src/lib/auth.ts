@@ -36,7 +36,7 @@ export const signIn = async (email: string, password: string) => {
 export const signOut = async () => {
   const { error } = await supabase.auth.signOut();
   if (!error) {
-    window.location.href = '/dashboard';
+    window.location.href = '/';
   }
   return { error };
 };

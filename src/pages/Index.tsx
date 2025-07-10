@@ -17,7 +17,7 @@ const Index = () => {
     );
   }
 
-  return <PageGenerator onBack={() => navigate('/dashboard')} />;
+  return <PageGenerator onBack={() => navigate('/')} />;
 };
 
 export default Index;
