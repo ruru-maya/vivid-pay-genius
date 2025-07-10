@@ -143,11 +143,6 @@ export const PageGenerator = ({
             </div>
             
             <div className="flex items-center space-x-3">
-              {/* Save Button for Preview Step */}
-              {currentStep === 'preview' && <Button onClick={handleSavePage} disabled={saving}>
-                  {saving ? <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div> : <Save className="h-4 w-4 mr-2" />}
-                  Save Page
-                </Button>}
               
               {/* User Info */}
               
