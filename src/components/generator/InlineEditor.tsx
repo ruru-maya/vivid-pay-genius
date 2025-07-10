@@ -136,22 +136,19 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-      <Card className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold">Edit Content</h3>
-            <div className="flex gap-2">
-              <Button onClick={handleSave} variant="premium">
-                <Check className="h-4 w-4 mr-2" />
-                Save Changes
-              </Button>
-              <Button onClick={onExit} variant="outline">
-                <X className="h-4 w-4 mr-2" />
-                Cancel
-              </Button>
-            </div>
-          </div>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div className="flex gap-2">
+          <Button onClick={handleSave} variant="premium">
+            <Check className="h-4 w-4 mr-2" />
+            Save Changes
+          </Button>
+          <Button onClick={onExit} variant="outline">
+            <X className="h-4 w-4 mr-2" />
+            Cancel
+          </Button>
+        </div>
+      </div>
 
           <div className="space-y-6">
             {/* Headline */}
@@ -302,9 +299,7 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
                 ))}
               </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
 };
