@@ -120,18 +120,6 @@ export const Auth = () => {
         
 
         <div className="bg-card rounded-lg shadow-soft p-8">
-          {/* Header and Description */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3">
-              {currentView === 'signin' ? 'Welcome Back' : 'Register'}
-            </h1>
-            <p className="text-muted-foreground text-lg">
-              {currentView === 'signin' 
-                ? 'Sign in to access your dashboard.' 
-                : 'Create stunning AI-powered landing pages in minutes.'}
-            </p>
-          </div>
-
           {/* Social Login Buttons */}
           <div className="space-y-3 mb-6">
             <Button type="button" variant="premium" className="w-full h-12" disabled={isLoading}>
