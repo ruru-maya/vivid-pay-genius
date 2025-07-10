@@ -131,7 +131,7 @@ export const PageGenerator = ({
   return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card shadow-soft">
-        <div className="max-w-7xl mx-auto pl-2 pr-4 sm:pr-6 lg:pr-8">
+        <div className="w-full pl-1 pr-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-1">
               <Sparkles className="h-5 w-5 text-purple" />
