@@ -1102,10 +1102,108 @@ export const PagePreview = ({
 
       <Dialog open={showColorCustomizer} onOpenChange={setShowColorCustomizer}>
         <DialogContent className="max-w-md">
-          <ColorCustomizer
-            colors={currentColors}
-            onColorsChange={handleColorsChange}
-          />
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold flex items-center">
+              <Palette className="mr-2 h-5 w-5" />
+              Color Customization
+            </h3>
+            
+            {/* Custom Color Inputs */}
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="primary-color">Primary Color</Label>
+                <div className="flex items-center gap-2">
+                  <input
+                    id="primary-color"
+                    type="color"
+                    value={currentColors.primary}
+                    onChange={(e) => handleColorsChange({ ...currentColors, primary: e.target.value })}
+                    className="w-12 h-10 rounded border border-input cursor-pointer"
+                  />
+                  <div className="flex-1 text-sm font-mono text-muted-foreground">
+                    {currentColors.primary}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="secondary-color">Secondary Color</Label>
+                <div className="flex items-center gap-2">
+                  <input
+                    id="secondary-color"
+                    type="color"
+                    value={currentColors.secondary}
+                    onChange={(e) => handleColorsChange({ ...currentColors, secondary: e.target.value })}
+                    className="w-12 h-10 rounded border border-input cursor-pointer"
+                  />
+                  <div className="flex-1 text-sm font-mono text-muted-foreground">
+                    {currentColors.secondary}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="accent-color">Accent Color</Label>
+                <div className="flex items-center gap-2">
+                  <input
+                    id="accent-color"
+                    type="color"
+                    value={currentColors.accent}
+                    onChange={(e) => handleColorsChange({ ...currentColors, accent: e.target.value })}
+                    className="w-12 h-10 rounded border border-input cursor-pointer"
+                  />
+                  <div className="flex-1 text-sm font-mono text-muted-foreground">
+                    {currentColors.accent}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Color Presets */}
+            <div className="space-y-3">
+              <Label>Color Presets</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { name: 'Blue', primary: '#3B82F6', secondary: '#1E40AF', accent: '#60A5FA' },
+                  { name: 'Purple', primary: '#8B5CF6', secondary: '#7C3AED', accent: '#A78BFA' },
+                  { name: 'Green', primary: '#10B981', secondary: '#047857', accent: '#34D399' },
+                  { name: 'Orange', primary: '#F59E0B', secondary: '#D97706', accent: '#FBB040' },
+                  { name: 'Pink', primary: '#EC4899', secondary: '#DB2777', accent: '#F472B6' },
+                  { name: 'Red', primary: '#EF4444', secondary: '#DC2626', accent: '#F87171' },
+                ].map((preset) => (
+                  <Button
+                    key={preset.name}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleColorsChange(preset)}
+                    className="flex items-center gap-2 justify-start border-2 transition-all hover:bg-transparent"
+                    style={{
+                      borderColor: preset.primary,
+                      color: preset.primary
+                    }}
+                  >
+                    <div className="flex gap-1">
+                      <div
+                        className="w-3 h-3 rounded-full border"
+                        style={{ backgroundColor: preset.primary }}
+                      />
+                      <div
+                        className="w-3 h-3 rounded-full border"
+                        style={{ backgroundColor: preset.secondary }}
+                      />
+                      <div
+                        className="w-3 h-3 rounded-full border"
+                        style={{ backgroundColor: preset.accent }}
+                      />
+                    </div>
+                    <span className="text-xs">{preset.name}</span>
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
 
