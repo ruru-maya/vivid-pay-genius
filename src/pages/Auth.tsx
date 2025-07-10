@@ -47,21 +47,21 @@ export const Auth = () => {
       } = await signIn(signInData.email, signInData.password);
       if (error) {
         toast({
-          title: "Prijava neuspješna",
+          title: "Sign In Failed",
           description: error.message,
           variant: "destructive"
         });
       } else {
         toast({
-          title: "Dobrodošli!",
-          description: "Uspješno ste se prijavili."
+          title: "Welcome!",
+          description: "You have successfully signed in."
         });
         navigate('/dashboard');
       }
     } catch (error) {
       toast({
-        title: "Greška",
-        description: "Dogodila se neočekivana greška.",
+        title: "Error",
+        description: "An unexpected error occurred.",
         variant: "destructive"
       });
     } finally {
@@ -72,8 +72,8 @@ export const Auth = () => {
     e.preventDefault();
     if (!agreeTerms) {
       toast({
-        title: "Greška",
-        description: "Morate se složiti s odredbama i uvjetima.",
+        title: "Error",
+        description: "You must agree to the terms and conditions.",
         variant: "destructive"
       });
       return;
@@ -86,21 +86,21 @@ export const Auth = () => {
       } = await signUp(signUpData.email, signUpData.password, fullName);
       if (error) {
         toast({
-          title: "Registracija neuspješna",
+          title: "Registration Failed",
           description: error.message,
           variant: "destructive"
         });
       } else {
         toast({
-          title: "Račun kreiran!",
-          description: "Molimo provjerite svoj email da biste verificirali račun."
+          title: "Account Created!",
+          description: "Please check your email to verify your account."
         });
         setCurrentView('signin');
       }
     } catch (error) {
       toast({
-        title: "Greška",
-        description: "Dogodila se neočekivana greška.",
+        title: "Error",
+        description: "An unexpected error occurred.",
         variant: "destructive"
       });
     } finally {
@@ -120,15 +120,27 @@ export const Auth = () => {
         
 
         <div className="bg-card rounded-lg shadow-soft p-8">
+          {/* Header and Description */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-foreground mb-3">
+              {currentView === 'signin' ? 'Welcome Back' : 'Register Your Business'}
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              {currentView === 'signin' 
+                ? 'Sign in to access your GlowCRM dashboard.' 
+                : 'Join GlowCRM and streamline your salon operations.'}
+            </p>
+          </div>
+
           {/* Social Login Buttons */}
           <div className="space-y-3 mb-6">
             <Button type="button" variant="outline" className="w-full bg-blue-600 hover:bg-blue-700 text-white border-blue-600 h-12" disabled={isLoading}>
               <Facebook className="w-5 h-5 mr-2" />
-              {currentView === 'signin' ? 'Prijavite se koristeći Facebook' : 'Registrirajte se koristeći Facebook'}
+              {currentView === 'signin' ? 'Sign in with Facebook' : 'Register with Facebook'}
             </Button>
             <Button type="button" variant="outline" className="w-full bg-red-500 hover:bg-red-600 text-white border-red-500 h-12" disabled={isLoading}>
               <span className="w-5 h-5 mr-2 font-bold">G</span>
-              {currentView === 'signin' ? 'Prijavite se koristeći Google' : 'Registrirajte se koristeći Google'}
+              {currentView === 'signin' ? 'Sign in with Google' : 'Register with Google'}
             </Button>
           </div>
 
@@ -138,21 +150,21 @@ export const Auth = () => {
               <div className="w-full border-t border-border"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-card text-muted-foreground">--- ili koristite email ---</span>
+              <span className="px-4 bg-card text-muted-foreground">--- or use email ---</span>
             </div>
           </div>
 
           {currentView === 'signin' ? (/* Sign In Form */
         <form onSubmit={handleSignIn} className="space-y-4">
               <div>
-                <Input type="email" placeholder="Korisničko ime ( email )" value={signInData.email} onChange={e => setSignInData({
+                <Input type="email" placeholder="Email Address" value={signInData.email} onChange={e => setSignInData({
               ...signInData,
               email: e.target.value
             })} className="w-full h-12 bg-muted border-0 rounded-md" required />
               </div>
               <div>
                 <div className="relative">
-                  <Input type={showPassword ? "text" : "password"} placeholder="Lozinka" value={signInData.password} onChange={e => setSignInData({
+                  <Input type={showPassword ? "text" : "password"} placeholder="Password" value={signInData.password} onChange={e => setSignInData({
                 ...signInData,
                 password: e.target.value
               })} className="w-full h-12 bg-muted border-0 rounded-md pr-10" required />
@@ -165,26 +177,26 @@ export const Auth = () => {
                 <div className="flex items-center space-x-2">
                   <Checkbox id="remember" checked={rememberMe} onCheckedChange={checked => setRememberMe(checked as boolean)} />
                   <Label htmlFor="remember" className="text-muted-foreground cursor-pointer">
-                    Zapamti me
+                    Remember me
                   </Label>
                 </div>
                 <button type="button" className="text-primary hover:underline">
-                  Zaboravljena lozinka?
+                  Forgot password?
                 </button>
               </div>
               <Button type="submit" variant="default" className="w-full h-12 font-medium rounded-md mt-6" disabled={isLoading}>
-                {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'Prijava'}
+                {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'Sign In'}
               </Button>
             </form>) : (/* Sign Up Form */
         <form onSubmit={handleSignUp} className="space-y-4">
               <div>
-                <Input type="text" placeholder="Ime" value={signUpData.firstName} onChange={e => setSignUpData({
+                <Input type="text" placeholder="First Name" value={signUpData.firstName} onChange={e => setSignUpData({
               ...signUpData,
               firstName: e.target.value
             })} className="w-full h-12 bg-muted border-0 rounded-md" required />
               </div>
               <div>
-                <Input type="text" placeholder="Prezime" value={signUpData.lastName} onChange={e => setSignUpData({
+                <Input type="text" placeholder="Last Name" value={signUpData.lastName} onChange={e => setSignUpData({
               ...signUpData,
               lastName: e.target.value
             })} className="w-full h-12 bg-muted border-0 rounded-md" required />
@@ -196,14 +208,14 @@ export const Auth = () => {
             })} className="w-full h-12 bg-muted border-0 rounded-md" required />
               </div>
               <div>
-                <Input type="tel" placeholder="Telefon" value={signUpData.phone} onChange={e => setSignUpData({
+                <Input type="tel" placeholder="Phone" value={signUpData.phone} onChange={e => setSignUpData({
               ...signUpData,
               phone: e.target.value
             })} className="w-full h-12 bg-muted border-0 rounded-md" />
               </div>
               <div>
                 <div className="relative">
-                  <Input type={showPassword ? "text" : "password"} placeholder="Lozinka" value={signUpData.password} onChange={e => setSignUpData({
+                  <Input type={showPassword ? "text" : "password"} placeholder="Password" value={signUpData.password} onChange={e => setSignUpData({
                 ...signUpData,
                 password: e.target.value
               })} className="w-full h-12 bg-muted border-0 rounded-md pr-10" required />
@@ -215,29 +227,36 @@ export const Auth = () => {
               <div className="flex items-center space-x-2 pt-2">
                 <Checkbox id="terms" checked={agreeTerms} onCheckedChange={checked => setAgreeTerms(checked as boolean)} />
                 <Label htmlFor="terms" className="text-sm text-muted-foreground cursor-pointer">
-                  Slažem se s{' '}
+                  I agree to the{' '}
                   <button type="button" className="text-primary hover:underline">
-                    odredbama i uvjetima
+                    terms and conditions
                   </button>
                   .
                 </Label>
               </div>
               <Button type="submit" variant="default" className="w-full h-12 font-medium rounded-md mt-6" disabled={isLoading || !agreeTerms}>
-                {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'registriraj me!'}
+                {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'Register Now'}
               </Button>
+              
+              {/* Description below form for signup */}
+              <div className="text-center mt-4">
+                <p className="text-sm text-muted-foreground">
+                  Start your 30-day free trial and transform your salon management today.
+                </p>
+              </div>
             </form>)}
 
           {/* Toggle between sign in/up */}
           <div className="text-center mt-6 pt-6 border-t border-border">
             {currentView === 'signin' ? <p className="text-muted-foreground">
-                Prvi put ste ovdje i nemate račun?{' '}
+                Don't have an account yet?{' '}
                 <button type="button" onClick={() => setCurrentView('signup')} className="text-primary hover:underline font-medium">
-                  Registriraj me!
+                  Register now!
                 </button>
               </p> : <p className="text-muted-foreground">
-                Već imate račun?{' '}
+                Already have an account?{' '}
                 <button type="button" onClick={() => setCurrentView('signin')} className="text-primary hover:underline font-medium">
-                  Prijavite se!
+                  Sign in!
                 </button>
               </p>}
           </div>
@@ -246,7 +265,7 @@ export const Auth = () => {
           <div className="text-center mt-4">
             <button type="button" onClick={() => navigate('/')} className="text-muted-foreground hover:text-foreground text-sm flex items-center justify-center space-x-1">
               <Home className="w-4 h-4" />
-              <span>Naslovnica</span>
+              <span>Home</span>
             </button>
           </div>
         </div>
