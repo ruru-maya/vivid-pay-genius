@@ -501,12 +501,13 @@ export const PagePreview = ({
                         <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                           <DialogTrigger asChild>
                              <button 
-                              className="mb-8 px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity"
+                              className="mb-8 px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
                               style={{
-                                backgroundColor: displayedContent.colors.primary,
+                                background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
                                 color: 'white',
                                 border: 'none',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
                               }}
                             >
                               {displayedContent.callToAction}
@@ -577,12 +578,13 @@ export const PagePreview = ({
                       <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                         <DialogTrigger asChild>
                            <button 
-                            className="px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity"
+                            className="px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
                             style={{
-                              backgroundColor: displayedContent.colors.primary,
+                              background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
                               color: 'white',
                               border: 'none',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
+                              boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
                             }}
                           >
                             {displayedContent.callToAction}
