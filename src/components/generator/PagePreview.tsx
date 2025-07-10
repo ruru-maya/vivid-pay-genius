@@ -250,9 +250,18 @@ export const PagePreview = ({
                                   onClick={() => setIsFullscreen(false)}
                                   style={{
                                     borderColor: displayedContent.colors.primary,
-                                    color: displayedContent.colors.primary
+                                    color: displayedContent.colors.primary,
+                                    width: '40px',
+                                    height: '40px',
+                                    padding: '0'
                                   }}
-                                  className="hover:bg-opacity-10"
+                                  className="hover:bg-opacity-0"
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = 'transparent';
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = 'transparent';
+                                  }}
                                 >
                                   <Minimize className="h-4 w-4" />
                                 </Button>
