@@ -7,43 +7,23 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  Monitor, 
-  Smartphone, 
-  Edit, 
-  RefreshCw, 
-  Eye,
-  Star,
-  Shield,
-  Clock,
-  Users,
-  CreditCard,
-  Check,
-  ChevronDown,
-  ChevronUp,
-  Palette,
-  Maximize,
-  Minimize,
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  Youtube,
-  ExternalLink
-} from 'lucide-react';
+import { Monitor, Smartphone, Edit, RefreshCw, Eye, Star, Shield, Clock, Users, CreditCard, Check, ChevronDown, ChevronUp, Palette, Maximize, Minimize, Facebook, Twitter, Instagram, Linkedin, Youtube, ExternalLink } from 'lucide-react';
 import { BusinessData, GeneratedPage } from '../PageGenerator';
 import { InlineEditor } from './InlineEditor';
 import { ColorCustomizer } from './ColorCustomizer';
 import { CreditCardForm, CreditCardData } from './CreditCardForm';
-
 interface PagePreviewProps {
   generatedPage: GeneratedPage;
   businessData: BusinessData;
   onEdit: () => void;
   onRegenerate: () => void;
 }
-
-export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate }: PagePreviewProps) => {
+export const PagePreview = ({
+  generatedPage,
+  businessData,
+  onEdit,
+  onRegenerate
+}: PagePreviewProps) => {
   const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [showInlineEditor, setShowInlineEditor] = useState(false);
@@ -57,7 +37,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
     features: generatedPage.features,
     callToAction: generatedPage.callToAction,
     trustSignals: generatedPage.trustSignals,
-    faq: generatedPage.faq,
+    faq: generatedPage.faq
   });
   const [currentColors, setCurrentColors] = useState(generatedPage.colors);
   const [socialLinks, setSocialLinks] = useState({
@@ -68,85 +48,92 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
     youtube: ''
   });
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const getCurrencySymbol = (currency: string) => {
     const symbols: Record<string, string> = {
-      'USD': '$', 'EUR': '€', 'GBP': '£', 'CAD': 'C$', 'AUD': 'A$', 'JPY': '¥', 'CHF': 'Fr'
+      'USD': '$',
+      'EUR': '€',
+      'GBP': '£',
+      'CAD': 'C$',
+      'AUD': 'A$',
+      'JPY': '¥',
+      'CHF': 'Fr'
     };
     return symbols[currency] || '$';
   };
-
   const toggleFAQ = (index: number) => {
     setExpandedFAQ(expandedFAQ === index ? null : index);
   };
-
   const handleContentChange = (newContent: any) => {
     setCurrentContent(newContent);
     toast({
       title: "Content Updated",
-      description: "Your page content has been updated successfully.",
+      description: "Your page content has been updated successfully."
     });
   };
-
-  const handleColorsChange = (newColors: { primary: string; secondary: string; accent: string }) => {
+  const handleColorsChange = (newColors: {
+    primary: string;
+    secondary: string;
+    accent: string;
+  }) => {
     setCurrentColors(newColors);
     toast({
       title: "Colors Updated",
-      description: "Your page colors have been updated successfully.",
+      description: "Your page colors have been updated successfully."
     });
   };
-
   const handlePaymentSubmit = async (paymentData: CreditCardData) => {
     setIsProcessingPayment(true);
-    
+
     // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
     setIsProcessingPayment(false);
     setShowPaymentDialog(false);
-    
     toast({
       title: "Payment Successful!",
-      description: "Your landing page has been published successfully.",
+      description: "Your landing page has been published successfully."
     });
   };
-
   const handleSocialLinksUpdate = (newSocialLinks: typeof socialLinks) => {
     setSocialLinks(newSocialLinks);
     setShowSocialEditor(false);
     toast({
       title: "Social Links Updated",
-      description: "Your social media links have been updated successfully.",
+      description: "Your social media links have been updated successfully."
     });
   };
-
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
   const getSocialIcon = (platform: string) => {
     switch (platform) {
-      case 'facebook': return Facebook;
-      case 'twitter': return Twitter;
-      case 'instagram': return Instagram;
-      case 'linkedin': return Linkedin;
-      case 'youtube': return Youtube;
-      default: return ExternalLink;
+      case 'facebook':
+        return Facebook;
+      case 'twitter':
+        return Twitter;
+      case 'instagram':
+        return Instagram;
+      case 'linkedin':
+        return Linkedin;
+      case 'youtube':
+        return Youtube;
+      default:
+        return ExternalLink;
     }
   };
-
   const displayedContent = {
     ...generatedPage,
     ...currentContent,
-    colors: currentColors,
+    colors: currentColors
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Control Panel */}
       <div className="border-b bg-card shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -158,31 +145,18 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
             <div className="flex items-center space-x-3">
               {/* View Mode Toggle */}
               <div className="flex items-center bg-muted rounded-lg p-1">
-                <Button
-                  variant={viewMode === 'desktop' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('desktop')}
-                  className="h-8"
-                >
+                <Button variant={viewMode === 'desktop' ? 'default' : 'ghost'} size="sm" onClick={() => setViewMode('desktop')} className="h-8">
                   <Monitor className="h-4 w-4 mr-1" />
                   Desktop
                 </Button>
-                <Button
-                  variant={viewMode === 'mobile' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('mobile')}
-                  className="h-8"
-                >
+                <Button variant={viewMode === 'mobile' ? 'default' : 'ghost'} size="sm" onClick={() => setViewMode('mobile')} className="h-8">
                   <Smartphone className="h-4 w-4 mr-1" />
                   Mobile
                 </Button>
               </div>
 
               {/* Action Buttons */}
-              <Button 
-                variant="outline" 
-                onClick={() => setIsFullscreen(!isFullscreen)}
-              >
+              <Button variant="outline" onClick={() => setIsFullscreen(!isFullscreen)}>
                 {isFullscreen ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
                 {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
               </Button>
@@ -196,22 +170,16 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
               </Button>
               <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                 <DialogTrigger asChild>
-                  <Button 
-                    variant="premium"
-                    style={{ 
-                      backgroundColor: displayedContent.colors.primary,
-                      color: 'white'
-                    }}
-                  >
+                  <Button variant="premium" style={{
+                  backgroundColor: displayedContent.colors.primary,
+                  color: 'white'
+                }}>
                     <CreditCard className="h-4 w-4 mr-2" />
                     Publish Now
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-md">
-                  <CreditCardForm 
-                    onSubmit={handlePaymentSubmit} 
-                    isLoading={isProcessingPayment}
-                  />
+                  <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                 </DialogContent>
               </Dialog>
             </div>
@@ -231,54 +199,36 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
             </CardHeader>
             <CardContent className="p-0">
                 {/* Fullscreen Overlay */}
-                {isFullscreen && (
-                  <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+                {isFullscreen && <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
                     <div className="w-full max-w-6xl max-h-full overflow-auto bg-white rounded-lg shadow-2xl">
-                      <div 
-                        className="min-h-screen"
-                        style={{ 
-                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)` 
-                        }}
-                      >
+                      <div className="min-h-screen" style={{
+                  background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)`
+                }}>
                         {/* Generated Payment Page Content in Fullscreen */}
                         {/* Header Navigation */}
                         <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
                           <div className="max-w-6xl mx-auto px-6 py-4">
                             <div className="flex items-center justify-between">
-                              <div className="font-bold text-xl" style={{ color: displayedContent.colors.primary }}>
+                              <div className="font-bold text-xl" style={{
+                          color: displayedContent.colors.primary
+                        }}>
                                 {businessData.businessName}
                               </div>
                               <nav className="hidden md:flex items-center space-x-8">
-                                <button 
-                                  onClick={() => scrollToSection('home')} 
-                                  className="text-sm font-medium hover:opacity-75 transition-opacity"
-                                >
+                                <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                   Home
                                 </button>
-                                <button 
-                                  onClick={() => scrollToSection('features')} 
-                                  className="text-sm font-medium hover:opacity-75 transition-opacity"
-                                >
+                                <button onClick={() => scrollToSection('features')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                   What's Included
                                 </button>
-                                <button 
-                                  onClick={() => scrollToSection('faq')} 
-                                  className="text-sm font-medium hover:opacity-75 transition-opacity"
-                                >
+                                <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                   FAQ
                                 </button>
-                                <button 
-                                  onClick={() => scrollToSection('cta')} 
-                                  className="text-sm font-medium hover:opacity-75 transition-opacity"
-                                >
+                                <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                   Get Started
                                 </button>
                               </nav>
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                onClick={() => setIsFullscreen(false)}
-                              >
+                              <Button variant="outline" size="sm" onClick={() => setIsFullscreen(false)}>
                                 <Minimize className="h-4 w-4 mr-1" />
                                 Exit Fullscreen
                               </Button>
@@ -289,20 +239,14 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                         {/* Rest of the fullscreen content will be rendered separately */}
                         {/* Hero Section */}
                         <section id="home" className="relative overflow-hidden">
-                          <div 
-                            className="absolute inset-0 opacity-20"
-                            style={{ 
-                              background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})` 
-                            }}
-                          />
+                          <div className="absolute inset-0 opacity-20" style={{
+                      background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
+                    }} />
                           <div className="relative px-6 py-12 text-center">
-                            <Badge 
-                              className="mb-4"
-                              style={{ 
-                                backgroundColor: displayedContent.colors.primary,
-                                color: 'white' 
-                              }}
-                            >
+                            <Badge className="mb-4" style={{
+                        backgroundColor: displayedContent.colors.primary,
+                        color: 'white'
+                      }}>
                               {businessData.industry}
                             </Badge>
                             <h1 className="text-4xl font-bold mb-4">
@@ -317,42 +261,31 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                               <div className="text-4xl font-bold mb-2">
                                 {getCurrencySymbol(businessData.currency)}{businessData.price}
                               </div>
-                              {businessData.availability && (
-                                <div className="text-sm text-orange-600 font-medium">
+                              {businessData.availability && <div className="text-sm text-orange-600 font-medium">
                                   🔥 {businessData.availability}
-                                </div>
-                              )}
+                                </div>}
                             </div>
 
                             {/* CTA Button */}
                             <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                               <DialogTrigger asChild>
-                                <Button 
-                                  size="xl"
-                                  className="mb-8"
-                                  style={{ 
-                                    backgroundColor: displayedContent.colors.primary,
-                                    color: 'white'
-                                  }}
-                                >
+                                <Button size="xl" className="mb-8" style={{
+                            backgroundColor: displayedContent.colors.primary,
+                            color: 'white'
+                          }}>
                                   {displayedContent.callToAction}
                                 </Button>
                               </DialogTrigger>
                               <DialogContent className="max-w-md">
-                                <CreditCardForm 
-                                  onSubmit={handlePaymentSubmit} 
-                                  isLoading={isProcessingPayment}
-                                />
+                                <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                               </DialogContent>
                             </Dialog>
 
                             {/* Trust Signals */}
                             <div className="flex flex-wrap justify-center gap-4">
-                              {displayedContent.trustSignals.map((signal, index) => (
-                                <Badge key={index} variant="secondary" className="text-xs">
+                              {displayedContent.trustSignals.map((signal, index) => <Badge key={index} variant="secondary" className="text-xs">
                                   {signal}
-                                </Badge>
-                              ))}
+                                </Badge>)}
                             </div>
                           </div>
                         </section>
@@ -361,17 +294,14 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                         <section id="features" className="px-6 py-12 bg-white/50">
                           <h2 className="text-2xl font-bold text-center mb-8">What's Included</h2>
                           <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-                            {displayedContent.features.map((feature, index) => (
-                              <div key={index} className="flex items-center space-x-3">
-                                <div 
-                                  className="w-6 h-6 rounded-full flex items-center justify-center"
-                                  style={{ backgroundColor: displayedContent.colors.primary }}
-                                >
+                            {displayedContent.features.map((feature, index) => <div key={index} className="flex items-center space-x-3">
+                                <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{
+                          backgroundColor: displayedContent.colors.primary
+                        }}>
                                   <Check className="h-4 w-4 text-white" />
                                 </div>
                                 <span className="text-sm">{feature}</span>
-                              </div>
-                            ))}
+                              </div>)}
                           </div>
                         </section>
 
@@ -379,9 +309,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                         <section className="px-6 py-12">
                           <div className="text-center mb-8">
                             <div className="flex justify-center items-center space-x-1 mb-2">
-                              {[...Array(5)].map((_, i) => (
-                                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                              ))}
+                              {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />)}
                               <span className="ml-2 text-sm text-muted-foreground">4.9/5 from 200+ customers</span>
                             </div>
                             <p className="text-muted-foreground italic">
@@ -395,26 +323,15 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                         <section id="faq" className="px-6 py-12 bg-white/30">
                           <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
                           <div className="max-w-2xl mx-auto space-y-4">
-                            {displayedContent.faq.map((item, index) => (
-                              <div key={index} className="border border-gray-200 rounded-lg bg-white">
-                                <button
-                                  onClick={() => toggleFAQ(index)}
-                                  className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50"
-                                >
+                            {displayedContent.faq.map((item, index) => <div key={index} className="border border-gray-200 rounded-lg bg-white">
+                                <button onClick={() => toggleFAQ(index)} className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50">
                                   <span className="font-medium">{item.question}</span>
-                                  {expandedFAQ === index ? (
-                                    <ChevronUp className="h-4 w-4" />
-                                  ) : (
-                                    <ChevronDown className="h-4 w-4" />
-                                  )}
+                                  {expandedFAQ === index ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                                 </button>
-                                {expandedFAQ === index && (
-                                  <div className="px-4 pb-3 text-sm text-muted-foreground">
+                                {expandedFAQ === index && <div className="px-4 pb-3 text-sm text-muted-foreground">
                                     {item.answer}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
+                                  </div>}
+                              </div>)}
                           </div>
                         </section>
 
@@ -423,21 +340,15 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
                           <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                             <DialogTrigger asChild>
-                              <Button 
-                                size="xl"
-                                style={{ 
-                                  backgroundColor: displayedContent.colors.primary,
-                                  color: 'white'
-                                }}
-                              >
+                              <Button size="xl" style={{
+                          backgroundColor: displayedContent.colors.primary,
+                          color: 'white'
+                        }}>
                                 {displayedContent.callToAction}
                               </Button>
                             </DialogTrigger>
                             <DialogContent className="max-w-md">
-                              <CreditCardForm 
-                                onSubmit={handlePaymentSubmit} 
-                                isLoading={isProcessingPayment}
-                              />
+                              <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                             </DialogContent>
                           </Dialog>
                           <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-muted-foreground">
@@ -461,7 +372,9 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           <div className="max-w-6xl mx-auto">
                             <div className="flex flex-col md:flex-row justify-between items-center">
                               <div className="mb-4 md:mb-0">
-                                <h3 className="font-bold text-lg mb-2" style={{ color: displayedContent.colors.primary }}>
+                                <h3 className="font-bold text-lg mb-2" style={{
+                            color: displayedContent.colors.primary
+                          }}>
                                   {businessData.businessName}
                                 </h3>
                                 <p className="text-gray-400 text-sm">
@@ -475,25 +388,12 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                               <div className="flex items-center space-x-4">
                                 <span className="text-sm text-gray-400 mr-2">Follow us:</span>
                                 {Object.entries(socialLinks).map(([platform, url]) => {
-                                  const IconComponent = getSocialIcon(platform);
-                                  return url ? (
-                                    <a 
-                                      key={platform} 
-                                      href={url} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="text-gray-400 hover:text-white transition-colors"
-                                    >
+                            const IconComponent = getSocialIcon(platform);
+                            return url ? <a key={platform} href={url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                                       <IconComponent className="h-5 w-5" />
-                                    </a>
-                                  ) : null;
-                                })}
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  onClick={() => setShowSocialEditor(true)}
-                                  className="ml-4 text-xs"
-                                >
+                                    </a> : null;
+                          })}
+                                <Button variant="outline" size="sm" onClick={() => setShowSocialEditor(true)} className="ml-4 text-xs">
                                   <Edit className="h-3 w-3 mr-1" />
                                   Edit Social Links
                                 </Button>
@@ -503,91 +403,56 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                         </footer>
                       </div>
                     </div>
-                  </div>
-                )}
+                  </div>}
 
                 {/* Regular Preview (Non-fullscreen) */}
-                {!isFullscreen && (
-                  <div className={`transition-all duration-300 ${
-                    viewMode === 'mobile' 
-                      ? 'max-w-sm mx-auto border-8 border-gray-300 rounded-3xl bg-gray-300 p-2' 
-                      : 'w-full'
-                  }`}>
-                    <div className={`${
-                      viewMode === 'mobile' 
-                        ? 'rounded-2xl overflow-hidden bg-white' 
-                        : 'rounded-lg overflow-hidden border'
-                    } shadow-medium`}>
+                {!isFullscreen && <div className={`transition-all duration-300 ${viewMode === 'mobile' ? 'max-w-sm mx-auto border-8 border-gray-300 rounded-3xl bg-gray-300 p-2' : 'w-full'}`}>
+                    <div className={`${viewMode === 'mobile' ? 'rounded-2xl overflow-hidden bg-white' : 'rounded-lg overflow-hidden border'} shadow-medium`}>
                       {/* Generated Payment Page */}
-                      <div 
-                        className="min-h-screen"
-                        style={{ 
-                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)` 
-                        }}
-                      >
+                      <div className="min-h-screen" style={{
+                  background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)`
+                }}>
                     {/* Header Navigation */}
                     <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
                       <div className="max-w-6xl mx-auto px-6 py-4">
                         <div className="flex items-center justify-between">
-                          <div className="font-bold text-xl" style={{ color: displayedContent.colors.primary }}>
+                          <div className="font-bold text-xl" style={{
+                          color: displayedContent.colors.primary
+                        }}>
                             {businessData.businessName}
                           </div>
                           <nav className="hidden md:flex items-center space-x-8">
-                            <button 
-                              onClick={() => scrollToSection('home')} 
-                              className="text-sm font-medium hover:opacity-75 transition-opacity"
-                            >
+                            <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                               Home
                             </button>
-                            <button 
-                              onClick={() => scrollToSection('features')} 
-                              className="text-sm font-medium hover:opacity-75 transition-opacity"
-                            >
+                            <button onClick={() => scrollToSection('features')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                               What's Included
                             </button>
-                            <button 
-                              onClick={() => scrollToSection('faq')} 
-                              className="text-sm font-medium hover:opacity-75 transition-opacity"
-                            >
+                            <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                               FAQ
                             </button>
-                            <button 
-                              onClick={() => scrollToSection('cta')} 
-                              className="text-sm font-medium hover:opacity-75 transition-opacity"
-                            >
+                            <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                               Get Started
                             </button>
                           </nav>
-                          {isFullscreen && (
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => setIsFullscreen(false)}
-                            >
+                          {isFullscreen && <Button variant="outline" size="sm" onClick={() => setIsFullscreen(false)}>
                               <Minimize className="h-4 w-4 mr-1" />
                               Exit
-                            </Button>
-                          )}
+                            </Button>}
                         </div>
                       </div>
                     </header>
 
                     {/* Hero Section */}
                     <section id="home" className="relative overflow-hidden">
-                      <div 
-                        className="absolute inset-0 opacity-20"
-                        style={{ 
-                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})` 
-                        }}
-                      />
+                      <div className="absolute inset-0 opacity-20" style={{
+                      background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`
+                    }} />
                       <div className="relative px-6 py-12 text-center">
-                        <Badge 
-                          className="mb-4"
-                          style={{ 
-                            backgroundColor: displayedContent.colors.primary,
-                            color: 'white' 
-                          }}
-                        >
+                        <Badge className="mb-4" style={{
+                        backgroundColor: displayedContent.colors.primary,
+                        color: 'white'
+                      }}>
                           {businessData.industry}
                         </Badge>
                         <h1 className="text-4xl font-bold mb-4">
@@ -602,43 +467,32 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           <div className="text-4xl font-bold mb-2">
                             {getCurrencySymbol(businessData.currency)}{businessData.price}
                           </div>
-                          {businessData.availability && (
-                            <div className="text-sm text-orange-600 font-medium">
+                          {businessData.availability && <div className="text-sm text-orange-600 font-medium">
                               🔥 {businessData.availability}
-                            </div>
-                          )}
+                            </div>}
                         </div>
 
                         {/* CTA Button */}
                         <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                           <DialogTrigger asChild>
-                            <Button 
-                              size="xl"
-                              className="mb-8 !border-none"
-                              style={{ 
-                                backgroundColor: displayedContent.colors.primary + ' !important',
-                                color: 'white !important',
-                                borderColor: displayedContent.colors.primary + ' !important'
-                              }}
-                            >
+                            <Button size="xl" className="mb-8 !border-none" style={{
+                            backgroundColor: displayedContent.colors.primary + ' !important',
+                            color: 'white !important',
+                            borderColor: displayedContent.colors.primary + ' !important'
+                          }}>
                               {displayedContent.callToAction}
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="max-w-md">
-                            <CreditCardForm 
-                              onSubmit={handlePaymentSubmit} 
-                              isLoading={isProcessingPayment}
-                            />
+                            <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                           </DialogContent>
                         </Dialog>
 
                         {/* Trust Signals */}
                         <div className="flex flex-wrap justify-center gap-4">
-                          {displayedContent.trustSignals.map((signal, index) => (
-                            <Badge key={index} variant="secondary" className="text-xs">
+                          {displayedContent.trustSignals.map((signal, index) => <Badge key={index} variant="secondary" className="text-xs">
                               {signal}
-                            </Badge>
-                          ))}
+                            </Badge>)}
                         </div>
                       </div>
                     </section>
@@ -647,17 +501,14 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                     <section id="features" className="px-6 py-12 bg-white/50">
                       <h2 className="text-2xl font-bold text-center mb-8">What's Included</h2>
                       <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-                        {displayedContent.features.map((feature, index) => (
-                          <div key={index} className="flex items-center space-x-3">
-                            <div 
-                              className="w-6 h-6 rounded-full flex items-center justify-center"
-                              style={{ backgroundColor: displayedContent.colors.primary }}
-                            >
+                        {displayedContent.features.map((feature, index) => <div key={index} className="flex items-center space-x-3">
+                            <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{
+                          backgroundColor: displayedContent.colors.primary
+                        }}>
                               <Check className="h-4 w-4 text-white" />
                             </div>
                             <span className="text-sm">{feature}</span>
-                          </div>
-                        ))}
+                          </div>)}
                       </div>
                     </section>
 
@@ -665,9 +516,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                     <section className="px-6 py-12">
                       <div className="text-center mb-8">
                         <div className="flex justify-center items-center space-x-1 mb-2">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                          ))}
+                          {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />)}
                           <span className="ml-2 text-sm text-muted-foreground">4.9/5 from 200+ customers</span>
                         </div>
                         <p className="text-muted-foreground italic">
@@ -681,26 +530,15 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                     <section id="faq" className="px-6 py-12 bg-white/30">
                       <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
                       <div className="max-w-2xl mx-auto space-y-4">
-                        {displayedContent.faq.map((item, index) => (
-                          <div key={index} className="border border-gray-200 rounded-lg bg-white">
-                            <button
-                              onClick={() => toggleFAQ(index)}
-                              className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50"
-                            >
+                        {displayedContent.faq.map((item, index) => <div key={index} className="border border-gray-200 rounded-lg bg-white">
+                            <button onClick={() => toggleFAQ(index)} className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50">
                               <span className="font-medium">{item.question}</span>
-                              {expandedFAQ === index ? (
-                                <ChevronUp className="h-4 w-4" />
-                              ) : (
-                                <ChevronDown className="h-4 w-4" />
-                              )}
+                              {expandedFAQ === index ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                             </button>
-                            {expandedFAQ === index && (
-                              <div className="px-4 pb-3 text-sm text-muted-foreground">
+                            {expandedFAQ === index && <div className="px-4 pb-3 text-sm text-muted-foreground">
                                 {item.answer}
-                              </div>
-                            )}
-                          </div>
-                        ))}
+                              </div>}
+                          </div>)}
                       </div>
                     </section>
 
@@ -709,21 +547,15 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                       <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
                       <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                         <DialogTrigger asChild>
-                          <Button 
-                            size="xl"
-                            style={{ 
-                              backgroundColor: displayedContent.colors.primary,
-                              color: 'white'
-                            }}
-                          >
+                          <Button size="xl" style={{
+                          backgroundColor: displayedContent.colors.primary,
+                          color: 'white'
+                        }}>
                             {displayedContent.callToAction}
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="max-w-md">
-                          <CreditCardForm 
-                            onSubmit={handlePaymentSubmit} 
-                            isLoading={isProcessingPayment}
-                          />
+                          <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
                         </DialogContent>
                       </Dialog>
                       <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-muted-foreground">
@@ -747,39 +579,28 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                       <div className="max-w-6xl mx-auto">
                         <div className="flex flex-col md:flex-row justify-between items-center">
                           <div className="mb-4 md:mb-0">
-                            <h3 className="font-bold text-lg mb-2" style={{ color: displayedContent.colors.primary }}>
+                            <h3 className="font-bold text-lg mb-2" style={{
+                            color: displayedContent.colors.primary
+                          }}>
                               {businessData.businessName}
                             </h3>
                             <p className="text-gray-400 text-sm">
                               © 2024 {businessData.businessName}. All rights reserved.
                             </p>
                             <p className="text-gray-500 text-xs mt-1">
-                              Powered by <span className="text-primary font-medium">Vivid Money</span>
+                              Powered by <span className="font-medium text-red-500">Vivid Money</span>
                             </p>
                           </div>
                           
                           <div className="flex items-center space-x-4">
                             <span className="text-sm text-gray-400 mr-2">Follow us:</span>
                             {Object.entries(socialLinks).map(([platform, url]) => {
-                              const IconComponent = getSocialIcon(platform);
-                              return url ? (
-                                <a 
-                                  key={platform} 
-                                  href={url} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="text-gray-400 hover:text-white transition-colors"
-                                >
+                            const IconComponent = getSocialIcon(platform);
+                            return url ? <a key={platform} href={url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                                   <IconComponent className="h-5 w-5" />
-                                </a>
-                              ) : null;
-                            })}
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => setShowSocialEditor(true)}
-                              className="ml-4 text-xs"
-                            >
+                                </a> : null;
+                          })}
+                            <Button variant="outline" size="sm" onClick={() => setShowSocialEditor(true)} className="ml-4 text-xs">
                               <Edit className="h-3 w-3 mr-1" />
                               Edit Social Links
                             </Button>
@@ -789,8 +610,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                      </footer>
                        </div>
                      </div>
-                   </div>
-                 )}
+                   </div>}
              </CardContent>
           </Card>
         </div>
@@ -844,10 +664,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
           </Card>
 
           {/* Color Customization */}
-          <ColorCustomizer 
-            colors={currentColors}
-            onColorsChange={handleColorsChange}
-          />
+          <ColorCustomizer colors={currentColors} onColorsChange={handleColorsChange} />
 
           {/* Page Configuration */}
           <Card>
@@ -863,20 +680,18 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                 <div className="flex justify-between text-sm">
                   <span>Primary Color:</span>
                   <div className="flex items-center space-x-2">
-                    <div 
-                      className="w-4 h-4 rounded border"
-                      style={{ backgroundColor: currentColors.primary }}
-                    />
+                    <div className="w-4 h-4 rounded border" style={{
+                    backgroundColor: currentColors.primary
+                  }} />
                     <span className="font-mono text-xs">{currentColors.primary}</span>
                   </div>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Secondary Color:</span>
                   <div className="flex items-center space-x-2">
-                    <div 
-                      className="w-4 h-4 rounded border"
-                      style={{ backgroundColor: currentColors.secondary }}
-                    />
+                    <div className="w-4 h-4 rounded border" style={{
+                    backgroundColor: currentColors.secondary
+                  }} />
                     <span className="font-mono text-xs">{currentColors.secondary}</span>
                   </div>
                 </div>
@@ -893,13 +708,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
       </div>
 
       {/* Inline Editor Modal */}
-      {showInlineEditor && (
-        <InlineEditor
-          content={currentContent}
-          onContentChange={handleContentChange}
-          onExit={() => setShowInlineEditor(false)}
-        />
-      )}
+      {showInlineEditor && <InlineEditor content={currentContent} onContentChange={handleContentChange} onExit={() => setShowInlineEditor(false)} />}
 
       {/* Social Media Editor Modal */}
       <Dialog open={showSocialEditor} onOpenChange={setShowSocialEditor}>
@@ -914,24 +723,18 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
             
             <div className="space-y-4">
               {Object.entries(socialLinks).map(([platform, url]) => {
-                const IconComponent = getSocialIcon(platform);
-                return (
-                  <div key={platform} className="space-y-2">
+              const IconComponent = getSocialIcon(platform);
+              return <div key={platform} className="space-y-2">
                     <Label className="flex items-center capitalize">
                       <IconComponent className="h-4 w-4 mr-2" />
                       {platform}
                     </Label>
-                    <Input
-                      placeholder={`Enter your ${platform} URL`}
-                      value={url}
-                      onChange={(e) => setSocialLinks({
-                        ...socialLinks,
-                        [platform]: e.target.value
-                      })}
-                    />
-                  </div>
-                );
-              })}
+                    <Input placeholder={`Enter your ${platform} URL`} value={url} onChange={e => setSocialLinks({
+                  ...socialLinks,
+                  [platform]: e.target.value
+                })} />
+                  </div>;
+            })}
             </div>
 
             <div className="flex justify-end space-x-2 pt-4">
@@ -947,11 +750,6 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
       </Dialog>
       
       {/* Powered by footer */}
-      <div className="text-center py-4 border-t bg-card">
-        <p className="text-sm text-muted-foreground">
-          Powered by <span className="font-semibold text-primary">Vivid Money</span>
-        </p>
-      </div>
-    </div>
-  );
+      
+    </div>;
 };

@@ -168,10 +168,6 @@ export const PageGenerator = ({
       </main>
       
       {/* Powered by footer */}
-      <div className="text-center py-4 border-t">
-        <p className="text-sm text-muted-foreground">
-          Powered by <span className="font-semibold text-primary">Vivid Money</span>
-        </p>
-      </div>
+      
     </div>;
 };
