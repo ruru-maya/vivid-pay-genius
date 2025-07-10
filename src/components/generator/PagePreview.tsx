@@ -217,8 +217,8 @@ export const PagePreview = ({
                 }}>
                         {/* Generated Payment Page Content in Fullscreen */}
                         {/* Header Navigation */}
-                        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
-                          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+                         <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
+                           <div className="w-full px-4 sm:px-6 py-3 sm:py-4">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center space-x-2 sm:space-x-3">
                                 {/* Logo */}
