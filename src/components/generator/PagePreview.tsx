@@ -164,7 +164,7 @@ export const PagePreview = ({
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Content
               </Button>
-              <Button variant="outline" onClick={onRegenerate}>
+              <Button variant="outline" onClick={onRegenerate} className="text-purple/60 border-purple/50 hover:bg-purple/60 hover:text-white">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Regenerate
               </Button>
