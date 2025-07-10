@@ -207,111 +207,104 @@ export const PagePreview = ({
                 }}>
                         {/* Generated Payment Page Content in Fullscreen */}
                         {/* Header Navigation */}
-                        <header className="bg-white shadow-md sticky top-0 z-50">
-                          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                            <div className="flex items-center justify-between h-16">
+                        <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+                          <div className="px-4 py-4">
+                            <div className="flex items-center justify-between">
                               <div className="flex items-center space-x-3">
                                 {/* Logo */}
                                 {businessData.images.find(img => img.type === 'logo') && (
                                   <img 
                                     src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
                                     alt="Company logo" 
-                                    className="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded"
+                                    className="h-8 w-8 object-contain rounded"
                                   />
                                 )}
                                 {/* Business Name */}
-                                <div className="font-bold text-base sm:text-lg" style={{
+                                <div className="font-bold text-lg" style={{
                                   color: displayedContent.colors.primary
                                 }}>
                                   {businessData.companyName}
                                 </div>
                               </div>
                               
-                              {/* Navigation and mobile menu */}
-                              <div className="flex items-center space-x-4">
-                                {/* Desktop Navigation */}
-                                <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
-                                  <button onClick={() => scrollToSection('home')} className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">
+                              {/* Desktop Navigation */}
+                              <nav className="hidden md:flex items-center space-x-6">
+                                <button onClick={() => scrollToSection('home')} className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                                  Home
+                                </button>
+                                <button onClick={() => scrollToSection('features')} className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                                  Features
+                                </button>
+                                <button onClick={() => scrollToSection('faq')} className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                                  FAQ
+                                </button>
+                                <button onClick={() => scrollToSection('cta')} className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                                  Get Started
+                                </button>
+                              </nav>
+                              
+                              {/* Mobile Menu Button */}
+                              <button
+                                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                                className="md:hidden p-2 rounded-md hover:bg-gray-100"
+                              >
+                                {showMobileMenu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                              </button>
+                              
+                              {/* Exit fullscreen button (desktop only) */}
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => setIsFullscreen(false)}
+                                className="hidden md:block p-2"
+                              >
+                                <Minimize className="h-4 w-4" />
+                              </Button>
+                            </div>
+                            
+                            {/* Mobile Menu */}
+                            {showMobileMenu && (
+                              <div className="md:hidden mt-4 pt-4 border-t border-gray-200">
+                                <nav className="space-y-2">
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('home');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                                  >
                                     Home
                                   </button>
-                                  <button onClick={() => scrollToSection('features')} className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('features');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                                  >
                                     Features
                                   </button>
-                                  <button onClick={() => scrollToSection('faq')} className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('faq');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                                  >
                                     FAQ
                                   </button>
-                                  <button onClick={() => scrollToSection('cta')} className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('cta');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                                  >
                                     Get Started
                                   </button>
                                 </nav>
-                                
-                                {/* Mobile Menu Button */}
-                                <div className="relative md:hidden">
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => setShowMobileMenu(!showMobileMenu)}
-                                    className="p-2 hover:bg-gray-100"
-                                  >
-                                    {showMobileMenu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                                  </Button>
-                                  
-                                  {/* Mobile Menu Dropdown */}
-                                  {showMobileMenu && (
-                                    <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
-                                      <nav className="py-2">
-                                        <button
-                                          onClick={() => {
-                                            scrollToSection('home');
-                                            setShowMobileMenu(false);
-                                          }}
-                                          className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                        >
-                                          Home
-                                        </button>
-                                        <button
-                                          onClick={() => {
-                                            scrollToSection('features');
-                                            setShowMobileMenu(false);
-                                          }}
-                                          className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                        >
-                                          Features
-                                        </button>
-                                        <button
-                                          onClick={() => {
-                                            scrollToSection('faq');
-                                            setShowMobileMenu(false);
-                                          }}
-                                          className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                        >
-                                          FAQ
-                                        </button>
-                                        <button
-                                          onClick={() => {
-                                            scrollToSection('cta');
-                                            setShowMobileMenu(false);
-                                          }}
-                                          className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                        >
-                                          Get Started
-                                        </button>
-                                      </nav>
-                                    </div>
-                                  )}
-                                </div>
-                                
-                                {/* Exit fullscreen button */}
-                                <Button 
-                                  variant="ghost" 
-                                  size="sm" 
-                                  onClick={() => setIsFullscreen(false)}
-                                  className="p-2 hover:bg-gray-100"
-                                >
-                                  <Minimize className="h-4 w-4" />
-                                </Button>
                               </div>
-                            </div>
+                            )}
                           </div>
                         </header>
 
@@ -567,64 +560,60 @@ export const PagePreview = ({
                               </button>
                             </nav>
                             
-                            {/* Mobile Menu Button */}
-                            <div className="relative md:hidden">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => setShowMobileMenu(!showMobileMenu)}
-                                className="p-2 hover:bg-gray-100"
-                              >
-                                {showMobileMenu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                              </Button>
-                              
-                              {/* Mobile Menu Dropdown */}
-                              {showMobileMenu && (
-                                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
-                                  <nav className="py-2">
-                                    <button
-                                      onClick={() => {
-                                        scrollToSection('home');
-                                        setShowMobileMenu(false);
-                                      }}
-                                      className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                    >
-                                      Home
-                                    </button>
-                                    <button
-                                      onClick={() => {
-                                        scrollToSection('features');
-                                        setShowMobileMenu(false);
-                                      }}
-                                      className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                    >
-                                      Features
-                                    </button>
-                                    <button
-                                      onClick={() => {
-                                        scrollToSection('faq');
-                                        setShowMobileMenu(false);
-                                      }}
-                                      className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                    >
-                                      FAQ
-                                    </button>
-                                    <button
-                                      onClick={() => {
-                                        scrollToSection('cta');
-                                        setShowMobileMenu(false);
-                                      }}
-                                      className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                                    >
-                                      Get Started
-                                    </button>
-                                  </nav>
-                                </div>
-                              )}
-                            </div>
+                             {/* Mobile Menu Button */}
+                             <button
+                               onClick={() => setShowMobileMenu(!showMobileMenu)}
+                               className="md:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+                             >
+                               {showMobileMenu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                             </button>
                           </div>
-                        </div>
-                      </div>
+                         </div>
+                         
+                         {/* Mobile Menu Expansion */}
+                         {showMobileMenu && (
+                           <div className="md:hidden border-t border-gray-200 bg-white">
+                             <nav className="px-4 py-3 space-y-1">
+                               <button
+                                 onClick={() => {
+                                   scrollToSection('home');
+                                   setShowMobileMenu(false);
+                                 }}
+                                 className="block w-full text-left py-2 px-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md transition-colors"
+                               >
+                                 Home
+                               </button>
+                               <button
+                                 onClick={() => {
+                                   scrollToSection('features');
+                                   setShowMobileMenu(false);
+                                 }}
+                                 className="block w-full text-left py-2 px-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md transition-colors"
+                               >
+                                 Features
+                               </button>
+                               <button
+                                 onClick={() => {
+                                   scrollToSection('faq');
+                                   setShowMobileMenu(false);
+                                 }}
+                                 className="block w-full text-left py-2 px-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md transition-colors"
+                               >
+                                 FAQ
+                               </button>
+                               <button
+                                 onClick={() => {
+                                   scrollToSection('cta');
+                                   setShowMobileMenu(false);
+                                 }}
+                                 className="block w-full text-left py-2 px-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md transition-colors"
+                               >
+                                 Get Started
+                               </button>
+                             </nav>
+                           </div>
+                         )}
+                       </div>
                     </header>
 
                     {/* Hero Section */}
