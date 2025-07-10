@@ -156,7 +156,7 @@ export const PagePreview = ({
               </div>
 
               {/* Action Buttons */}
-              <Button variant="outline" onClick={() => setIsFullscreen(!isFullscreen)} className="text-purple border-purple hover:bg-purple hover:text-white">
+              <Button variant="outline" onClick={() => setIsFullscreen(!isFullscreen)} className="text-purple/60 border-purple/50 hover:bg-purple/60 hover:text-white">
                 {isFullscreen ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
                 {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
               </Button>
