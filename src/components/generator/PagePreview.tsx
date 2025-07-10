@@ -160,7 +160,7 @@ export const PagePreview = ({
                 {isFullscreen ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
                 {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
               </Button>
-              <Button variant="outline" onClick={() => setShowInlineEditor(true)}>
+              <Button variant="outline" onClick={() => setShowInlineEditor(true)} className="text-purple/60 border-purple/50 hover:bg-purple/60 hover:text-white">
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Content
               </Button>
