@@ -37,6 +37,10 @@ All colors MUST be HSL.
     --accent-foreground: 0 0% 100%;
     --accent-light: 142 60% 50%;
 
+    /* Purple - Brand Accent */
+    --purple: 252 92% 60%;
+    --purple-foreground: 0 0% 100%;
+
     /* Destructive - Warning Red */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
