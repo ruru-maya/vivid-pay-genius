@@ -8,12 +8,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Upload, Palette, ArrowRight, Lightbulb, Wallet } from 'lucide-react';
 import { BusinessData } from '../PageGenerator';
+import { removeBackground, loadImage } from '@/lib/backgroundRemoval';
+import { useToast } from "@/hooks/use-toast";
 interface BusinessInfoFormProps {
   onSubmit: (data: BusinessData) => void;
 }
 export const BusinessInfoForm = ({
   onSubmit
 }: BusinessInfoFormProps) => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState<BusinessData>({
     companyName: '',
     businessName: '',
@@ -28,6 +31,7 @@ export const BusinessInfoForm = ({
     },
     images: []
   });
+  const [processingImages, setProcessingImages] = useState<Set<number>>(new Set());
   const industries = ['Travel & Tourism', 'Professional Services', 'E-commerce', 'Events & Experiences', 'Education & Training', 'Health & Wellness', 'Creative Services', 'Consulting', 'Technology', 'Food & Beverage', 'Real Estate', 'Financial Services'];
   const currencies = [{
     code: 'USD',
@@ -119,6 +123,81 @@ export const BusinessInfoForm = ({
         price: example.price,
         availability: example.availability,
         industry
+      }));
+    }
+  };
+
+  const processFiles = async (files: File[]) => {
+    const validFiles = files.filter(file => file.size <= 5 * 1024 * 1024);
+    const newImages = validFiles.map(file => ({ file, type: 'home-bg' as const }));
+    
+    setFormData(prev => ({
+      ...prev,
+      images: [...prev.images, ...newImages].slice(0, 5)
+    }));
+  };
+
+  const handleTypeChange = async (index: number, newType: 'logo' | 'home-bg') => {
+    const currentImage = formData.images[index];
+    
+    if (newType === 'logo' && currentImage.type !== 'logo') {
+      // Process logo for background removal
+      setProcessingImages(prev => new Set(prev).add(index));
+      
+      try {
+        toast({
+          title: "Processing logo",
+          description: "Removing background from logo image..."
+        });
+        
+        const imageElement = await loadImage(currentImage.file);
+        const processedBlob = await removeBackground(imageElement);
+        
+        // Create new file with processed image
+        const processedFile = new File([processedBlob], currentImage.file.name, {
+          type: 'image/png'
+        });
+        
+        setFormData(prev => ({
+          ...prev,
+          images: prev.images.map((img, i) => 
+            i === index ? { ...img, file: processedFile, type: newType } : img
+          )
+        }));
+        
+        toast({
+          title: "Logo processed",
+          description: "Background removed successfully!"
+        });
+      } catch (error) {
+        console.error('Error processing logo:', error);
+        toast({
+          title: "Processing failed",
+          description: "Could not remove background. Using original image.",
+          variant: "destructive"
+        });
+        
+        // Still update the type even if processing failed
+        setFormData(prev => ({
+          ...prev,
+          images: prev.images.map((img, i) => 
+            i === index ? { ...img, type: newType } : img
+          )
+        }));
+      } finally {
+        setProcessingImages(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(index);
+          return newSet;
+        });
+      }
+    } else {
+      // Just update type for non-logo or already processed images
+      setFormData(prev => ({
+        ...prev,
+        images: prev.images.map((img, i) => 
+          i === index ? { ...img, type: newType } : img
+        )
       }));
     }
   };
@@ -350,11 +429,7 @@ export const BusinessInfoForm = ({
                 e.currentTarget.classList.remove('border-primary', 'bg-primary/5');
                 const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024);
                 if (files.length > 0) {
-                  const newImages = files.map(file => ({ file, type: 'other' as const }));
-                  setFormData(prev => ({
-                    ...prev,
-                    images: [...prev.images, ...newImages].slice(0, 5)
-                  }));
+                  processFiles(files);
                 }
               }}>
                   <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
@@ -367,11 +442,7 @@ export const BusinessInfoForm = ({
                   <input type="file" multiple accept="image/jpeg,image/png,image/webp" className="hidden" id="imageUpload" onChange={e => {
                   if (e.target.files) {
                     const files = Array.from(e.target.files).filter(file => file.size <= 5 * 1024 * 1024);
-                    const newImages = files.map(file => ({ file, type: 'other' as const }));
-                    setFormData(prev => ({
-                      ...prev,
-                      images: [...prev.images, ...newImages].slice(0, 5)
-                    }));
+                    processFiles(files);
                   }
                 }} />
                   <Button type="button" variant="outline" className="mt-2 text-purple/50 border-purple/50 hover:bg-purple hover:text-white hover:border-purple" onClick={() => document.getElementById('imageUpload')?.click()}>
@@ -402,23 +473,22 @@ export const BusinessInfoForm = ({
                                  {(imageData.file.size / 1024 / 1024).toFixed(1)} MB
                                </p>
                              </div>
-                             <Select value={imageData.type} onValueChange={(value) => {
-                               setFormData(prev => ({
-                                 ...prev,
-                                 images: prev.images.map((img, i) => 
-                                   i === index ? { ...img, type: value as 'logo' | 'home-bg' | 'other' } : img
-                                 )
-                               }));
-                             }}>
-                               <SelectTrigger className="w-20 h-6 text-xs">
-                                 <SelectValue />
-                               </SelectTrigger>
-                               <SelectContent>
-                                 <SelectItem value="logo">Logo</SelectItem>
-                                 <SelectItem value="home-bg">Home BG</SelectItem>
-                                 <SelectItem value="other">Other</SelectItem>
-                               </SelectContent>
-                             </Select>
+                              <Select 
+                                value={imageData.type} 
+                                onValueChange={(value) => handleTypeChange(index, value as 'logo' | 'home-bg')}
+                                disabled={processingImages.has(index)}
+                              >
+                                <SelectTrigger className="w-20 h-6 text-xs">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="logo">Logo</SelectItem>
+                                  <SelectItem value="home-bg">Home BG</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              {processingImages.has(index) && (
+                                <div className="text-xs text-muted-foreground">Processing...</div>
+                              )}
                            </div>
                           <Button type="button" variant="ghost" size="sm" onClick={() => {
                       setFormData(prev => ({

@@ -25,7 +25,7 @@ export type BusinessData = {
   };
   images: Array<{
     file: File;
-    type: 'logo' | 'home-bg' | 'other';
+    type: 'logo' | 'home-bg';
   }>;
 };
 export type GeneratedPage = {
