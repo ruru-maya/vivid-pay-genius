@@ -133,13 +133,9 @@ export const PageGenerator = ({
       <header className="border-b bg-card shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              
-              <div className="h-6 w-px bg-border" />
-              <div className="flex items-center space-x-2">
-                <Sparkles className="h-5 w-5 text-purple" />
-                <h1 className="text-xl font-semibold">AI Landing Page Generator</h1>
-              </div>
+            <div className="flex items-center space-x-2">
+              <Sparkles className="h-5 w-5 text-purple" />
+              <h1 className="text-xl font-semibold">AI Landing Page Generator</h1>
             </div>
             
             <div className="flex items-center space-x-3">
