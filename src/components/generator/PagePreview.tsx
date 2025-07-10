@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Monitor, Smartphone, Edit, RefreshCw, Eye, Star, Shield, Clock, Users, CreditCard, Check, ChevronDown, ChevronUp, Palette, Maximize, Minimize, Facebook, Twitter, Instagram, Linkedin, Youtube, ExternalLink } from 'lucide-react';
+import { Monitor, Smartphone, Edit, RefreshCw, Eye, Star, Shield, Clock, Users, CreditCard, Check, ChevronDown, ChevronUp, Palette, Maximize, Minimize, Facebook, Twitter, Instagram, Linkedin, Youtube, ExternalLink, Menu, X } from 'lucide-react';
 import { BusinessData, GeneratedPage } from '../PageGenerator';
 import { InlineEditor } from './InlineEditor';
 import { ColorCustomizer } from './ColorCustomizer';
@@ -30,6 +30,7 @@ export const PagePreview = ({
   const [showColorCustomizer, setShowColorCustomizer] = useState(false);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showSocialEditor, setShowSocialEditor] = useState(false);
   const [currentContent, setCurrentContent] = useState({
     headline: generatedPage.headline,
@@ -226,8 +227,9 @@ export const PagePreview = ({
                                 </div>
                               </div>
                               
-                              {/* Move navigation to the right */}
+                              {/* Navigation and mobile menu */}
                               <div className="flex items-center space-x-2 sm:space-x-4">
+                                {/* Desktop Navigation */}
                                 <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
                                   <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
                                     Home
@@ -242,6 +244,20 @@ export const PagePreview = ({
                                     Get Started
                                   </button>
                                 </nav>
+                                
+                                {/* Mobile Menu Button */}
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                                  className="md:hidden"
+                                  style={{
+                                    borderColor: displayedContent.colors.primary,
+                                    color: displayedContent.colors.primary
+                                  }}
+                                >
+                                  {showMobileMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                                </Button>
                                 
                                 {/* Exit fullscreen button - icon only with color theme */}
                                 <Button 
@@ -267,6 +283,54 @@ export const PagePreview = ({
                                 </Button>
                               </div>
                             </div>
+                            
+                            {/* Mobile Menu Dropdown */}
+                            {showMobileMenu && (
+                              <div className="md:hidden bg-white border-t border-gray-200 shadow-lg z-50">
+                                <nav className="px-4 py-3 space-y-2">
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('home');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                    style={{ color: displayedContent.colors.primary }}
+                                  >
+                                    Home
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('features');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                    style={{ color: displayedContent.colors.primary }}
+                                  >
+                                    What's Included
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('faq');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                    style={{ color: displayedContent.colors.primary }}
+                                  >
+                                    FAQ
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('cta');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                    style={{ color: displayedContent.colors.primary }}
+                                  >
+                                    Get Started
+                                  </button>
+                                </nav>
+                              </div>
+                            )}
                           </div>
                         </header>
 
@@ -485,45 +549,108 @@ export const PagePreview = ({
                 }}>
                     {/* Header Navigation */}
                     <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
-                      <div className="max-w-6xl mx-auto px-6 py-4">
+                      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
                          <div className="flex items-center justify-between">
-                           <div className="flex items-center space-x-3">
+                           <div className="flex items-center space-x-2 sm:space-x-3">
                              {/* Logo */}
                              {businessData.images.find(img => img.type === 'logo') && (
                                <img 
                                  src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
                                  alt="Company logo" 
-                                 className="h-16 w-16 object-contain rounded"
+                                 className="h-10 w-10 sm:h-16 sm:w-16 object-contain rounded"
                                />
                              )}
                              {/* Business Name */}
-                             <div className="font-bold text-xl" style={{
+                             <div className="font-bold text-lg sm:text-xl" style={{
                                color: displayedContent.colors.primary
                              }}>
                                {businessData.companyName}
                              </div>
                            </div>
-                          <nav className="hidden md:flex items-center space-x-8">
-                            <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                              Home
-                            </button>
-                            <button onClick={() => scrollToSection('features')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                              What's Included
-                            </button>
-                            <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                              FAQ
-                            </button>
-                            <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
-                              Get Started
-                            </button>
-                          </nav>
-                          {isFullscreen && <Button variant="outline" size="sm" onClick={() => setIsFullscreen(false)}>
-                              <Minimize className="h-4 w-4 mr-1" />
-                              Exit
-                            </Button>}
-                        </div>
-                      </div>
-                    </header>
+                           
+                           {/* Navigation and mobile menu */}
+                           <div className="flex items-center space-x-2 sm:space-x-4">
+                             {/* Desktop Navigation */}
+                             <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
+                               <button onClick={() => scrollToSection('home')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                 Home
+                               </button>
+                               <button onClick={() => scrollToSection('features')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                 What's Included
+                               </button>
+                               <button onClick={() => scrollToSection('faq')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                 FAQ
+                               </button>
+                               <button onClick={() => scrollToSection('cta')} className="text-sm font-medium hover:opacity-75 transition-opacity">
+                                 Get Started
+                               </button>
+                             </nav>
+                             
+                             {/* Mobile Menu Button */}
+                             <Button
+                               variant="outline"
+                               size="sm"
+                               onClick={() => setShowMobileMenu(!showMobileMenu)}
+                               className="md:hidden"
+                               style={{
+                                 borderColor: displayedContent.colors.primary,
+                                 color: displayedContent.colors.primary
+                               }}
+                             >
+                               {showMobileMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                             </Button>
+                           </div>
+                         </div>
+                         
+                         {/* Mobile Menu Dropdown */}
+                         {showMobileMenu && (
+                           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg z-50">
+                             <nav className="px-4 py-3 space-y-2">
+                               <button
+                                 onClick={() => {
+                                   scrollToSection('home');
+                                   setShowMobileMenu(false);
+                                 }}
+                                 className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                 style={{ color: displayedContent.colors.primary }}
+                               >
+                                 Home
+                               </button>
+                               <button
+                                 onClick={() => {
+                                   scrollToSection('features');
+                                   setShowMobileMenu(false);
+                                 }}
+                                 className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                 style={{ color: displayedContent.colors.primary }}
+                               >
+                                 What's Included
+                               </button>
+                               <button
+                                 onClick={() => {
+                                   scrollToSection('faq');
+                                   setShowMobileMenu(false);
+                                 }}
+                                 className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                 style={{ color: displayedContent.colors.primary }}
+                               >
+                                 FAQ
+                               </button>
+                               <button
+                                 onClick={() => {
+                                   scrollToSection('cta');
+                                   setShowMobileMenu(false);
+                                 }}
+                                 className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                 style={{ color: displayedContent.colors.primary }}
+                               >
+                                 Get Started
+                               </button>
+                             </nav>
+                           </div>
+                         )}
+                       </div>
+                     </header>
 
                     {/* Hero Section */}
                     <section id="home" className="relative overflow-hidden">
