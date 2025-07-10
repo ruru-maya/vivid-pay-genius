@@ -112,7 +112,7 @@ export const ColorCustomizer = ({ colors, onColorsChange }: ColorCustomizerProps
                 variant="outline"
                 size="sm"
                 onClick={() => applyPreset(preset)}
-                className="flex items-center gap-2 justify-start border-2 transition-all hover:opacity-0"
+                className="flex items-center gap-2 justify-start border-2 transition-all hover:bg-transparent"
                 style={{
                   borderColor: preset.primary,
                   color: preset.primary
