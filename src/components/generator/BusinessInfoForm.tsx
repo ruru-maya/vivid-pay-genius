@@ -317,7 +317,7 @@ export const BusinessInfoForm = ({
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="border-2 border-dashed border-purple rounded-lg p-6 text-center hover:border-purple/70 transition-colors" onDragOver={e => {
+                <div className="border-2 border-dashed border-purple/30 rounded-lg p-6 text-center hover:border-purple/50 transition-colors" onDragOver={e => {
                 e.preventDefault();
                 e.currentTarget.classList.add('border-primary', 'bg-primary/5');
               }} onDragLeave={e => {
