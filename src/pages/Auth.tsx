@@ -136,11 +136,11 @@ export const Auth = () => {
           <div className="space-y-3 mb-6">
             <Button type="button" variant="premium" className="w-full h-12" disabled={isLoading}>
               <Facebook className="w-5 h-5 mr-2" />
-              {currentView === 'signin' ? 'Sign in with Facebook' : 'Register with Facebook'}
+              {currentView === 'signin' ? 'Continue with Facebook' : 'Register with Facebook'}
             </Button>
             <Button type="button" variant="premium" className="w-full h-12" disabled={isLoading}>
               <span className="w-5 h-5 mr-2 font-bold">G</span>
-              {currentView === 'signin' ? 'Sign in with Google' : 'Register with Google'}
+              {currentView === 'signin' ? 'Continue with Google' : 'Register with Google'}
             </Button>
           </div>
 
@@ -185,7 +185,7 @@ export const Auth = () => {
                 </button>
               </div>
               <Button type="submit" variant="premium" className="w-full h-12 font-medium rounded-md mt-6" disabled={isLoading}>
-                {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'Sign In'}
+                {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'Continue'}
               </Button>
             </form>) : (/* Sign Up Form */
         <form onSubmit={handleSignUp} className="space-y-4">
@@ -249,7 +249,7 @@ export const Auth = () => {
               </p> : <p className="text-muted-foreground">
                 Already have an account?{' '}
                 <button type="button" onClick={() => setCurrentView('signin')} className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:underline font-medium">
-                  Sign in!
+                  Continue here!
                 </button>
               </p>}
           </div>
