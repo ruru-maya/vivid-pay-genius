@@ -152,8 +152,8 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
 
           <div className="space-y-6">
             {/* Headline */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Headline</label>
+            <div className="border rounded-lg p-4 space-y-3">
+              <label className="text-sm font-medium">Headline</label>
               <EditableText
                 fieldId="headline"
                 value={editedContent.headline}
@@ -163,8 +163,8 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
             </div>
 
             {/* Description */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Description</label>
+            <div className="border rounded-lg p-4 space-y-3">
+              <label className="text-sm font-medium">Description</label>
               <EditableText
                 fieldId="description"
                 value={editedContent.description}
@@ -175,8 +175,8 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
             </div>
 
             {/* Call to Action */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Call to Action</label>
+            <div className="border rounded-lg p-4 space-y-3">
+              <label className="text-sm font-medium">Call to Action</label>
               <EditableText
                 fieldId="cta"
                 value={editedContent.callToAction}
