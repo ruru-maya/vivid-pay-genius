@@ -558,17 +558,18 @@ export const PagePreview = ({
                       {/* Green Bottom Section with landing page content */}
                       <div className="relative flex-1 bg-gradient-to-br from-emerald-300 to-emerald-400 overflow-hidden">
                         {/* White page indicators */}
-                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
+                        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1 z-30">
                           {[0, 1, 2, 3, 4].map((dot, index) => (
                             <div 
                               key={index} 
-                              className={`w-2 h-2 rounded-full ${index === 0 ? 'bg-white' : 'bg-white/50'}`}
+                              className={`w-1.5 h-1.5 rounded-full ${index === 0 ? 'bg-white' : 'bg-white/50'}`}
                             />
                           ))}
                         </div>
 
                         {/* Scrollable landing page content */}
-                        <div className="absolute inset-0 bg-white rounded-t-3xl mt-4 overflow-y-auto">
+                        <div className="absolute inset-1 bg-white rounded-2xl overflow-y-auto shadow-inner"
+                             style={{ top: '8px', bottom: '16px' }}>
                           <div className="min-h-full" style={{
                             background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)`
                           }}>
