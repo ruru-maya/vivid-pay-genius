@@ -215,7 +215,7 @@ export const PagePreview = ({
                                   <img 
                                     src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
                                     alt="Company logo" 
-                                    className="h-8 w-8 object-contain rounded"
+                                    className="h-12 w-12 object-contain rounded"
                                   />
                                 )}
                                 {/* Business Name */}
@@ -398,10 +398,10 @@ export const PagePreview = ({
                                 <h3 className="font-bold text-lg mb-2" style={{
                             color: displayedContent.colors.primary
                           }}>
-                                  {businessData.businessName}
+                                  {businessData.companyName}
                                 </h3>
                                 <p className="text-gray-400 text-sm">
-                                  © 2024 {businessData.businessName}. All rights reserved.
+                                  © 2024 {businessData.companyName}. All rights reserved.
                                 </p>
                                 <p className="text-gray-500 text-xs mt-1">
                                   Powered by <span className="text-primary font-medium">Vivid Money</span>
@@ -445,7 +445,7 @@ export const PagePreview = ({
                                <img 
                                  src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
                                  alt="Company logo" 
-                                 className="h-8 w-8 object-contain rounded"
+                                 className="h-12 w-12 object-contain rounded"
                                />
                              )}
                              {/* Business Name */}
@@ -632,17 +632,17 @@ export const PagePreview = ({
                       <div className="max-w-6xl mx-auto">
                         <div className="flex flex-col md:flex-row justify-between items-center">
                           <div className="mb-4 md:mb-0">
-                            <h3 className="font-bold text-lg mb-2" style={{
-                            color: displayedContent.colors.primary
-                          }}>
-                              {businessData.businessName}
-                            </h3>
-                             <p className="text-gray-500 text-xs mb-1">
-                               Powered by <span className="font-medium" style={{ color: displayedContent.colors.primary }}>Vivid Money</span>
-                             </p>
-                             <p className="text-gray-400 text-sm">
-                               © 2025 {businessData.businessName}. All rights reserved.
-                             </p>
+                             <h3 className="font-bold text-lg mb-2" style={{
+                             color: displayedContent.colors.primary
+                           }}>
+                               {businessData.companyName}
+                             </h3>
+                              <p className="text-gray-500 text-xs mb-1">
+                                Powered by <span className="font-medium" style={{ color: displayedContent.colors.primary }}>Vivid Money</span>
+                              </p>
+                              <p className="text-gray-400 text-sm">
+                                © 2025 {businessData.companyName}. All rights reserved.
+                              </p>
                           </div>
                           
                           <div className="flex items-center space-x-4">
