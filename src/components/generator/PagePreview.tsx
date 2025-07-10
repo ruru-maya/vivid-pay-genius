@@ -266,12 +266,6 @@ export const PagePreview = ({
                           <div className="absolute inset-0 bg-black/40" />
                           <div className="relative px-6 py-12 text-center text-white">{/* Make text white over image */}
                             
-                            <Badge className="mb-4" style={{
-                        backgroundColor: displayedContent.colors.primary,
-                        color: 'white'
-                      }}>
-                              {businessData.industry}
-                            </Badge>
                             <h1 className="text-4xl font-bold mb-4">
                               {displayedContent.headline}
                             </h1>
@@ -292,12 +286,18 @@ export const PagePreview = ({
                             {/* CTA Button */}
                             <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                               <DialogTrigger asChild>
-                                <Button size="xl" className="mb-8" style={{
-                            backgroundColor: displayedContent.colors.primary,
-                            color: 'white'
-                          }}>
+                                <button 
+                                  className="mb-8 px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
+                                  style={{
+                                    background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                                    color: 'white',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                                  }}
+                                >
                                   {displayedContent.callToAction}
-                                </Button>
+                                </button>
                               </DialogTrigger>
                               <DialogContent className="max-w-md">
                                 <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
@@ -363,12 +363,18 @@ export const PagePreview = ({
                           <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
                           <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                             <DialogTrigger asChild>
-                              <Button size="xl" style={{
-                          backgroundColor: displayedContent.colors.primary,
-                          color: 'white'
-                        }}>
+                              <button 
+                                className="px-8 py-4 text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
+                                style={{
+                                  background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                                  color: 'white',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                                }}
+                              >
                                 {displayedContent.callToAction}
-                              </Button>
+                              </button>
                             </DialogTrigger>
                             <DialogContent className="max-w-md">
                               <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
