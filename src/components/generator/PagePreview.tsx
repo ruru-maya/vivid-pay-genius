@@ -909,7 +909,7 @@ export const PagePreview = ({
 
               {/* Trust Signals */}
               <div className="space-y-3">
-                <h4 className="text-sm font-semibold">Trust Signals</h4>
+                
               </div>
             </CardContent>
           </Card>
