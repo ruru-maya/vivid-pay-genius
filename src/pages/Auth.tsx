@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { signIn, signUp } from "@/lib/auth";
 import { useAuth } from "@/contexts/AuthContext";
-import { Eye, EyeOff, Home, Facebook } from 'lucide-react';
+import { Eye, EyeOff, Facebook } from 'lucide-react';
 import { Checkbox } from "@/components/ui/checkbox";
 export const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -123,12 +123,12 @@ export const Auth = () => {
           {/* Header and Description */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-foreground mb-3">
-              {currentView === 'signin' ? 'Welcome Back' : 'Register Your Business'}
+              {currentView === 'signin' ? 'Welcome Back' : 'Register'}
             </h1>
             <p className="text-muted-foreground text-lg">
               {currentView === 'signin' 
-                ? 'Sign in to access your GlowCRM dashboard.' 
-                : 'Join GlowCRM and streamline your salon operations.'}
+                ? 'Sign in to access your dashboard.' 
+                : 'Create stunning AI-powered landing pages in minutes.'}
             </p>
           </div>
 
@@ -150,7 +150,7 @@ export const Auth = () => {
               <div className="w-full border-t border-border"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-card text-muted-foreground">--- or use email ---</span>
+              <span className="px-4 bg-card text-muted-foreground">or use email</span>
             </div>
           </div>
 
@@ -237,13 +237,6 @@ export const Auth = () => {
               <Button type="submit" variant="default" className="w-full h-12 font-medium rounded-md mt-6" disabled={isLoading || !agreeTerms}>
                 {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'Register Now'}
               </Button>
-              
-              {/* Description below form for signup */}
-              <div className="text-center mt-4">
-                <p className="text-sm text-muted-foreground">
-                  Start your 30-day free trial and transform your salon management today.
-                </p>
-              </div>
             </form>)}
 
           {/* Toggle between sign in/up */}
@@ -261,13 +254,6 @@ export const Auth = () => {
               </p>}
           </div>
 
-          {/* Home link */}
-          <div className="text-center mt-4">
-            <button type="button" onClick={() => navigate('/')} className="text-muted-foreground hover:text-foreground text-sm flex items-center justify-center space-x-1">
-              <Home className="w-4 h-4" />
-              <span>Home</span>
-            </button>
-          </div>
         </div>
       </div>
     </div>;
