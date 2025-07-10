@@ -113,25 +113,25 @@ export const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-2xl">P</span>
           </div>
-          <h1 className="text-2xl font-medium text-gray-700 mb-2">
+          <h1 className="text-2xl font-medium text-muted-foreground mb-2">
             {currentView === 'signin' ? 'Prijava za klijente' : 'Napravite profil'}
           </h1>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-8">
+        <div className="bg-card rounded-lg shadow-soft p-8">
           {/* Social Login Buttons */}
           <div className="space-y-3 mb-6">
             <Button
               type="button"
               variant="outline"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white border-blue-600 py-3"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white border-blue-600 h-12"
               disabled={isLoading}
             >
               <Facebook className="w-5 h-5 mr-2" />
@@ -140,7 +140,7 @@ export const Auth = () => {
             <Button
               type="button"
               variant="outline"
-              className="w-full bg-red-500 hover:bg-red-600 text-white border-red-500 py-3"
+              className="w-full bg-red-500 hover:bg-red-600 text-white border-red-500 h-12"
               disabled={isLoading}
             >
               <span className="w-5 h-5 mr-2 font-bold">G</span>
@@ -151,10 +151,10 @@ export const Auth = () => {
           {/* Divider */}
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
+              <div className="w-full border-t border-border"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-400">--- ili koristite email ---</span>
+              <span className="px-4 bg-card text-muted-foreground">--- ili koristite email ---</span>
             </div>
           </div>
 
@@ -167,7 +167,7 @@ export const Auth = () => {
                   placeholder="Korisničko ime ( email )"
                   value={signInData.email}
                   onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
-                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  className="w-full h-12 bg-muted border-0 rounded-md"
                   required
                 />
               </div>
@@ -178,7 +178,7 @@ export const Auth = () => {
                     placeholder="Lozinka"
                     value={signInData.password}
                     onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
-                    className="w-full h-12 bg-gray-100 border-0 rounded-md pr-10"
+                    className="w-full h-12 bg-muted border-0 rounded-md pr-10"
                     required
                   />
                   <Button
@@ -188,7 +188,7 @@ export const Auth = () => {
                     className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
+                    {showPassword ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
                   </Button>
                 </div>
               </div>
@@ -199,17 +199,18 @@ export const Auth = () => {
                     checked={rememberMe}
                     onCheckedChange={(checked) => setRememberMe(checked as boolean)}
                   />
-                  <Label htmlFor="remember" className="text-gray-600 cursor-pointer">
+                  <Label htmlFor="remember" className="text-muted-foreground cursor-pointer">
                     Zapamti me
                   </Label>
                 </div>
-                <button type="button" className="text-blue-500 hover:underline">
+                <button type="button" className="text-primary hover:underline">
                   Zaboravljena lozinka?
                 </button>
               </div>
               <Button 
                 type="submit" 
-                className="w-full h-12 bg-primary hover:bg-primary-dark text-white font-medium rounded-md mt-6"
+                variant="default"
+                className="w-full h-12 font-medium rounded-md mt-6"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -228,7 +229,7 @@ export const Auth = () => {
                   placeholder="Ime"
                   value={signUpData.firstName}
                   onChange={(e) => setSignUpData({ ...signUpData, firstName: e.target.value })}
-                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  className="w-full h-12 bg-muted border-0 rounded-md"
                   required
                 />
               </div>
@@ -238,7 +239,7 @@ export const Auth = () => {
                   placeholder="Prezime"
                   value={signUpData.lastName}
                   onChange={(e) => setSignUpData({ ...signUpData, lastName: e.target.value })}
-                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  className="w-full h-12 bg-muted border-0 rounded-md"
                   required
                 />
               </div>
@@ -248,7 +249,7 @@ export const Auth = () => {
                   placeholder="Email"
                   value={signUpData.email}
                   onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
-                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  className="w-full h-12 bg-muted border-0 rounded-md"
                   required
                 />
               </div>
@@ -258,7 +259,7 @@ export const Auth = () => {
                   placeholder="Telefon"
                   value={signUpData.phone}
                   onChange={(e) => setSignUpData({ ...signUpData, phone: e.target.value })}
-                  className="w-full h-12 bg-gray-100 border-0 rounded-md"
+                  className="w-full h-12 bg-muted border-0 rounded-md"
                 />
               </div>
               <div>
@@ -268,7 +269,7 @@ export const Auth = () => {
                     placeholder="Lozinka"
                     value={signUpData.password}
                     onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
-                    className="w-full h-12 bg-gray-100 border-0 rounded-md pr-10"
+                    className="w-full h-12 bg-muted border-0 rounded-md pr-10"
                     required
                   />
                   <Button
@@ -278,7 +279,7 @@ export const Auth = () => {
                     className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
+                    {showPassword ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
                   </Button>
                 </div>
               </div>
@@ -288,9 +289,9 @@ export const Auth = () => {
                   checked={agreeTerms}
                   onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
                 />
-                <Label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer">
+                <Label htmlFor="terms" className="text-sm text-muted-foreground cursor-pointer">
                   Slažem se s{' '}
-                  <button type="button" className="text-blue-500 hover:underline">
+                  <button type="button" className="text-primary hover:underline">
                     odredbama i uvjetima
                   </button>
                   .
@@ -298,7 +299,8 @@ export const Auth = () => {
               </div>
               <Button 
                 type="submit" 
-                className="w-full h-12 bg-primary hover:bg-primary-dark text-white font-medium rounded-md mt-6"
+                variant="default"
+                className="w-full h-12 font-medium rounded-md mt-6"
                 disabled={isLoading || !agreeTerms}
               >
                 {isLoading ? (
@@ -311,25 +313,25 @@ export const Auth = () => {
           )}
 
           {/* Toggle between sign in/up */}
-          <div className="text-center mt-6 pt-6 border-t border-gray-100">
+          <div className="text-center mt-6 pt-6 border-t border-border">
             {currentView === 'signin' ? (
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Prvi put ste ovdje i nemate račun?{' '}
                 <button 
                   type="button"
                   onClick={() => setCurrentView('signup')}
-                  className="text-blue-500 hover:underline font-medium"
+                  className="text-primary hover:underline font-medium"
                 >
                   Registriraj me!
                 </button>
               </p>
             ) : (
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Već imate račun?{' '}
                 <button 
                   type="button"
                   onClick={() => setCurrentView('signin')}
-                  className="text-blue-500 hover:underline font-medium"
+                  className="text-primary hover:underline font-medium"
                 >
                   Prijavite se!
                 </button>
@@ -342,7 +344,7 @@ export const Auth = () => {
             <button 
               type="button"
               onClick={() => navigate('/')}
-              className="text-gray-500 hover:text-gray-700 text-sm flex items-center justify-center space-x-1"
+              className="text-muted-foreground hover:text-foreground text-sm flex items-center justify-center space-x-1"
             >
               <Home className="w-4 h-4" />
               <span>Naslovnica</span>
