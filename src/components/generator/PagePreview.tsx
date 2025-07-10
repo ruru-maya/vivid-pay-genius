@@ -215,7 +215,7 @@ export const PagePreview = ({
                                   <img 
                                     src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
                                     alt="Company logo" 
-                                    className="h-12 w-12 object-contain rounded"
+                                    className="h-16 w-16 object-contain rounded"
                                   />
                                 )}
                                 {/* Business Name */}
@@ -445,7 +445,7 @@ export const PagePreview = ({
                                <img 
                                  src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
                                  alt="Company logo" 
-                                 className="h-12 w-12 object-contain rounded"
+                                 className="h-16 w-16 object-contain rounded"
                                />
                              )}
                              {/* Business Name */}
