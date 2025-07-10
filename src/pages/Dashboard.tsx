@@ -135,11 +135,11 @@ export const Dashboard = () => {
             </div>
             
             <div className="flex items-center space-x-3">
-              <Button variant="outline" size="sm">
+              <Button variant="premium" size="sm">
                 <User className="h-4 w-4 mr-2" />
                 {user?.email}
               </Button>
-              <Button variant="outline" size="sm" onClick={signOut}>
+              <Button variant="premium" size="sm" onClick={signOut}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </Button>

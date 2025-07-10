@@ -122,7 +122,7 @@ export const Auth = () => {
         <div className="bg-card rounded-lg shadow-soft p-8">
           {/* Header and Description */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-3">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3">
               {currentView === 'signin' ? 'Welcome Back' : 'Register'}
             </h1>
             <p className="text-muted-foreground text-lg">
@@ -134,11 +134,11 @@ export const Auth = () => {
 
           {/* Social Login Buttons */}
           <div className="space-y-3 mb-6">
-            <Button type="button" variant="outline" className="w-full bg-blue-600 hover:bg-blue-700 text-white border-blue-600 h-12" disabled={isLoading}>
+            <Button type="button" variant="premium" className="w-full h-12" disabled={isLoading}>
               <Facebook className="w-5 h-5 mr-2" />
               {currentView === 'signin' ? 'Sign in with Facebook' : 'Register with Facebook'}
             </Button>
-            <Button type="button" variant="outline" className="w-full bg-red-500 hover:bg-red-600 text-white border-red-500 h-12" disabled={isLoading}>
+            <Button type="button" variant="premium" className="w-full h-12" disabled={isLoading}>
               <span className="w-5 h-5 mr-2 font-bold">G</span>
               {currentView === 'signin' ? 'Sign in with Google' : 'Register with Google'}
             </Button>
@@ -180,11 +180,11 @@ export const Auth = () => {
                     Remember me
                   </Label>
                 </div>
-                <button type="button" className="text-primary hover:underline">
+                <button type="button" className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:underline font-medium">
                   Forgot password?
                 </button>
               </div>
-              <Button type="submit" variant="default" className="w-full h-12 font-medium rounded-md mt-6" disabled={isLoading}>
+              <Button type="submit" variant="premium" className="w-full h-12 font-medium rounded-md mt-6" disabled={isLoading}>
                 {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'Sign In'}
               </Button>
             </form>) : (/* Sign Up Form */
@@ -228,13 +228,13 @@ export const Auth = () => {
                 <Checkbox id="terms" checked={agreeTerms} onCheckedChange={checked => setAgreeTerms(checked as boolean)} />
                 <Label htmlFor="terms" className="text-sm text-muted-foreground cursor-pointer">
                   I agree to the{' '}
-                  <button type="button" className="text-primary hover:underline">
+                  <button type="button" className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:underline font-medium">
                     terms and conditions
                   </button>
                   .
                 </Label>
               </div>
-              <Button type="submit" variant="default" className="w-full h-12 font-medium rounded-md mt-6" disabled={isLoading || !agreeTerms}>
+              <Button type="submit" variant="premium" className="w-full h-12 font-medium rounded-md mt-6" disabled={isLoading || !agreeTerms}>
                 {isLoading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'Register Now'}
               </Button>
             </form>)}
@@ -243,12 +243,12 @@ export const Auth = () => {
           <div className="text-center mt-6 pt-6 border-t border-border">
             {currentView === 'signin' ? <p className="text-muted-foreground">
                 Don't have an account yet?{' '}
-                <button type="button" onClick={() => setCurrentView('signup')} className="text-primary hover:underline font-medium">
+                <button type="button" onClick={() => setCurrentView('signup')} className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:underline font-medium">
                   Register now!
                 </button>
               </p> : <p className="text-muted-foreground">
                 Already have an account?{' '}
-                <button type="button" onClick={() => setCurrentView('signin')} className="text-primary hover:underline font-medium">
+                <button type="button" onClick={() => setCurrentView('signin')} className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:underline font-medium">
                   Sign in!
                 </button>
               </p>}
