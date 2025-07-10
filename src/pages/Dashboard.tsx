@@ -64,7 +64,7 @@ export const Dashboard = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to load payment pages.",
+        description: "Failed to load landing pages.",
         variant: "destructive",
       });
     } finally {
@@ -85,12 +85,12 @@ export const Dashboard = () => {
       setPaymentPages(paymentPages.filter(page => page.id !== id));
       toast({
         title: "Page Deleted",
-        description: "Payment page has been deleted successfully.",
+        description: "Landing page has been deleted successfully.",
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to delete payment page.",
+        description: "Failed to delete landing page.",
         variant: "destructive",
       });
     } finally {
@@ -198,11 +198,11 @@ export const Dashboard = () => {
             className="h-12"
           >
             <Plus className="h-5 w-5 mr-2" />
-            {canCreateMore ? 'Create New Payment Page' : 'Page Limit Reached (3/3)'}
+            {canCreateMore ? 'Create New Landing Page' : 'Page Limit Reached (3/3)'}
           </Button>
           {!canCreateMore && (
             <p className="text-sm text-muted-foreground mt-2">
-              You've reached the maximum of 3 payment pages. Delete a page to create a new one.
+              You've reached the maximum of 3 landing pages. Delete a page to create a new one.
             </p>
           )}
         </div>
@@ -214,9 +214,9 @@ export const Dashboard = () => {
               <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <CreditCard className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">No Payment Pages Yet</h3>
+              <h3 className="text-lg font-semibold mb-2">No Landing Pages Yet</h3>
               <p className="text-muted-foreground mb-4">
-                Create your first payment page to get started
+                Create your first landing page to get started
               </p>
               <Button onClick={() => navigate('/')}>
                 <Plus className="h-4 w-4 mr-2" />
@@ -285,7 +285,7 @@ export const Dashboard = () => {
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Payment Page</AlertDialogTitle>
+                            <AlertDialogTitle>Delete Landing Page</AlertDialogTitle>
                             <AlertDialogDescription>
                               Are you sure you want to delete "{page.business_name}"? This action cannot be undone.
                             </AlertDialogDescription>
@@ -308,6 +308,13 @@ export const Dashboard = () => {
             ))}
           </div>
         )}
+        
+        {/* Powered by footer */}
+        <div className="text-center mt-12 pt-8 border-t">
+          <p className="text-sm text-muted-foreground">
+            Powered by <span className="font-semibold text-primary">Vivid Money</span>
+          </p>
+        </div>
       </div>
     </div>
   );

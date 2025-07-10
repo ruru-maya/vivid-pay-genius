@@ -276,7 +276,7 @@ export const AIProcessing = ({ businessData, onComplete }: AIProcessingProps) =>
             <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
               <Sparkles className="h-8 w-8 text-white animate-pulse" />
             </div>
-            <h2 className="text-2xl font-bold mb-2">AI is Creating Your Payment Page</h2>
+            <h2 className="text-2xl font-bold mb-2">AI is Creating Your Landing Page</h2>
             <p className="text-muted-foreground">
               Analyzing your business to generate the perfect conversion-optimized page
             </p>

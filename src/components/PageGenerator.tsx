@@ -94,21 +94,21 @@ export const PageGenerator = ({
 
       toast({
         title: "Page Saved!",
-        description: "Your payment page has been saved to your dashboard.",
+        description: "Your landing page has been saved to your dashboard.",
       });
       
       navigate('/dashboard');
     } catch (error: any) {
-      if (error.message.includes('Payment page limit exceeded')) {
+        if (error.message.includes('Payment page limit exceeded')) {
         toast({
           title: "Limit Reached",
-          description: "You can only have 3 payment pages. Delete one to create a new page.",
+          description: "You can only have 3 landing pages. Delete one to create a new page.",
           variant: "destructive",
         });
       } else {
         toast({
           title: "Error",
-          description: "Failed to save payment page. Please try again.",
+          description: "Failed to save landing page. Please try again.",
           variant: "destructive",
         });
       }
@@ -149,7 +149,7 @@ export const PageGenerator = ({
               <div className="h-6 w-px bg-border" />
               <div className="flex items-center space-x-2">
                 <Sparkles className="h-5 w-5 text-primary" />
-                <h1 className="text-xl font-semibold">AI Payment Page Generator</h1>
+                <h1 className="text-xl font-semibold">AI Landing Page Generator</h1>
               </div>
             </div>
             
@@ -187,5 +187,12 @@ export const PageGenerator = ({
       <main className="flex-1">
         {renderStep()}
       </main>
+      
+      {/* Powered by footer */}
+      <div className="text-center py-4 border-t">
+        <p className="text-sm text-muted-foreground">
+          Powered by <span className="font-semibold text-primary">Vivid Money</span>
+        </p>
+      </div>
     </div>;
 };

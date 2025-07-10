@@ -109,7 +109,7 @@ export const BusinessInfoForm = ({ onSubmit }: BusinessInfoFormProps) => {
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold mb-4">Tell Us About Your Business</h2>
         <p className="text-lg text-muted-foreground">
-          Our AI will analyze your information to create the perfect payment page
+          Our AI will analyze your information to create the perfect landing page
         </p>
       </div>
 
@@ -418,18 +418,20 @@ export const BusinessInfoForm = ({ onSubmit }: BusinessInfoFormProps) => {
                     
                     <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
                       {formData.images.map((file, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded-lg">
-                          <div className="flex items-center space-x-2 min-w-0 flex-1">
-                            <div className="w-8 h-8 bg-primary/10 rounded flex items-center justify-center flex-shrink-0">
-                              <Upload className="h-4 w-4 text-primary" />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <p className="text-xs font-medium truncate">{file.name}</p>
-                              <p className="text-xs text-muted-foreground">
-                                {(file.size / 1024 / 1024).toFixed(1)} MB
-                              </p>
-                            </div>
-                          </div>
+                         <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded-lg">
+                           <div className="flex items-center space-x-2 min-w-0 flex-1">
+                             <img
+                               src={URL.createObjectURL(file)}
+                               alt={`Upload preview ${index + 1}`}
+                               className="w-8 h-8 object-cover rounded border flex-shrink-0"
+                             />
+                             <div className="min-w-0 flex-1">
+                               <p className="text-xs font-medium truncate">{file.name}</p>
+                               <p className="text-xs text-muted-foreground">
+                                 {(file.size / 1024 / 1024).toFixed(1)} MB
+                               </p>
+                             </div>
+                           </div>
                           <Button
                             type="button"
                             variant="ghost"
@@ -467,8 +469,12 @@ export const BusinessInfoForm = ({ onSubmit }: BusinessInfoFormProps) => {
             variant="premium"
             disabled={!formData.businessName || !formData.description || !formData.price}
             className="group"
+            style={{ 
+              backgroundColor: formData.colors.primary,
+              color: 'white'
+            }}
           >
-            Generate My Payment Page
+            Generate My Landing Page
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>

@@ -108,7 +108,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
     
     toast({
       title: "Payment Successful!",
-      description: "Your payment page has been published successfully.",
+      description: "Your landing page has been published successfully.",
     });
   };
 
@@ -152,7 +152,7 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h2 className="text-xl font-semibold">Preview Your Payment Page</h2>
+              <h2 className="text-xl font-semibold">Preview Your Landing Page</h2>
             </div>
             
             <div className="flex items-center space-x-3">
@@ -196,7 +196,13 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
               </Button>
               <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
                 <DialogTrigger asChild>
-                  <Button variant="premium">
+                  <Button 
+                    variant="premium"
+                    style={{ 
+                      backgroundColor: displayedContent.colors.primary,
+                      color: 'white'
+                    }}
+                  >
                     <CreditCard className="h-4 w-4 mr-2" />
                     Publish Now
                   </Button>
@@ -932,6 +938,13 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
           </div>
         </DialogContent>
       </Dialog>
+      
+      {/* Powered by footer */}
+      <div className="text-center py-4 border-t bg-card">
+        <p className="text-sm text-muted-foreground">
+          Powered by <span className="font-semibold text-primary">Vivid Money</span>
+        </p>
+      </div>
     </div>
   );
 };
