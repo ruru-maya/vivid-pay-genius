@@ -509,93 +509,107 @@ export const PagePreview = ({
                     </div>
                   </div>}
                 {/* Mobile Fullscreen Overlay */}
-                {isMobileFullscreen && <div className="fixed inset-0 z-50 bg-gray-100 flex items-center justify-center">
-                    <div className="w-full max-w-sm h-full max-h-screen bg-white rounded-3xl shadow-2xl border-8 border-gray-200 overflow-hidden" style={{ aspectRatio: '9/16' }}>
-                      {/* Pink Header Section */}
-                      <div className="relative h-20 bg-gradient-to-br from-pink-400 to-pink-500">
-                        {/* Hamburger Menu */}
-                        <div className="absolute top-4 left-4 z-20">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setShowMobileMenu(!showMobileMenu)}
-                            className="text-white p-2 hover:bg-white/20"
-                          >
-                            <Menu className="h-4 w-4" />
-                          </Button>
-                        </div>
-                        
-                        {/* Exit Button */}
-                        <div className="absolute top-4 right-4 z-20">
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            onClick={() => setIsMobileFullscreen(false)}
-                            className="text-white p-2 hover:bg-white/20"
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </div>
-
-                        {/* Curved transition to yellow */}
-                        <div className="absolute bottom-0 left-0 right-0 h-8">
-                          <svg className="w-full h-full" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 32V16C133.333 5 266.667 5 400 16V32H0Z" fill="#FEF08A"/>
-                          </svg>
-                        </div>
-                      </div>
-
-                      {/* Yellow Middle Section */}
-                      <div className="relative h-16 bg-gradient-to-br from-yellow-200 to-yellow-300">
-                        {/* Curved transition to green */}
-                        <div className="absolute bottom-0 left-0 right-0 h-8">
-                          <svg className="w-full h-full" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 32V16C133.333 5 266.667 5 400 16V32H0Z" fill="#6EE7B7"/>
-                          </svg>
-                        </div>
-                      </div>
-
-                      {/* Green Bottom Section with landing page content */}
-                      <div className="relative flex-1 bg-gradient-to-br from-emerald-300 to-emerald-400 overflow-hidden">
-                        {/* White page indicators */}
-                        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1 z-30">
-                          {[0, 1, 2, 3, 4].map((dot, index) => (
-                            <div 
-                              key={index} 
-                              className={`w-1.5 h-1.5 rounded-full ${index === 0 ? 'bg-white' : 'bg-white/50'}`}
-                            />
-                          ))}
-                        </div>
-
-                        {/* Scrollable landing page content */}
-                        <div className="absolute inset-1 bg-white rounded-2xl overflow-y-auto shadow-inner"
-                             style={{ top: '8px', bottom: '16px' }}>
-                          <div className="min-h-full" style={{
-                            background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)`
-                          }}>
-                            {/* Mobile Header Navigation */}
-                            <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
-                              <div className="w-full px-3 py-2">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center space-x-2">
-                                    {/* Logo */}
-                                    {businessData.images.find(img => img.type === 'logo') && (
-                                      <img 
-                                        src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
-                                        alt="Company logo" 
-                                        className="h-8 w-8 object-contain rounded"
-                                      />
-                                    )}
-                                    {/* Business Name */}
-                                    <div className="font-bold text-sm" style={{
-                                      color: displayedContent.colors.primary
-                                    }}>
-                                      {businessData.companyName}
-                                    </div>
-                                  </div>
+                {isMobileFullscreen && <div className="fixed inset-0 z-50 bg-black">
+                    <div className="w-full max-w-sm h-full mx-auto bg-white overflow-y-auto">
+                      <div className="min-h-full" style={{
+                        background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)`
+                      }}>
+                        {/* Mobile Header Navigation */}
+                        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
+                          <div className="w-full px-3 py-2">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-2">
+                                {/* Logo */}
+                                {businessData.images.find(img => img.type === 'logo') && (
+                                  <img 
+                                    src={URL.createObjectURL(businessData.images.find(img => img.type === 'logo')!.file)} 
+                                    alt="Company logo" 
+                                    className="h-8 w-8 object-contain rounded"
+                                  />
+                                )}
+                                {/* Business Name */}
+                                <div className="font-bold text-sm" style={{
+                                  color: displayedContent.colors.primary
+                                }}>
+                                  {businessData.companyName}
                                 </div>
                               </div>
-                            </header>
+                              
+                              {/* Mobile Menu and Exit */}
+                              <div className="flex items-center space-x-2">
+                                {/* Mobile Menu Button */}
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                                  style={{
+                                    borderColor: displayedContent.colors.primary,
+                                    color: displayedContent.colors.primary,
+                                    width: '32px',
+                                    height: '32px',
+                                    padding: '0'
+                                  }}
+                                >
+                                  {showMobileMenu ? <X className="h-3 w-3" /> : <Menu className="h-3 w-3" />}
+                                </Button>
+                                
+                                {/* Exit mobile fullscreen button */}
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => setIsMobileFullscreen(false)}
+                                  style={{
+                                    borderColor: displayedContent.colors.primary,
+                                    color: displayedContent.colors.primary,
+                                    width: '32px',
+                                    height: '32px',
+                                    padding: '0'
+                                  }}
+                                >
+                                  <Minimize className="h-3 w-3" />
+                                </Button>
+                              </div>
+                            </div>
+                            
+                            {/* Mobile Menu Dropdown */}
+                            {showMobileMenu && (
+                              <div className="bg-white border-t border-gray-200 shadow-lg z-50 mt-2">
+                                <nav className="px-4 py-3 space-y-2">
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('home');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                    style={{ color: displayedContent.colors.primary }}
+                                  >
+                                    Home
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('features');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                    style={{ color: displayedContent.colors.primary }}
+                                  >
+                                    What's Included
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      scrollToSection('faq');
+                                      setShowMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left py-2 text-sm font-medium hover:opacity-75 transition-opacity"
+                                    style={{ color: displayedContent.colors.primary }}
+                                  >
+                                    FAQ
+                                  </button>
+                                </nav>
+                              </div>
+                            )}
+                          </div>
+                        </header>
 
                             {/* Mobile Hero Section */}
                             <section id="home" className="relative overflow-hidden">
