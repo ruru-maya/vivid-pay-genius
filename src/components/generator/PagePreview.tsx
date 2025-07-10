@@ -224,23 +224,298 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <div className={`transition-all duration-300 ${
-                viewMode === 'mobile' 
-                  ? 'max-w-sm mx-auto border-8 border-gray-300 rounded-3xl bg-gray-300 p-2' 
-                  : 'w-full'
-              }`}>
-                <div className={`${
-                  viewMode === 'mobile' 
-                    ? 'rounded-2xl overflow-hidden bg-white' 
-                    : 'rounded-lg overflow-hidden border'
-                } shadow-medium`}>
-                  {/* Generated Payment Page */}
-                  <div 
-                    className={`min-h-screen ${isFullscreen ? 'fixed inset-0 z-50 bg-white overflow-auto' : ''}`}
-                    style={{ 
-                      background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)` 
-                    }}
-                  >
+                {/* Fullscreen Overlay */}
+                {isFullscreen && (
+                  <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+                    <div className="w-full max-w-6xl max-h-full overflow-auto bg-white rounded-lg shadow-2xl">
+                      <div 
+                        className="min-h-screen"
+                        style={{ 
+                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)` 
+                        }}
+                      >
+                        {/* Generated Payment Page Content in Fullscreen */}
+                        {/* Header Navigation */}
+                        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
+                          <div className="max-w-6xl mx-auto px-6 py-4">
+                            <div className="flex items-center justify-between">
+                              <div className="font-bold text-xl" style={{ color: displayedContent.colors.primary }}>
+                                {businessData.businessName}
+                              </div>
+                              <nav className="hidden md:flex items-center space-x-8">
+                                <button 
+                                  onClick={() => scrollToSection('home')} 
+                                  className="text-sm font-medium hover:opacity-75 transition-opacity"
+                                >
+                                  Home
+                                </button>
+                                <button 
+                                  onClick={() => scrollToSection('features')} 
+                                  className="text-sm font-medium hover:opacity-75 transition-opacity"
+                                >
+                                  What's Included
+                                </button>
+                                <button 
+                                  onClick={() => scrollToSection('faq')} 
+                                  className="text-sm font-medium hover:opacity-75 transition-opacity"
+                                >
+                                  FAQ
+                                </button>
+                                <button 
+                                  onClick={() => scrollToSection('cta')} 
+                                  className="text-sm font-medium hover:opacity-75 transition-opacity"
+                                >
+                                  Get Started
+                                </button>
+                              </nav>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => setIsFullscreen(false)}
+                              >
+                                <Minimize className="h-4 w-4 mr-1" />
+                                Exit Fullscreen
+                              </Button>
+                            </div>
+                          </div>
+                        </header>
+
+                        {/* Rest of the fullscreen content will be rendered separately */}
+                        {/* Hero Section */}
+                        <section id="home" className="relative overflow-hidden">
+                          <div 
+                            className="absolute inset-0 opacity-20"
+                            style={{ 
+                              background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})` 
+                            }}
+                          />
+                          <div className="relative px-6 py-12 text-center">
+                            <Badge 
+                              className="mb-4"
+                              style={{ 
+                                backgroundColor: displayedContent.colors.primary,
+                                color: 'white' 
+                              }}
+                            >
+                              {businessData.industry}
+                            </Badge>
+                            <h1 className="text-4xl font-bold mb-4">
+                              {displayedContent.headline}
+                            </h1>
+                            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                              {displayedContent.description}
+                            </p>
+                            
+                            {/* Pricing */}
+                            <div className="mb-8">
+                              <div className="text-4xl font-bold mb-2">
+                                {getCurrencySymbol(businessData.currency)}{businessData.price}
+                              </div>
+                              {businessData.availability && (
+                                <div className="text-sm text-orange-600 font-medium">
+                                  🔥 {businessData.availability}
+                                </div>
+                              )}
+                            </div>
+
+                            {/* CTA Button */}
+                            <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                              <DialogTrigger asChild>
+                                <Button 
+                                  size="xl"
+                                  className="mb-8"
+                                  style={{ 
+                                    backgroundColor: displayedContent.colors.primary,
+                                    color: 'white'
+                                  }}
+                                >
+                                  {displayedContent.callToAction}
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-md">
+                                <CreditCardForm 
+                                  onSubmit={handlePaymentSubmit} 
+                                  isLoading={isProcessingPayment}
+                                />
+                              </DialogContent>
+                            </Dialog>
+
+                            {/* Trust Signals */}
+                            <div className="flex flex-wrap justify-center gap-4">
+                              {displayedContent.trustSignals.map((signal, index) => (
+                                <Badge key={index} variant="secondary" className="text-xs">
+                                  {signal}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        </section>
+
+                        {/* Features Section */}
+                        <section id="features" className="px-6 py-12 bg-white/50">
+                          <h2 className="text-2xl font-bold text-center mb-8">What's Included</h2>
+                          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                            {displayedContent.features.map((feature, index) => (
+                              <div key={index} className="flex items-center space-x-3">
+                                <div 
+                                  className="w-6 h-6 rounded-full flex items-center justify-center"
+                                  style={{ backgroundColor: displayedContent.colors.primary }}
+                                >
+                                  <Check className="h-4 w-4 text-white" />
+                                </div>
+                                <span className="text-sm">{feature}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </section>
+
+                        {/* Social Proof */}
+                        <section className="px-6 py-12">
+                          <div className="text-center mb-8">
+                            <div className="flex justify-center items-center space-x-1 mb-2">
+                              {[...Array(5)].map((_, i) => (
+                                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                              ))}
+                              <span className="ml-2 text-sm text-muted-foreground">4.9/5 from 200+ customers</span>
+                            </div>
+                            <p className="text-muted-foreground italic">
+                              "Absolutely exceeded my expectations. Professional, reliable, and outstanding results!"
+                            </p>
+                            <p className="text-sm text-muted-foreground mt-2">— Sarah M., Verified Customer</p>
+                          </div>
+                        </section>
+
+                        {/* FAQ Section */}
+                        <section id="faq" className="px-6 py-12 bg-white/30">
+                          <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+                          <div className="max-w-2xl mx-auto space-y-4">
+                            {displayedContent.faq.map((item, index) => (
+                              <div key={index} className="border border-gray-200 rounded-lg bg-white">
+                                <button
+                                  onClick={() => toggleFAQ(index)}
+                                  className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50"
+                                >
+                                  <span className="font-medium">{item.question}</span>
+                                  {expandedFAQ === index ? (
+                                    <ChevronUp className="h-4 w-4" />
+                                  ) : (
+                                    <ChevronDown className="h-4 w-4" />
+                                  )}
+                                </button>
+                                {expandedFAQ === index && (
+                                  <div className="px-4 pb-3 text-sm text-muted-foreground">
+                                    {item.answer}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </section>
+
+                        {/* Final CTA */}
+                        <section id="cta" className="px-6 py-12 text-center">
+                          <h3 className="text-xl font-bold mb-4">Ready to Get Started?</h3>
+                          <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                            <DialogTrigger asChild>
+                              <Button 
+                                size="xl"
+                                style={{ 
+                                  backgroundColor: displayedContent.colors.primary,
+                                  color: 'white'
+                                }}
+                              >
+                                {displayedContent.callToAction}
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-md">
+                              <CreditCardForm 
+                                onSubmit={handlePaymentSubmit} 
+                                isLoading={isProcessingPayment}
+                              />
+                            </DialogContent>
+                          </Dialog>
+                          <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-muted-foreground">
+                            <div className="flex items-center">
+                              <Shield className="h-4 w-4 mr-1" />
+                              Secure Payment
+                            </div>
+                            <div className="flex items-center">
+                              <Clock className="h-4 w-4 mr-1" />
+                              Instant Confirmation
+                            </div>
+                            <div className="flex items-center">
+                              <Users className="h-4 w-4 mr-1" />
+                              24/7 Support
+                            </div>
+                          </div>
+                        </section>
+
+                        {/* Footer with Social Media */}
+                        <footer className="bg-gray-900 text-white px-6 py-8">
+                          <div className="max-w-6xl mx-auto">
+                            <div className="flex flex-col md:flex-row justify-between items-center">
+                              <div className="mb-4 md:mb-0">
+                                <h3 className="font-bold text-lg mb-2" style={{ color: displayedContent.colors.primary }}>
+                                  {businessData.businessName}
+                                </h3>
+                                <p className="text-gray-400 text-sm">
+                                  © 2024 {businessData.businessName}. All rights reserved.
+                                </p>
+                              </div>
+                              
+                              <div className="flex items-center space-x-4">
+                                <span className="text-sm text-gray-400 mr-2">Follow us:</span>
+                                {Object.entries(socialLinks).map(([platform, url]) => {
+                                  const IconComponent = getSocialIcon(platform);
+                                  return url ? (
+                                    <a 
+                                      key={platform} 
+                                      href={url} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="text-gray-400 hover:text-white transition-colors"
+                                    >
+                                      <IconComponent className="h-5 w-5" />
+                                    </a>
+                                  ) : null;
+                                })}
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => setShowSocialEditor(true)}
+                                  className="ml-4 text-xs"
+                                >
+                                  <Edit className="h-3 w-3 mr-1" />
+                                  Edit Social Links
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </footer>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Regular Preview (Non-fullscreen) */}
+                {!isFullscreen && (
+                  <div className={`transition-all duration-300 ${
+                    viewMode === 'mobile' 
+                      ? 'max-w-sm mx-auto border-8 border-gray-300 rounded-3xl bg-gray-300 p-2' 
+                      : 'w-full'
+                  }`}>
+                    <div className={`${
+                      viewMode === 'mobile' 
+                        ? 'rounded-2xl overflow-hidden bg-white' 
+                        : 'rounded-lg overflow-hidden border'
+                    } shadow-medium`}>
+                      {/* Generated Payment Page */}
+                      <div 
+                        className="min-h-screen"
+                        style={{ 
+                          background: `linear-gradient(135deg, ${displayedContent.colors.primary}15, ${displayedContent.colors.secondary}10)` 
+                        }}
+                      >
                     {/* Header Navigation */}
                     <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
                       <div className="max-w-6xl mx-auto px-6 py-4">
@@ -498,11 +773,12 @@ export const PagePreview = ({ generatedPage, businessData, onEdit, onRegenerate 
                           </div>
                         </div>
                       </div>
-                    </footer>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
+                     </footer>
+                       </div>
+                     </div>
+                   </div>
+                 )}
+             </CardContent>
           </Card>
         </div>
 
