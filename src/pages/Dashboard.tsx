@@ -48,12 +48,9 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
+    // Remove authentication check - allow all users
     fetchPaymentPages();
-  }, [user, navigate]);
+  }, []);
 
   const fetchPaymentPages = async () => {
     try {
