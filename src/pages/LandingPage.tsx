@@ -34,21 +34,6 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card shadow-soft">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Sparkles className="h-6 w-6 text-purple" />
-              <h1 className="text-xl font-semibold">AI Landing Page Generator</h1>
-            </div>
-            <Button onClick={() => navigate('/generate')} className="bg-purple hover:bg-purple/90">
-              Get Started
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="py-20 px-4">
