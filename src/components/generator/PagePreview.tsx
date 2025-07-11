@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -11,7 +11,9 @@ import { Monitor, Smartphone, Edit, RefreshCw, Eye, Star, Shield, Clock, Users, 
 import { BusinessData, GeneratedPage } from '../PageGenerator';
 import { InlineEditor } from './InlineEditor';
 import { ColorCustomizer } from './ColorCustomizer';
-import { CreditCardForm, CreditCardData } from './CreditCardForm';
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from 'react-router-dom';
 
 interface PagePreviewProps {
   generatedPage: GeneratedPage;
@@ -30,7 +32,7 @@ export const PagePreview = ({
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [showInlineEditor, setShowInlineEditor] = useState(false);
   const [showColorCustomizer, setShowColorCustomizer] = useState(false);
-  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMobileFullscreen, setIsMobileFullscreen] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -51,8 +53,9 @@ export const PagePreview = ({
     linkedin: '',
     youtube: ''
   });
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   
   const getCurrencySymbol = (currency: string) => {
     const symbols: Record<string, string> = {
@@ -91,15 +94,60 @@ export const PagePreview = ({
     });
   };
 
-  const handlePaymentSubmit = async (paymentData: CreditCardData) => {
-    setIsProcessingPayment(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsProcessingPayment(false);
-    setShowPaymentDialog(false);
-    toast({
-      title: "Payment Successful!",
-      description: "Your landing page has been published successfully."
-    });
+  const handlePublishNow = async () => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to publish your landing page.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsSaving(true);
+    try {
+      const { error } = await supabase.from('payment_pages').insert({
+        user_id: user.id,
+        title: displayedContent.headline,
+        business_name: businessData.businessName,
+        description: businessData.description,
+        price: businessData.price,
+        currency: businessData.currency,
+        availability: businessData.availability,
+        industry: businessData.industry,
+        headline: displayedContent.headline,
+        features: displayedContent.features,
+        call_to_action: displayedContent.callToAction,
+        trust_signals: displayedContent.trustSignals,
+        faq: displayedContent.faq,
+        colors: displayedContent.colors,
+        template: generatedPage.template
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Page Published!",
+        description: "Your landing page has been published successfully."
+      });
+      navigate('/dashboard');
+    } catch (error: any) {
+      if (error.message.includes('Payment page limit exceeded')) {
+        toast({
+          title: "Limit Reached",
+          description: "You can only have 3 landing pages. Delete one to create a new page.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to publish landing page. Please try again.",
+          variant: "destructive"
+        });
+      }
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleSocialLinksUpdate = (newSocialLinks: typeof socialLinks) => {
@@ -279,7 +327,7 @@ export const PagePreview = ({
                     cursor: 'pointer',
                     boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
                   }}
-                  onClick={() => setShowPaymentDialog(true)}
+                  onClick={handlePublishNow}
                 >
                   {displayedContent.callToAction}
                 </button>
@@ -502,33 +550,20 @@ export const PagePreview = ({
               </div>
 
               {/* CTA Button */}
-              <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-                <DialogTrigger asChild>
-                  <button 
-                    className="mb-6 sm:mb-8 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full sm:w-auto max-w-sm mx-auto"
-                    style={{
-                      background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                      color: 'white',
-                      border: 'none',
-                      cursor: 'pointer',
-                      boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                    }}
-                  >
-                    {displayedContent.callToAction}
-                  </button>
-                </DialogTrigger>
-                <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto">
-                  <div className="min-h-full flex items-center justify-center p-4">
-                    <div className="max-w-md w-full">
-                      <DialogTitle>Complete Your Purchase</DialogTitle>
-                      <DialogDescription>
-                        Enter your payment details to publish your landing page.
-                      </DialogDescription>
-                      <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <button 
+                className="mb-6 sm:mb-8 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full sm:w-auto max-w-sm mx-auto"
+                style={{
+                  background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                  color: 'white',
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                }}
+                onClick={handlePublishNow}
+                disabled={isSaving}
+              >
+                {isSaving ? 'Publishing...' : displayedContent.callToAction}
+              </button>
 
               {/* Trust Signals */}
               <div className="flex flex-wrap justify-center gap-2 sm:gap-4 px-2">
@@ -711,31 +746,18 @@ export const PagePreview = ({
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Regenerate
               </Button>
-              <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-                <DialogTrigger asChild>
-                  <Button 
-                    variant="premium" 
-                    style={{
-                      backgroundColor: displayedContent.colors.primary,
-                      color: 'white'
-                    }}
-                  >
-                    <CreditCard className="h-4 w-4 mr-2" />
-                    Publish Now
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto">
-                  <div className="min-h-full flex items-center justify-center p-4">
-                    <div className="max-w-md w-full">
-                      <DialogTitle>Complete Your Purchase</DialogTitle>
-                      <DialogDescription>
-                        Enter your payment details to publish your landing page.
-                      </DialogDescription>
-                      <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <Button 
+                variant="premium" 
+                style={{
+                  backgroundColor: displayedContent.colors.primary,
+                  color: 'white'
+                }}
+                onClick={handlePublishNow}
+                disabled={isSaving}
+              >
+                <CreditCard className="h-4 w-4 mr-2" />
+                {isSaving ? 'Publishing...' : 'Publish Now'}
+              </Button>
             </div>
           </div>
         </div>
@@ -889,34 +911,21 @@ export const PagePreview = ({
                                    </div>}
                                </div>
 
-                               {/* CTA Button */}
-                               <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-                                 <DialogTrigger asChild>
-                                   <button 
-                                     className={`mb-6 sm:mb-8 font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto ${viewMode === 'mobile' ? 'px-4 py-3 text-sm' : 'px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg'}`}
-                                     style={{
-                                       background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                                       color: 'white',
-                                       border: 'none',
-                                       cursor: 'pointer',
-                                       boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                                     }}
-                                   >
-                                     {displayedContent.callToAction}
-                                   </button>
-                                 </DialogTrigger>
-                                   <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto">
-                                     <div className="min-h-full flex items-center justify-center p-4">
-                                       <div className="max-w-md w-full">
-                                         <DialogTitle>Complete Your Purchase</DialogTitle>
-                                         <DialogDescription>
-                                           Enter your payment details to publish your landing page.
-                                         </DialogDescription>
-                                         <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                                       </div>
-                                     </div>
-                                  </DialogContent>
-                               </Dialog>
+                                {/* CTA Button */}
+                                <button 
+                                  className={`mb-6 sm:mb-8 font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto ${viewMode === 'mobile' ? 'px-4 py-3 text-sm' : 'px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg'}`}
+                                  style={{
+                                    background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                                    color: 'white',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                                  }}
+                                  onClick={handlePublishNow}
+                                  disabled={isSaving}
+                                >
+                                  {isSaving ? 'Publishing...' : displayedContent.callToAction}
+                                </button>
 
                                {/* Trust Signals */}
                                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 px-2">
@@ -1264,37 +1273,6 @@ export const PagePreview = ({
         </DialogContent>
        </Dialog>
 
-      {/* Credit Card Overlay */}
-      {showPaymentDialog && (
-        <div className="fixed inset-0 z-50 bg-white">
-          <div className="min-h-screen flex flex-col">
-            {/* Header with close button */}
-            <div className="flex items-center justify-between p-4 border-b">
-              <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowPaymentDialog(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-            
-            {/* Content */}
-            <div className="flex-1 flex items-center justify-center p-4">
-              <div className="w-full max-w-md">
-                <div className="text-center mb-6">
-                  <p className="text-gray-600">
-                    Enter your payment details to publish your landing page.
-                  </p>
-                </div>
-                <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
      </div>
   );
 };
