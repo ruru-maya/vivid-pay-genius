@@ -573,24 +573,32 @@ export const PagePreview = ({
                     {displayedContent.callToAction}
                   </button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl"
-                  style={{ 
-                    position: 'fixed',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    zIndex: 9999
-                  }}
-                >
-                  <div className="absolute inset-0 bg-white/95 backdrop-blur-sm -z-10" />
-                  <div className="text-center">
-                    <DialogTitle className="text-xl font-semibold mb-2">
-                      Complete Your Purchase
-                    </DialogTitle>
-                    <DialogDescription className="mb-4">
-                      Enter your payment details to publish your landing page.
-                    </DialogDescription>
-                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto border-0 shadow-none p-0">
+                  <div className="min-h-screen flex flex-col bg-white">
+                    {/* Header with close button */}
+                    <div className="flex items-center justify-between p-4 border-b">
+                      <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowPaymentDialog(false)}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        <X className="h-5 w-5" />
+                      </Button>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="flex-1 flex items-center justify-center p-4 bg-white">
+                      <div className="w-full max-w-md">
+                        <div className="text-center mb-6">
+                          <p className="text-gray-600">
+                            Enter your payment details to publish your landing page.
+                          </p>
+                        </div>
+                        <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                      </div>
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -789,24 +797,32 @@ export const PagePreview = ({
                     Publish Now
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl"
-                  style={{ 
-                    position: 'fixed',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    zIndex: 9999
-                  }}
-                >
-                  <div className="absolute inset-0 bg-white/95 backdrop-blur-sm -z-10" />
-                  <div className="text-center">
-                    <DialogTitle className="text-xl font-semibold mb-2">
-                      Complete Your Purchase
-                    </DialogTitle>
-                    <DialogDescription className="mb-4">
-                      Enter your payment details to publish your landing page.
-                    </DialogDescription>
-                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto border-0 shadow-none p-0">
+                  <div className="min-h-screen flex flex-col bg-white">
+                    {/* Header with close button */}
+                    <div className="flex items-center justify-between p-4 border-b">
+                      <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowPaymentDialog(false)}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        <X className="h-5 w-5" />
+                      </Button>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="flex-1 flex items-center justify-center p-4 bg-white">
+                      <div className="w-full max-w-md">
+                        <div className="text-center mb-6">
+                          <p className="text-gray-600">
+                            Enter your payment details to publish your landing page.
+                          </p>
+                        </div>
+                        <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                      </div>
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -979,26 +995,34 @@ export const PagePreview = ({
                                       {displayedContent.callToAction}
                                     </button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl"
-                                    style={{ 
-                                      position: 'fixed',
-                                      top: '50%',
-                                      left: '50%',
-                                      transform: 'translate(-50%, -50%)',
-                                      zIndex: 9999
-                                    }}
-                                  >
-                                    <div className="absolute inset-0 bg-white/95 backdrop-blur-sm -z-10" />
-                                    <div className="text-center">
-                                      <DialogTitle className="text-xl font-semibold mb-2">
-                                        Complete Your Purchase
-                                      </DialogTitle>
-                                      <DialogDescription className="mb-4">
-                                        Enter your payment details to publish your landing page.
-                                      </DialogDescription>
-                                      <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                                  <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto border-0 shadow-none p-0">
+                                    <div className="min-h-screen flex flex-col bg-white">
+                                      {/* Header with close button */}
+                                      <div className="flex items-center justify-between p-4 border-b">
+                                        <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
+                                        <Button
+                                          variant="ghost"
+                                          size="sm"
+                                          onClick={() => setShowPaymentDialog(false)}
+                                          className="text-gray-500 hover:text-gray-700"
+                                        >
+                                          <X className="h-5 w-5" />
+                                        </Button>
+                                      </div>
+                                      
+                                      {/* Content */}
+                                      <div className="flex-1 flex items-center justify-center p-4 bg-white">
+                                        <div className="w-full max-w-md">
+                                          <div className="text-center mb-6">
+                                            <p className="text-gray-600">
+                                              Enter your payment details to publish your landing page.
+                                            </p>
+                                          </div>
+                                          <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                                        </div>
+                                      </div>
                                     </div>
-                                  </DialogContent>
+                                   </DialogContent>
                                 </Dialog>
 
                                {/* Trust Signals */}
