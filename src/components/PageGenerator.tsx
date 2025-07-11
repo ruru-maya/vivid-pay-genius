@@ -5,7 +5,7 @@ import { ArrowLeft, Sparkles, Save, User } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { BusinessInfoForm } from './generator/BusinessInfoForm';
+import { MultiStepForm } from './generator/MultiStepForm';
 import { AIProcessing } from './generator/AIProcessing';
 import { PagePreview } from './generator/PagePreview';
 interface PageGeneratorProps {
@@ -122,7 +122,7 @@ export const PageGenerator = ({
   const renderStep = () => {
     switch (currentStep) {
       case 'input':
-        return <BusinessInfoForm onSubmit={handleBusinessInfoSubmit} />;
+        return <MultiStepForm onSubmit={handleBusinessInfoSubmit} />;
       case 'processing':
         return <AIProcessing businessData={businessData!} onComplete={handleGenerationComplete} />;
       case 'preview':
