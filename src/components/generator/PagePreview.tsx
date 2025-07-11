@@ -573,10 +573,22 @@ export const PagePreview = ({
                     {displayedContent.callToAction}
                   </button>
                 </DialogTrigger>
-                <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto border-0 shadow-none p-0">
-                  <div className="min-h-screen flex flex-col bg-white">
+                <DialogContent 
+                  className="fixed inset-0 z-[9999] bg-white max-w-none w-screen h-screen overflow-auto border-0 shadow-none p-0 m-0"
+                  style={{ 
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    transform: 'none'
+                  }}
+                >
+                  <div className="w-full h-full bg-white flex flex-col">
                     {/* Header with close button */}
-                    <div className="flex items-center justify-between p-4 border-b">
+                    <div className="flex items-center justify-between p-6 border-b bg-white">
                       <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
                       <Button
                         variant="ghost"
@@ -589,7 +601,7 @@ export const PagePreview = ({
                     </div>
                     
                     {/* Content */}
-                    <div className="flex-1 flex items-center justify-center p-4 bg-white">
+                    <div className="flex-1 flex items-center justify-center p-6 bg-white">
                       <div className="w-full max-w-md">
                         <div className="text-center mb-6">
                           <p className="text-gray-600">
@@ -797,10 +809,22 @@ export const PagePreview = ({
                     Publish Now
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto border-0 shadow-none p-0">
-                  <div className="min-h-screen flex flex-col bg-white">
+                <DialogContent 
+                  className="fixed inset-0 z-[9999] bg-white max-w-none w-screen h-screen overflow-auto border-0 shadow-none p-0 m-0"
+                  style={{ 
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    transform: 'none'
+                  }}
+                >
+                  <div className="w-full h-full bg-white flex flex-col">
                     {/* Header with close button */}
-                    <div className="flex items-center justify-between p-4 border-b">
+                    <div className="flex items-center justify-between p-6 border-b bg-white">
                       <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
                       <Button
                         variant="ghost"
@@ -813,7 +837,7 @@ export const PagePreview = ({
                     </div>
                     
                     {/* Content */}
-                    <div className="flex-1 flex items-center justify-center p-4 bg-white">
+                    <div className="flex-1 flex items-center justify-center p-6 bg-white">
                       <div className="w-full max-w-md">
                         <div className="text-center mb-6">
                           <p className="text-gray-600">
@@ -995,10 +1019,22 @@ export const PagePreview = ({
                                       {displayedContent.callToAction}
                                     </button>
                                   </DialogTrigger>
-                                  <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto border-0 shadow-none p-0">
-                                    <div className="min-h-screen flex flex-col bg-white">
+                                  <DialogContent 
+                                    className="fixed inset-0 z-[9999] bg-white max-w-none w-screen h-screen overflow-auto border-0 shadow-none p-0 m-0"
+                                    style={{ 
+                                      position: 'fixed',
+                                      top: 0,
+                                      left: 0,
+                                      right: 0,
+                                      bottom: 0,
+                                      width: '100vw',
+                                      height: '100vh',
+                                      transform: 'none'
+                                    }}
+                                  >
+                                    <div className="w-full h-full bg-white flex flex-col">
                                       {/* Header with close button */}
-                                      <div className="flex items-center justify-between p-4 border-b">
+                                      <div className="flex items-center justify-between p-6 border-b bg-white">
                                         <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
                                         <Button
                                           variant="ghost"
@@ -1011,7 +1047,7 @@ export const PagePreview = ({
                                       </div>
                                       
                                       {/* Content */}
-                                      <div className="flex-1 flex items-center justify-center p-4 bg-white">
+                                      <div className="flex-1 flex items-center justify-center p-6 bg-white">
                                         <div className="w-full max-w-md">
                                           <div className="text-center mb-6">
                                             <p className="text-gray-600">
