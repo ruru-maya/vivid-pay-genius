@@ -113,7 +113,7 @@ Apply industry-specific content strategy, emotional triggers, trust signals, and
           { role: 'user', content: userPrompt }
         ],
         temperature: 0.7,
-        max_tokens: 1500,
+        max_tokens: 8000,
       }),
     });
 
