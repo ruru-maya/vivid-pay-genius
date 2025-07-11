@@ -270,33 +270,19 @@ export const PagePreview = ({
                 {businessData.availability && (
                   <p className="text-sm text-white/80 mb-4">{businessData.availability}</p>
                 )}
-                <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-                  <DialogTrigger asChild>
-                    <button
-                      className="mb-6 font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto px-4 py-3 text-sm"
-                      style={{
-                        background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                        color: 'white',
-                        border: 'none',
-                        cursor: 'pointer',
-                        boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                      }}
-                    >
-                      {displayedContent.callToAction}
-                    </button>
-                  </DialogTrigger>
-                  <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full overflow-auto">
-                    <div className="min-h-full flex items-center justify-center p-4">
-                      <div className="max-w-md w-full">
-                        <DialogTitle>Complete Your Purchase</DialogTitle>
-                        <DialogDescription>
-                          Enter your payment details to publish your landing page.
-                        </DialogDescription>
-                        <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <button
+                  className="mb-6 font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto px-4 py-3 text-sm"
+                  style={{
+                    background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                    color: 'white',
+                    border: 'none',
+                    cursor: 'pointer',
+                    boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                  }}
+                  onClick={() => setShowPaymentDialog(true)}
+                >
+                  {displayedContent.callToAction}
+                </button>
               </div>
             </div>
           </section>
@@ -1277,6 +1263,38 @@ export const PagePreview = ({
           </div>
         </DialogContent>
        </Dialog>
+
+      {/* Credit Card Overlay */}
+      {showPaymentDialog && (
+        <div className="fixed inset-0 z-50 bg-white">
+          <div className="min-h-screen flex flex-col">
+            {/* Header with close button */}
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowPaymentDialog(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            
+            {/* Content */}
+            <div className="flex-1 flex items-center justify-center p-4">
+              <div className="w-full max-w-md">
+                <div className="text-center mb-6">
+                  <p className="text-gray-600">
+                    Enter your payment details to publish your landing page.
+                  </p>
+                </div>
+                <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
      </div>
   );
 };
