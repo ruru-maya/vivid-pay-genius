@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -11,6 +11,7 @@ import { Monitor, Smartphone, Edit, RefreshCw, Eye, Star, Shield, Clock, Users, 
 import { BusinessData, GeneratedPage } from '../PageGenerator';
 import { InlineEditor } from './InlineEditor';
 import { ColorCustomizer } from './ColorCustomizer';
+import { CreditCardForm, CreditCardData } from './CreditCardForm';
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +33,8 @@ export const PagePreview = ({
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [showInlineEditor, setShowInlineEditor] = useState(false);
   const [showColorCustomizer, setShowColorCustomizer] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMobileFullscreen, setIsMobileFullscreen] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -94,7 +96,7 @@ export const PagePreview = ({
     });
   };
 
-  const handlePublishNow = async () => {
+  const handlePaymentSubmit = async (paymentData: CreditCardData) => {
     if (!user) {
       toast({
         title: "Authentication Required",
@@ -104,8 +106,13 @@ export const PagePreview = ({
       return;
     }
     
-    setIsSaving(true);
+    setIsProcessingPayment(true);
+    
     try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Save the page after successful payment
       const { error } = await supabase.from('payment_pages').insert({
         user_id: user.id,
         title: displayedContent.headline,
@@ -126,8 +133,9 @@ export const PagePreview = ({
       
       if (error) throw error;
       
+      setShowPaymentDialog(false);
       toast({
-        title: "Page Published!",
+        title: "Payment Successful!",
         description: "Your landing page has been published successfully."
       });
       navigate('/dashboard');
@@ -140,13 +148,13 @@ export const PagePreview = ({
         });
       } else {
         toast({
-          title: "Error",
-          description: "Failed to publish landing page. Please try again.",
+          title: "Payment Failed",
+          description: "Failed to process payment. Please try again.",
           variant: "destructive"
         });
       }
     } finally {
-      setIsSaving(false);
+      setIsProcessingPayment(false);
     }
   };
 
@@ -327,7 +335,7 @@ export const PagePreview = ({
                     cursor: 'pointer',
                     boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
                   }}
-                  onClick={handlePublishNow}
+                   onClick={() => setShowPaymentDialog(true)}
                 >
                   {displayedContent.callToAction}
                 </button>
@@ -550,20 +558,33 @@ export const PagePreview = ({
               </div>
 
               {/* CTA Button */}
-              <button 
-                className="mb-6 sm:mb-8 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full sm:w-auto max-w-sm mx-auto"
-                style={{
-                  background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                  color: 'white',
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                }}
-                onClick={handlePublishNow}
-                disabled={isSaving}
-              >
-                {isSaving ? 'Publishing...' : displayedContent.callToAction}
-              </button>
+              <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                <DialogTrigger asChild>
+                  <button 
+                    className="mb-6 sm:mb-8 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full sm:w-auto max-w-sm mx-auto"
+                    style={{
+                      background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                      color: 'white',
+                      border: 'none',
+                      cursor: 'pointer',
+                      boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                    }}
+                  >
+                    {displayedContent.callToAction}
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <div className="text-center">
+                    <DialogTitle className="text-xl font-semibold mb-2">
+                      Complete Your Purchase
+                    </DialogTitle>
+                    <DialogDescription className="mb-4">
+                      Enter your payment details to publish your landing page.
+                    </DialogDescription>
+                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                  </div>
+                </DialogContent>
+              </Dialog>
 
               {/* Trust Signals */}
               <div className="flex flex-wrap justify-center gap-2 sm:gap-4 px-2">
@@ -746,18 +767,31 @@ export const PagePreview = ({
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Regenerate
               </Button>
-              <Button 
-                variant="premium" 
-                style={{
-                  backgroundColor: displayedContent.colors.primary,
-                  color: 'white'
-                }}
-                onClick={handlePublishNow}
-                disabled={isSaving}
-              >
-                <CreditCard className="h-4 w-4 mr-2" />
-                {isSaving ? 'Publishing...' : 'Publish Now'}
-              </Button>
+              <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                <DialogTrigger asChild>
+                  <Button 
+                    variant="premium" 
+                    style={{
+                      backgroundColor: displayedContent.colors.primary,
+                      color: 'white'
+                    }}
+                  >
+                    <CreditCard className="h-4 w-4 mr-2" />
+                    Publish Now
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <div className="text-center">
+                    <DialogTitle className="text-xl font-semibold mb-2">
+                      Complete Your Purchase
+                    </DialogTitle>
+                    <DialogDescription className="mb-4">
+                      Enter your payment details to publish your landing page.
+                    </DialogDescription>
+                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>
@@ -912,20 +946,33 @@ export const PagePreview = ({
                                </div>
 
                                 {/* CTA Button */}
-                                <button 
-                                  className={`mb-6 sm:mb-8 font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto ${viewMode === 'mobile' ? 'px-4 py-3 text-sm' : 'px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg'}`}
-                                  style={{
-                                    background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
-                                    color: 'white',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
-                                  }}
-                                  onClick={handlePublishNow}
-                                  disabled={isSaving}
-                                >
-                                  {isSaving ? 'Publishing...' : displayedContent.callToAction}
-                                </button>
+                                <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+                                  <DialogTrigger asChild>
+                                    <button 
+                                      className={`mb-6 sm:mb-8 font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg w-full max-w-sm mx-auto ${viewMode === 'mobile' ? 'px-4 py-3 text-sm' : 'px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg'}`}
+                                      style={{
+                                        background: `linear-gradient(135deg, ${displayedContent.colors.primary}, ${displayedContent.colors.secondary})`,
+                                        color: 'white',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        boxShadow: `0 4px 15px 0 ${displayedContent.colors.primary}40`
+                                      }}
+                                    >
+                                      {displayedContent.callToAction}
+                                    </button>
+                                  </DialogTrigger>
+                                  <DialogContent className="sm:max-w-md">
+                                    <div className="text-center">
+                                      <DialogTitle className="text-xl font-semibold mb-2">
+                                        Complete Your Purchase
+                                      </DialogTitle>
+                                      <DialogDescription className="mb-4">
+                                        Enter your payment details to publish your landing page.
+                                      </DialogDescription>
+                                      <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                                    </div>
+                                  </DialogContent>
+                                </Dialog>
 
                                {/* Trust Signals */}
                                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 px-2">
