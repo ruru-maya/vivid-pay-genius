@@ -126,9 +126,7 @@ const LandingPage = () => {
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
           
-          <p className="text-sm text-muted-foreground mt-4">
-            No credit card required • Ready in minutes
-          </p>
+          
         </div>
       </section>
 
