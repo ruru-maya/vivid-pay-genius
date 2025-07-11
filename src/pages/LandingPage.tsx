@@ -133,17 +133,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t">
-        <div className="container mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="h-5 w-5 text-purple" />
-            <span className="font-medium">AI Landing Page Generator</span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Powered by advanced AI to create conversion-optimized landing pages
-          </p>
-        </div>
-      </footer>
+      
     </div>;
 };
 export default LandingPage;
