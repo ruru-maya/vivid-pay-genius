@@ -40,9 +40,7 @@ const LandingPage = () => {
               Generate My Landing Page
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-              View Examples
-            </Button>
+            
           </div>
         </div>
       </section>
