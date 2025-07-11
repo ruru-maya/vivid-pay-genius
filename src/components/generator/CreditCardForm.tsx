@@ -40,11 +40,7 @@ export const CreditCardForm = ({ onSubmit, isLoading = false }: CreditCardFormPr
     for (let i = 0, len = match.length; i < len; i += 4) {
       parts.push(match.substring(i, i + 4));
     }
-    if (parts.length) {
-      return parts.join(' ');
-    } else {
-      return v;
-    }
+    return parts.join(' ');
   };
 
   const formatExpiryDate = (value: string) => {
@@ -56,7 +52,7 @@ export const CreditCardForm = ({ onSubmit, isLoading = false }: CreditCardFormPr
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-sm sm:max-w-md mx-auto shadow-lg z-50 relative">
       <CardHeader className="text-center">
         <CardTitle className="flex items-center justify-center gap-2">
           <CreditCard className="h-5 w-5" />
