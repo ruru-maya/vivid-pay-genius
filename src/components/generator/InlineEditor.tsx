@@ -26,6 +26,8 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
   const [editedContent, setEditedContent] = useState(content);
   const [editingField, setEditingField] = useState<string | null>(null);
   const [descriptionColor, setDescriptionColor] = useState("#000000");
+  const [headlineColor, setHeadlineColor] = useState("#000000");
+  const [ctaColor, setCtaColor] = useState("#000000");
 
   const handleSave = () => {
     onContentChange(editedContent);
@@ -181,6 +183,9 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
                 value={editedContent.headline}
                 onChange={(value) => updateField('headline', value)}
                 placeholder="Enter headline"
+                showColorPicker={true}
+                textColor={headlineColor}
+                onColorChange={setHeadlineColor}
               />
             </div>
 
@@ -207,6 +212,9 @@ export const InlineEditor = ({ content, onContentChange, onExit }: InlineEditorP
                 value={editedContent.callToAction}
                 onChange={(value) => updateField('callToAction', value)}
                 placeholder="Enter call to action"
+                showColorPicker={true}
+                textColor={ctaColor}
+                onColorChange={setCtaColor}
               />
             </div>
 

@@ -29,61 +29,19 @@ export const ImagesSlide = ({ formData, setFormData }: ImagesSlideProps) => {
   const handleTypeChange = async (index: number, newType: 'logo' | 'home-bg') => {
     const currentImage = formData.images[index];
     
-    if (newType === 'logo' && currentImage.type !== 'logo') {
-      setProcessingImages(prev => new Set(prev).add(index));
-      
-      try {
-        toast({
-          title: "Processing logo",
-          description: "Removing background from logo image..."
-        });
-        
-        const imageElement = await loadImage(currentImage.file);
-        const processedBlob = await removeBackground(imageElement);
-        
-        const processedFile = new File([processedBlob], currentImage.file.name, {
-          type: 'image/png'
-        });
-        
-        setFormData(prev => ({
-          ...prev,
-          images: prev.images.map((img, i) => 
-            i === index ? { ...img, file: processedFile, type: newType } : img
-          )
-        }));
-        
-        toast({
-          title: "Logo processed",
-          description: "Background removed successfully!"
-        });
-      } catch (error) {
-        console.error('Error processing logo:', error);
-        toast({
-          title: "Processing failed",
-          description: "Could not remove background. Using original image.",
-          variant: "destructive"
-        });
-        
-        setFormData(prev => ({
-          ...prev,
-          images: prev.images.map((img, i) => 
-            i === index ? { ...img, type: newType } : img
-          )
-        }));
-      } finally {
-        setProcessingImages(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(index);
-          return newSet;
-        });
-      }
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        images: prev.images.map((img, i) => 
-          i === index ? { ...img, type: newType } : img
-        )
-      }));
+    // Just update type without background removal
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.map((img, i) => 
+        i === index ? { ...img, type: newType } : img
+      )
+    }));
+    
+    if (newType === 'logo') {
+      toast({
+        title: "Logo set",
+        description: "Image has been set as logo."
+      });
     }
   };
 

@@ -285,12 +285,14 @@ export const PagePreview = ({
                       {displayedContent.callToAction}
                     </button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-md mx-4">
-                    <DialogTitle>Complete Your Purchase</DialogTitle>
-                    <DialogDescription>
-                      Enter your payment details to publish your landing page.
-                    </DialogDescription>
-                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                  <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full flex items-center justify-center p-4">
+                    <div className="max-w-md w-full">
+                      <DialogTitle>Complete Your Purchase</DialogTitle>
+                      <DialogDescription>
+                        Enter your payment details to publish your landing page.
+                      </DialogDescription>
+                      <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                    </div>
                   </DialogContent>
                 </Dialog>
               </div>
@@ -527,12 +529,14 @@ export const PagePreview = ({
                     {displayedContent.callToAction}
                   </button>
                 </DialogTrigger>
-                <DialogContent className="max-w-md mx-4">
-                  <DialogTitle>Complete Your Purchase</DialogTitle>
-                  <DialogDescription>
-                    Enter your payment details to publish your landing page.
-                  </DialogDescription>
-                  <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full flex items-center justify-center p-4">
+                  <div className="max-w-md w-full">
+                    <DialogTitle>Complete Your Purchase</DialogTitle>
+                    <DialogDescription>
+                      Enter your payment details to publish your landing page.
+                    </DialogDescription>
+                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                  </div>
                 </DialogContent>
               </Dialog>
 
@@ -730,12 +734,14 @@ export const PagePreview = ({
                     Publish Now
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-md">
-                  <DialogTitle>Complete Your Purchase</DialogTitle>
-                  <DialogDescription>
-                    Enter your payment details to publish your landing page.
-                  </DialogDescription>
-                  <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full flex items-center justify-center p-4">
+                  <div className="max-w-md w-full">
+                    <DialogTitle>Complete Your Purchase</DialogTitle>
+                    <DialogDescription>
+                      Enter your payment details to publish your landing page.
+                    </DialogDescription>
+                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                  </div>
                 </DialogContent>
               </Dialog>
             </div>
@@ -907,12 +913,14 @@ export const PagePreview = ({
                                      {displayedContent.callToAction}
                                    </button>
                                  </DialogTrigger>
-                                  <DialogContent className="max-w-md mx-4">
-                                    <DialogTitle>Complete Your Purchase</DialogTitle>
-                                    <DialogDescription>
-                                      Enter your payment details to publish your landing page.
-                                    </DialogDescription>
-                                    <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                                   <DialogContent className="fixed inset-0 z-50 bg-white max-w-none w-full h-full flex items-center justify-center p-4">
+                                     <div className="max-w-md w-full">
+                                       <DialogTitle>Complete Your Purchase</DialogTitle>
+                                       <DialogDescription>
+                                         Enter your payment details to publish your landing page.
+                                       </DialogDescription>
+                                       <CreditCardForm onSubmit={handlePaymentSubmit} isLoading={isProcessingPayment} />
+                                     </div>
                                   </DialogContent>
                                </Dialog>
 
