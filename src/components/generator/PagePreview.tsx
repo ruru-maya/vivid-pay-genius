@@ -573,7 +573,16 @@ export const PagePreview = ({
                     {displayedContent.callToAction}
                   </button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl"
+                  style={{ 
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 9999
+                  }}
+                >
+                  <div className="absolute inset-0 bg-white/95 backdrop-blur-sm -z-10" />
                   <div className="text-center">
                     <DialogTitle className="text-xl font-semibold mb-2">
                       Complete Your Purchase
@@ -780,7 +789,16 @@ export const PagePreview = ({
                     Publish Now
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl"
+                  style={{ 
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 9999
+                  }}
+                >
+                  <div className="absolute inset-0 bg-white/95 backdrop-blur-sm -z-10" />
                   <div className="text-center">
                     <DialogTitle className="text-xl font-semibold mb-2">
                       Complete Your Purchase
@@ -961,7 +979,16 @@ export const PagePreview = ({
                                       {displayedContent.callToAction}
                                     </button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-md">
+                                  <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl"
+                                    style={{ 
+                                      position: 'fixed',
+                                      top: '50%',
+                                      left: '50%',
+                                      transform: 'translate(-50%, -50%)',
+                                      zIndex: 9999
+                                    }}
+                                  >
+                                    <div className="absolute inset-0 bg-white/95 backdrop-blur-sm -z-10" />
                                     <div className="text-center">
                                       <DialogTitle className="text-xl font-semibold mb-2">
                                         Complete Your Purchase

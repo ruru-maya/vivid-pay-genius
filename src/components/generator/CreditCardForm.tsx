@@ -15,7 +15,6 @@ export interface CreditCardData {
   expiryDate: string;
   cvv: string;
   cardholderName: string;
-  email: string;
 }
 
 export const CreditCardForm = ({ onSubmit, isLoading = false }: CreditCardFormProps) => {
@@ -23,8 +22,7 @@ export const CreditCardForm = ({ onSubmit, isLoading = false }: CreditCardFormPr
     cardNumber: '',
     expiryDate: '',
     cvv: '',
-    cardholderName: '',
-    email: ''
+    cardholderName: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -61,17 +59,6 @@ export const CreditCardForm = ({ onSubmit, isLoading = false }: CreditCardFormPr
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email Address</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="your@email.com"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-            />
-          </div>
 
           <div className="space-y-2">
             <Label htmlFor="cardholderName">Cardholder Name</Label>
