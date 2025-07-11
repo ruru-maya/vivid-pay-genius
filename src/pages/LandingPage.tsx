@@ -2,46 +2,28 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles, Zap, Target, Clock, CheckCircle, ArrowRight } from 'lucide-react';
-
 const LandingPage = () => {
   const navigate = useNavigate();
-
-  const features = [
-    {
-      icon: Zap,
-      title: "AI-Powered Content",
-      description: "Generate compelling copy, headlines, and CTAs tailored to your industry"
-    },
-    {
-      icon: Target,
-      title: "Conversion Optimized",
-      description: "Every element designed to maximize payment completion rates"
-    },
-    {
-      icon: Clock,
-      title: "Ready in Minutes",
-      description: "From business info to live payment page in under 5 minutes"
-    }
-  ];
-
-  const benefits = [
-    "Professional landing pages without design skills",
-    "Industry-specific content optimization",
-    "Mobile-first responsive design",
-    "Built-in conversion best practices",
-    "No coding required"
-  ];
-
-  return (
-    <div className="min-h-screen bg-background">
+  const features = [{
+    icon: Zap,
+    title: "AI-Powered Content",
+    description: "Generate compelling copy, headlines, and CTAs tailored to your industry"
+  }, {
+    icon: Target,
+    title: "Conversion Optimized",
+    description: "Every element designed to maximize payment completion rates"
+  }, {
+    icon: Clock,
+    title: "Ready in Minutes",
+    description: "From business info to live payment page in under 5 minutes"
+  }];
+  const benefits = ["Professional landing pages without design skills", "Industry-specific content optimization", "Mobile-first responsive design", "Built-in conversion best practices", "No coding required"];
+  return <div className="min-h-screen bg-background">
 
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-4xl text-center">
-          <div className="inline-flex items-center rounded-full bg-purple/10 px-3 py-1 text-sm text-purple mb-6">
-            <Sparkles className="mr-2 h-4 w-4" />
-            AI-Powered Landing Pages
-          </div>
+          
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             Create Professional
@@ -54,19 +36,11 @@ const LandingPage = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/generate')}
-              className="bg-purple hover:bg-purple/90 text-lg px-8 py-6"
-            >
+            <Button size="lg" onClick={() => navigate('/generate')} className="bg-purple hover:bg-purple/90 text-lg px-8 py-6">
               Generate My Landing Page
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="text-lg px-8 py-6"
-            >
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6">
               View Examples
             </Button>
           </div>
@@ -86,8 +60,7 @@ const LandingPage = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="text-center border-none shadow-soft">
+            {features.map((feature, index) => <Card key={index} className="text-center border-none shadow-soft">
                 <CardContent className="pt-8 pb-6">
                   <div className="w-16 h-16 bg-purple/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <feature.icon className="h-8 w-8 text-purple" />
@@ -95,8 +68,7 @@ const LandingPage = () => {
                   <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
                   <p className="text-muted-foreground">{feature.description}</p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -115,12 +87,10 @@ const LandingPage = () => {
               </p>
               
               <ul className="space-y-4">
-                {benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-center gap-3">
+                {benefits.map((benefit, index) => <li key={index} className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
                     <span className="text-muted-foreground">{benefit}</span>
-                  </li>
-                ))}
+                  </li>)}
               </ul>
             </div>
             
@@ -153,11 +123,7 @@ const LandingPage = () => {
             Join thousands of businesses that trust AI to generate their conversion-optimized pages.
           </p>
           
-          <Button 
-            size="lg" 
-            onClick={() => navigate('/generate')}
-            className="bg-purple hover:bg-purple/90 text-lg px-8 py-6"
-          >
+          <Button size="lg" onClick={() => navigate('/generate')} className="bg-purple hover:bg-purple/90 text-lg px-8 py-6">
             Start Generating Now
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
@@ -180,8 +146,6 @@ const LandingPage = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default LandingPage;
