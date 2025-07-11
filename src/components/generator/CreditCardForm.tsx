@@ -132,6 +132,21 @@ export const CreditCardForm = ({ onSubmit, isLoading = false }: CreditCardFormPr
             Your payment information is secure and encrypted
           </div>
         </form>
+        
+        {/* Additional content below payment details */}
+        <div className="mt-6 p-4 bg-muted/30 rounded-lg border">
+          <div className="text-center space-y-2">
+            <div className="text-sm font-medium text-foreground">
+              What you get after payment:
+            </div>
+            <div className="text-xs text-muted-foreground space-y-1">
+              <div>✓ Instant access to your published landing page</div>
+              <div>✓ Custom domain ready URL</div>
+              <div>✓ Mobile responsive design</div>
+              <div>✓ SEO optimized content</div>
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
